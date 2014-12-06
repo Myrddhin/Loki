@@ -41,3 +41,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.exe
+Loki.Core_
+[Bb]in/
+[Oo]bj/
+*.csproj.user
+*.Cache

@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.Core", "Loki.Core\Loki.Core.csproj", "{96B7D521-1224-4732-B419-A92922C895AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.UI.Win", "Loki.UI.Win\Loki.UI.Win.csproj", "{72CCBF24-2DD8-40F0-97EF-C48248A58E23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.UI.Wpf", "Loki.UI.Wpf\Loki.UI.Wpf.csproj", "{D2C5C4D0-606D-44E2-ADB6-A08142177356}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.UI.Test", "Loki.UI.Test\Loki.UI.Test.csproj", "{D4D7B5E0-582B-44C9-88C6-78223DA307E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.UI.Win.Test", "Loki.UI.Win.Test\Loki.UI.Win.Test.csproj", "{838DB9C0-51CA-4B3A-B533-F18CD8047991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loki.UI.Wpf.Test", "Loki.UI.Wpf.Test\Loki.UI.Wpf.Test.csproj", "{24AEFB23-DA6C-4582-AB3D-39BE820337A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96B7D521-1224-4732-B419-A92922C895AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B7D521-1224-4732-B419-A92922C895AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B7D521-1224-4732-B419-A92922C895AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B7D521-1224-4732-B419-A92922C895AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72CCBF24-2DD8-40F0-97EF-C48248A58E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CCBF24-2DD8-40F0-97EF-C48248A58E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CCBF24-2DD8-40F0-97EF-C48248A58E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CCBF24-2DD8-40F0-97EF-C48248A58E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838DB9C0-51CA-4B3A-B533-F18CD8047991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838DB9C0-51CA-4B3A-B533-F18CD8047991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{838DB9C0-51CA-4B3A-B533-F18CD8047991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{838DB9C0-51CA-4B3A-B533-F18CD8047991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24AEFB23-DA6C-4582-AB3D-39BE820337A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24AEFB23-DA6C-4582-AB3D-39BE820337A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24AEFB23-DA6C-4582-AB3D-39BE820337A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24AEFB23-DA6C-4582-AB3D-39BE820337A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
