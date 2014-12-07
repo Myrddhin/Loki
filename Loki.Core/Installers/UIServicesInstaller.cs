@@ -1,4 +1,5 @@
-﻿using Loki.IoC;
+﻿using Loki.Commands;
+using Loki.IoC;
 using Loki.IoC.Registration;
 using Loki.UI;
 
@@ -10,9 +11,9 @@ namespace Loki.Common
         {
             context.Register(Element.For<IThreadingContext>().ImplementedBy<DefaultThreadingContext>());
             context.Register(Element.For<ISignalManager>().ImplementedBy<ConsoleSignalManager>());
-            /*context.Register(Element.Service<ICommandComponent, LokiCommandService>());
-           */
-            /*context.Register(Element.For<CommandManager>().Lifestyle.Transient);*/
+            context.Register(Element.For<ICommandComponent>().ImplementedBy<LokiCommandService>());
+
+            context.Register(Element.For<CommandManager>().Lifestyle.Transient);
         }
     }
 }

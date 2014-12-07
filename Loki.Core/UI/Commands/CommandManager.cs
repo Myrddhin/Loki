@@ -57,7 +57,6 @@ namespace Loki.Commands
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandManager"/> class.
         /// </summary>
-        /// <param name="refreshObject">The state object.</param>
         public CommandManager()
         {
             handlers = new ConcurrentDictionary<ICommand, List<ICommandHandler>>();

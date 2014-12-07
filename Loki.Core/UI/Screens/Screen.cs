@@ -207,12 +207,9 @@ namespace Loki.UI
                 return;
             }
 
-            var initialized = false;
-
             if (!IsInitialized)
             {
                 Initialize();
-                initialized = true;
             }
 
             IsActive = true;
@@ -231,7 +228,9 @@ namespace Loki.UI
         {
             if (IsActive || (IsInitialized && close))
             {
-                AttemptingDesactivation(this, new DesactivationEventArgs
+                AttemptingDesactivation(
+                    this,
+                    new DesactivationEventArgs
                 {
                     WasClosed = close
                 });

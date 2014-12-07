@@ -42,7 +42,21 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Main\DocumentsViewModel.cs" />
+    <Compile Include="Main\MainViewModel.cs" />
+    <Compile Include="Main\MenuViewModel.cs" />
+    <Compile Include="Main\NavigationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIInstaller.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
+      <Project>{96b7d521-1224-4732-b419-a92922c895ad}</Project>
+      <Name>Loki.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Common.targets" />

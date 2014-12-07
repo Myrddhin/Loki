@@ -8,7 +8,6 @@ namespace Loki.UI
     /// </summary>
     public interface ITemplatingEngine
     {
-        /*
         object GetTemplate(object model);
 
         object CreateBind(object view, object viewModel);
@@ -19,6 +18,6 @@ namespace Loki.UI
 
         void RegisterAssociation<TModel, TView>();
 
-        void LoadByConvention(IConventionManager conventionManager, params Assembly[] assemblies);*/
+        void LoadByConvention(IConventionManager conventionManager, params Assembly[] assemblies);
     }
 }

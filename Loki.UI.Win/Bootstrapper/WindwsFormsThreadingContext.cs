@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace Loki.UI
+namespace Loki.UI.Win
 {
-    public class DefaultThreadingContext : IThreadingContext
+    internal class WindwsFormsThreadingContext : IThreadingContext
     {
-        private readonly SynchronizationContext context;
+        protected SynchronizationContext context;
 
-        private readonly TaskScheduler currentScheduler;
+        protected TaskScheduler currentScheduler;
 
-        public DefaultThreadingContext()
+        public WindwsFormsThreadingContext()
         {
-            context = SynchronizationContext.Current;
+            context = WindowsFormsSynchronizationContext.Current;
             if (context != null)
             {
                 currentScheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -81,7 +85,7 @@ namespace Loki.UI
                     }
                 };
 
-                context.Send(method, null);
+                context.Post(method, null);
 
                 if (exception != null)
                 {
