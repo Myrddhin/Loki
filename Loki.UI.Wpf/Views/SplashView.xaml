@@ -4,11 +4,16 @@
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     x:Class="Loki.UI.Wpf.SplashView"
-    Title="SplashView" Height="230" Width="525" ShowIcon="False" ShowTitle="False" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
+    Title="SplashView" Height="100" Width="400" ShowIcon="False" ShowTitle="False" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
 
     <Grid>
-
-        <dxe:ProgressBarEdit HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="15" Margin="0,171,0.333,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Démarrage de l'application" Grid.Row="0" FontSize="22" FontWeight="Bold" />
+        <dxe:ProgressBarEdit HorizontalAlignment="Stretch"  VerticalAlignment="Top" Height="20" Grid.Row="1">
             <dxe:ProgressBarEdit.StyleSettings>
                 <dxe:ProgressBarMarqueeStyleSettings />
             </dxe:ProgressBarEdit.StyleSettings>

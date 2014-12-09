@@ -64,19 +64,21 @@ namespace Loki.UI.Wpf
 
         protected CommonBootstrapper<TMainViewModelType, DefaultSplashModel> BootStrapper { get; private set; }
 
-        public void Run(string[] args)
+        public async void Run(string[] args)
         {
-            Task.Factory.StartNew(() => { BootStrapper.Run(args); })
-                .ContinueWith(this.ApplicationStart, TaskScheduler.FromCurrentSynchronizationContext());
+            await BootStrapper.Run(args);
+
+            ApplicationStart();
         }
 
-        private void Application_Startup(object sender, System.Windows.StartupEventArgs e)
+        private async void Application_Startup(object sender, System.Windows.StartupEventArgs e)
         {
-            Task.Factory.StartNew(() => { BootStrapper.Run(e.Args); })
-                .ContinueWith(this.ApplicationStart, TaskScheduler.FromCurrentSynchronizationContext());
+            await BootStrapper.Run(e.Args);
+
+            ApplicationStart();
         }
 
-        private void ApplicationStart(Task previous)
+        private void ApplicationStart()
         {
             var mainModel = Toolkit.IoC.DefaultContext.Get<TMainViewModelType>();
             EntryPoint = mainModel;

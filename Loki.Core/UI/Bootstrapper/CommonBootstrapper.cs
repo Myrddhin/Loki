@@ -54,21 +54,13 @@ namespace Loki.UI
             }
         }
 
-        async public void Run(string[] startParameters)
+        async public Task Run(string[] startParameters)
         {
-            var timerTask = new Task(() => Thread.Sleep(5000));
-
-            var initializeTask = new Task(() =>
-            {
-                Initialize();
-            });
-
+            Task initializeFrameworkTask = null;
             try
             {
-                timerTask.Start();
-                initializeTask.Start();
-
-                await Task.WhenAll(timerTask, initializeTask);
+                initializeFrameworkTask = Task.WhenAll(Task.Delay(5000), Initialize());
+                await initializeFrameworkTask;
             }
             catch (AggregateException taskException)
             {
@@ -78,7 +70,7 @@ namespace Loki.UI
                 }
             }
 
-            if (initializeTask.IsFaulted)
+            if (initializeFrameworkTask == null || initializeFrameworkTask.IsFaulted)
             {
                 Exit(-1);
             }
@@ -89,24 +81,27 @@ namespace Loki.UI
             }
         }
 
-        private void Initialize()
+        private async Task Initialize()
         {
             OnInitializing(EventArgs.Empty);
 
-            // Initialize ui engine
-            if (!Installers.Any())
+            await Task.Run(() =>
             {
-                // no specific configuration : configure default TMainViewModel
-                Toolkit.IoC.DefaultContext.Register(Element.For<TMainModel>());
-            }
-            else
-            {
-                Toolkit.IoC.DefaultContext.Initialize(Installers.ToArray());
-            }
+                // Initialize ui engine
+                if (!Installers.Any())
+                {
+                    // no specific configuration : configure default TMainViewModel
+                    Toolkit.IoC.DefaultContext.Register(Element.For<TMainModel>());
+                }
+                else
+                {
+                    Toolkit.IoC.DefaultContext.Initialize(Installers.ToArray());
+                }
 
-            Toolkit.Common.MessageBus.Subscribe(this);
+                Toolkit.Common.MessageBus.Subscribe(this);
 
-            Toolkit.UI.Templating.LoadByConvention(ConventionManager, SelectedAssemblies.ToArray());
+                Toolkit.UI.Templating.LoadByConvention(ConventionManager, SelectedAssemblies.ToArray());
+            });
 
             OnInitialized(EventArgs.Empty);
         }
