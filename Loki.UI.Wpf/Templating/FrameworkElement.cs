@@ -9,8 +9,8 @@ namespace Loki.UI.Wpf.Binds
        XamlReader.Parse(
             "<DataTemplate xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' " +
                           "xmlns:loki='clr-namespace:Loki.UI.Wpf;assembly=Loki.UI.Wpf'> " +
-               "<ContentControl loki:View.Model=\"{Binding}\" Background=\"Transparent\" VerticalContentAlignment=\"Stretch\" HorizontalContentAlignment=\"Stretch\" IsTabStop=\"False\" />" +
-           "</DataTemplate>");
+               "<loki:LoadingDecorator IsLoading=\"{Binding IsBusy}\"><ContentControl loki:View.Model=\"{Binding}\" Background=\"Transparent\" VerticalContentAlignment=\"Stretch\" HorizontalContentAlignment=\"Stretch\" IsTabStop=\"False\" />" +
+           "</loki:LoadingDecorator></DataTemplate>");
 
         public FrameworkElementBind(TComponent component, object viewModel)
             : base(component, viewModel)

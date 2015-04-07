@@ -3,11 +3,12 @@ using Loki.UI.Test;
 
 namespace Loki.UI.Wpf.Test
 {
-    public class TestBootStrapper : WpfBootStrapper<MainViewModel>
+    public class TestBootStrapper : WpfSplashBootStrapper<MainViewModel, SplashViewModel>
     {
         public TestBootStrapper()
+            : base(new SplashScreenView())
         {
-            //BootStrapper.UIInstallers = new IContextInstaller[] { UIInstaller.All };
+            BootStrapper.Install(Loki.UI.Test.UIInstaller.All);
         }
     }
 }

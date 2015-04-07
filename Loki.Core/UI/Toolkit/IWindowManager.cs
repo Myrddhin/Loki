@@ -13,5 +13,7 @@ namespace Loki.UI
         //  string GetSaveFileName(FileDialogInformations informations);
 
         bool? ShowAsPopup(object viewModel);
+
+        bool Confirm(string message);
     }
 }

@@ -24,6 +24,8 @@ namespace Loki.UI.Test
             context.Register(Element.ViewModel<MainViewModel>());
             context.Register(Element.ViewModel<DocumentsViewModel>().Properties(Property<DocumentsViewModel>.ForKey(x => x.ActiveItem).Ignore()));
             context.Register(Element.ViewModel<NavigationMenuViewModel>());
+
+            context.Register(Element.ViewModel<SplashViewModel>());
             context.Register(Element.ViewModel<Screen>());
         }
     }

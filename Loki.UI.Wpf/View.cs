@@ -49,7 +49,7 @@ namespace Loki.UI.Wpf
         /// <param name="element">The element.</param>
         /// <param name="handler">The handler.</param>
         /// <returns>true if the handler was executed immediately; false otherwise</returns>
-        public static bool ExecuteOnLoad(FrameworkElement element, RoutedEventHandler handler)
+        public static bool ExecuteOnLoad(FrameworkElement element, EventHandler handler)
         {
             if (element.IsLoaded)
             {
@@ -64,7 +64,21 @@ namespace Loki.UI.Wpf
                 handler(s, e);
             };
 
-            element.Loaded += loaded;
+            EventHandler contentLoader = null;
+            contentLoader = (s, e) =>
+            {
+                ((Window)element).ContentRendered -= contentLoader;
+                handler(s, e);
+            };
+
+            if (element is Window)
+            {
+                ((Window)element).ContentRendered += contentLoader;
+            }
+            else
+            {
+                element.Loaded += loaded;
+            }
             return false;
         }
 

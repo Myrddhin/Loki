@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Loki.Common;
 using Loki.IoC;
@@ -12,7 +11,7 @@ namespace Loki.UI
 {
     public class CommonBootstrapper<TMainModel, TSplashModel> : BaseObject
         where TMainModel : class, IScreen
-        where TSplashModel : class, IScreen
+        where TSplashModel : class, ISplashViewModel
     {
         private object splashView;
 
@@ -56,11 +55,11 @@ namespace Loki.UI
 
         async public Task Run(string[] startParameters)
         {
-            Task initializeFrameworkTask = null;
+            Task initializeTask = null;
             try
             {
-                initializeFrameworkTask = Task.WhenAll(Task.Delay(5000), Initialize());
-                await initializeFrameworkTask;
+                initializeTask = Task.WhenAll(Task.Delay(5000), Initialize(startParameters));
+                await initializeTask;
             }
             catch (AggregateException taskException)
             {
@@ -70,18 +69,23 @@ namespace Loki.UI
                 }
             }
 
-            if (initializeFrameworkTask == null || initializeFrameworkTask.IsFaulted)
+            if (initializeTask == null || initializeTask.IsFaulted)
             {
                 Exit(-1);
             }
             else
             {
-                PreStart(startParameters);
                 Start(startParameters);
             }
         }
 
-        private async Task Initialize()
+        async private Task Initialize(string[] startParameters)
+        {
+            await InitializeFramework();
+            await PreStart(startParameters);
+        }
+
+        async private Task InitializeFramework()
         {
             OnInitializing(EventArgs.Empty);
 
@@ -112,7 +116,7 @@ namespace Loki.UI
             Toolkit.UI.Signals.ApplicationExit(returnCode);
         }
 
-        protected virtual void PreStart(string[] startParameters)
+        async protected virtual Task PreStart(string[] startParameters)
         {
             // Creates main objects
             if (splashView != null)
@@ -120,26 +124,9 @@ namespace Loki.UI
                 splashModel = Toolkit.IoC.DefaultContext.Get<TSplashModel>();
 
                 Toolkit.UI.Templating.CreateBind(splashView, splashModel);
+
+                await splashModel.ApplicationInitialize();
             }
-
-            /*if (Application.SplashModel == null)
-            {*/
-
-            /*}
-            else
-            {
-                var splashScreen = ToolKit.Templates.GetView(Application.SplashModel as IViewModel);
-                splashScreen.Show();
-                bool buffer = Application.SplashModel.StartLoading();
-                if (buffer)
-                {
-                    ApplicationCommands.START.Execute(null);
-                }
-                else
-                {
-                    ApplicationCommands.EXIT.Execute(null);
-                }
-            }*/
         }
 
         #region Initializing

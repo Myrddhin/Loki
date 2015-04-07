@@ -46,6 +46,7 @@
     <Compile Include="Main\MainViewModel.cs" />
     <Compile Include="Main\MenuViewModel.cs" />
     <Compile Include="Main\NavigationViewModel.cs" />
+    <Compile Include="Main\SplashViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIInstaller.cs" />
   </ItemGroup>

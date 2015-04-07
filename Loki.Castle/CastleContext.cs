@@ -8,6 +8,7 @@ using Castle.Windsor;
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
+using Loki.UI;
 
 namespace Loki.Castle
 {
@@ -76,6 +77,12 @@ namespace Loki.Castle
                 awareItem.SetContext(this);
             }
 
+            var initializable = item as IInitializable;
+            if (initializable != null)
+            {
+                initializable.Initialize();
+            }
+
             return item;
         }
 
@@ -96,6 +103,12 @@ namespace Loki.Castle
             if (awareItem != null)
             {
                 awareItem.SetContext(this);
+            }
+
+            var initializable = item as IInitializable;
+            if (initializable != null)
+            {
+                initializable.Initialize();
             }
 
             return item;
@@ -119,6 +132,12 @@ namespace Loki.Castle
                 awareItem.SetContext(this);
             }
 
+            var initializable = item as IInitializable;
+            if (initializable != null)
+            {
+                initializable.Initialize();
+            }
+
             return item;
         }
 
@@ -128,6 +147,11 @@ namespace Loki.Castle
             foreach (var awareItem in result.OfType<IContextAware>())
             {
                 awareItem.SetContext(this);
+            }
+
+            foreach (var initializable in result.OfType<IInitializable>())
+            {
+                initializable.Initialize();
             }
 
             return result;
@@ -140,6 +164,11 @@ namespace Loki.Castle
             foreach (var awareItem in result.OfType<IContextAware>())
             {
                 awareItem.SetContext(this);
+            }
+
+            foreach (var initializable in result.OfType<IInitializable>())
+            {
+                initializable.Initialize();
             }
 
             return result;
@@ -162,6 +191,12 @@ namespace Loki.Castle
             if (awareItem != null)
             {
                 awareItem.SetContext(this);
+            }
+
+            var initializable = item as IInitializable;
+            if (initializable != null)
+            {
+                initializable.Initialize();
             }
 
             return item;

@@ -8,11 +8,11 @@ namespace Loki.UI.Test
     {
         public DocumentsViewModel()
         {
-            var document1 = new Screen() { DisplayName = "Document 1 Test" };
-            var document2 = new Screen() { DisplayName = "Document 2 Test" };
+            /*  var document1 = new Screen() { DisplayName = "Document 1 Test" };
+              var document2 = new Screen() { DisplayName = "Document 2 Test" };
 
-            Items.Add(document1);
-            Items.Add(document2);
+              Items.Add(document1);
+              Items.Add(document2);*/
         }
 
         protected override void OnInitialize()

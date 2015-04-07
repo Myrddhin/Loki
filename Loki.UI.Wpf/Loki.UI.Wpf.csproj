@@ -42,11 +42,13 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Bootstrapper\WPFBootStrapper.cs" />
+    <Compile Include="Bootstrapper\WpfBootSplashStrapper .cs" />
+    <Compile Include="Bootstrapper\WpfBootStrapper.cs" />
     <Compile Include="Bootstrapper\WpfSignalManager.cs" />
     <Compile Include="Converters\DisplayNameWithStateConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
+    <Compile Include="Views\LoadingDecorator.cs" />
     <Compile Include="Views\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>

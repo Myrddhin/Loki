@@ -14,6 +14,7 @@ namespace Loki.UI.Wpf
         {
             context.Register(Element.For<IThreadingContext>().ImplementedBy<WpfThreadingContext>());
             context.Register(Element.For<ITemplatingEngine>().ImplementedBy<WpfTemplatingEngine>());
+            context.Register(Element.For<IWindowManager>().ImplementedBy<WpfWindowManager>());
             context.Register(Element.For<DefaultSplashModel>());
         }
 

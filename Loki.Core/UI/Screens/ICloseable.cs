@@ -18,5 +18,7 @@ namespace Loki.UI
         /// Occurs when this instance is closed.
         /// </summary>
         event EventHandler Closed;
+
+        Action<bool?> DialogResultSetter { get; set; }
     }
 }

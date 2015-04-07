@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using Loki.Common;
 
 namespace Loki.UI.Wpf.Converters
 {
@@ -9,7 +10,7 @@ namespace Loki.UI.Wpf.Converters
         {
             if (values.Length > 0)
             {
-                string name = values[0].ToString();
+                string name = values[0].SafeToString();
                 string appender = string.Empty;
 
                 if (values.Length > 1 && values[1] is bool)

@@ -30,6 +30,12 @@ namespace Loki.UI.Wpf
             }
         }
 
+        public bool Confirm(string message)
+        {
+            //return WinUIMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            return DXMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
         //public string GetOpenFileName(FileDialogInformations informations)
         //{
         //    var fileDialog = new Microsoft.Win32.OpenFileDialog();
@@ -77,6 +83,7 @@ namespace Loki.UI.Wpf
                 templateAsWindow = new DXWindow();
                 templateAsWindow.ShowIcon = false;
                 templateAsWindow.ShowInTaskbar = false;
+                templateAsWindow.BorderEffect = BorderEffect.Default;
                 templateAsWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 templateAsWindow.ShowTitle = false;
                 templateAsWindow.Padding = new Thickness() { Bottom = 0, Top = 0 };
@@ -95,6 +102,13 @@ namespace Loki.UI.Wpf
                 }*/
 
                 View.SetModel(templateAsWindow, viewModel);
+                Toolkit.UI.Templating.CreateBind(templateAsWindow, viewModel);
+            }
+
+            var screen = viewModel as IScreen;
+            if (screen != null)
+            {
+                screen.DialogResultSetter = (r) => { if (templateAsWindow.DialogResult != r) { templateAsWindow.DialogResult = r; } };
             }
 
             return templateAsWindow.ShowDialog();

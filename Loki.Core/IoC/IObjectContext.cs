@@ -22,12 +22,6 @@ namespace Loki.IoC
         void Register<T>(ElementRegistration<T> definition) where T : class;
 
         /// <summary>
-        /// Releases the specified object.
-        /// </summary>
-        /// <param name="objectToRelease">The object.</param>
-        void Release(object objectToRelease);
-
-        /// <summary>
         /// Resets the context.
         /// </summary>
         void Reset();

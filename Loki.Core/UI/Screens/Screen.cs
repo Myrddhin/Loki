@@ -27,6 +27,8 @@ namespace Loki.UI
         /// </summary>
         public event EventHandler<DesactivationEventArgs> Desactivated = delegate { };
 
+        public Action<bool?> DialogResultSetter { get; set; }
+
         #region DisplayName
 
         private static PropertyChangedEventArgs argsDisplayNameChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.DisplayName);
@@ -195,6 +197,31 @@ namespace Loki.UI
 
         #endregion State
 
+        #region IsBusy
+
+        private PropertyChangedEventArgs busyChangedEventArgs = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsBusy);
+
+        private bool busy;
+
+        public bool IsBusy
+        {
+            get
+            {
+                return busy;
+            }
+
+            set
+            {
+                if (!object.Equals(busy, value))
+                {
+                    busy = value;
+                    NotifyChanged(busyChangedEventArgs);
+                }
+            }
+        }
+
+        #endregion IsBusy
+
         public virtual void CanClose(Action<bool> callback)
         {
             callback(true);
@@ -207,10 +234,9 @@ namespace Loki.UI
                 return;
             }
 
-            if (!IsInitialized)
-            {
-                Initialize();
-            }
+            Initialize();
+
+            Load();
 
             IsActive = true;
             Log.DebugFormat("Activating {0}.", this.DisplayName);
@@ -277,8 +303,17 @@ namespace Loki.UI
             }
         }
 
+        private bool closing = false;
+
         public void TryClose(bool? dialogResult = null)
         {
+            if (closing)
+            {
+                return;
+            }
+
+            closing = true;
+
             ((IDesactivable)this).Desactivate(true);
 
             // unsubscribe to message bus
@@ -289,6 +324,11 @@ namespace Loki.UI
             Commands.SafeDispose();
 
             Log.DebugFormat("Closed {0}.", this);
+
+            if (DialogResultSetter != null)
+            {
+                DialogResultSetter(dialogResult);
+            }
 
             Closed(this, EventArgs.Empty);
         }

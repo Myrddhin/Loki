@@ -89,6 +89,7 @@
     <Compile Include="Installers\CoreServicesInstaller.cs" />
     <Compile Include="Installers\Installers.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
+    <Compile Include="IoC\ContextExtensions.cs" />
     <Compile Include="IoC\IContextAware.cs" />
     <Compile Include="IoC\IContextInstaller.cs" />
     <Compile Include="IoC\IEngine.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="UI\Screens\IParent.cs" />
     <Compile Include="UI\Screens\IParent.Generic.cs" />
     <Compile Include="UI\Screens\IScreen.cs" />
+    <Compile Include="UI\Screens\ISplashViewModel.cs" />
     <Compile Include="UI\Screens\Navigation\CommandElement.cs" />
     <Compile Include="UI\Screens\Navigation\ICommandElement.cs" />
     <Compile Include="UI\Screens\Navigation\IMessageElement.cs" />

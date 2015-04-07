@@ -58,7 +58,7 @@ namespace Loki.Commands
                 foreach (var handlerReference in item)
                 {
                     ICommandHandler target = null;
-                    if (handlerReference.Value.TryGetTarget(out target))
+                    if (!handlerReference.Value.TryGetTarget(out target))
                     {
                         toRemove.Add(handlerReference);
                     }

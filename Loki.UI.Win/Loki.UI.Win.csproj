@@ -44,6 +44,7 @@
     </Compile>
     <Compile Include="Bootstrapper\WindwsFormsThreadingContext.cs" />
     <Compile Include="Bootstrapper\WinformBootstrapper.cs" />
+    <Compile Include="Bootstrapper\WinformSplashBootstrapper.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />

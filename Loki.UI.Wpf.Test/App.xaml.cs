@@ -11,6 +11,7 @@ namespace Loki.UI.Wpf.Test
         public App()
         {
             InitializeComponent();
+            DevExpress.Xpf.Core.ThemeManager.ApplicationThemeName = "DXStyle";
         }
     }
 }

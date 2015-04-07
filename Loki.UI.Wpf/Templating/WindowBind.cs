@@ -114,7 +114,7 @@ namespace Loki.UI.Wpf.Binds
             var deactivatable = (ICloseable)ViewModel;
 
             desativatingFromView = true;
-            deactivatable.TryClose(true);
+            deactivatable.TryClose(null);
             desativatingFromView = false;
         }
 
@@ -162,7 +162,7 @@ namespace Loki.UI.Wpf.Binds
             var deactivatable = (ICloseable)ViewModel;
 
             closingFromView = true;
-            deactivatable.TryClose(true);
+            deactivatable.TryClose(Component.DialogResult);
             closingFromView = false;
         }
 

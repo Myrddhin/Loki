@@ -53,5 +53,11 @@ namespace Loki.IoC
         /// <typeparam name="T">The object type.</typeparam>
         /// <returns>The configured instances.</returns>
         IEnumerable<T> GetAll<T>();
+
+        /// <summary>
+        /// Releases the specified object.
+        /// </summary>
+        /// <param name="objectToRelease">The object.</param>
+        void Release(object objectToRelease);
     }
 }

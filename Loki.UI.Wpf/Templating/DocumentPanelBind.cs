@@ -17,22 +17,24 @@ namespace Loki.UI.Wpf.Binds
             {
                 if (view.CloseCommand == null)
                 {
-                    Func<bool> canExecute = () =>
-                    {
-                        bool buffer = false;
-                        screen.CanClose(b => buffer = b);
-                        return buffer;
-                    };
+                    Func<bool> canExecute = null;
 
                     Action execute = null;
                     var parent = ((IChild)screen).Parent as IConductor;
                     if (parent != null)
                     {
                         execute = () => parent.CloseItem(screen);
+                        canExecute = () => true;
                     }
                     else
                     {
                         execute = () => screen.Desactivate(true);
+                        canExecute = () =>
+                        {
+                            bool buffer = false;
+                            screen.CanClose(b => buffer = b);
+                            return buffer;
+                        };
                     }
 
                     view.CloseCommand = new LokiRelayCommand(canExecute, execute);

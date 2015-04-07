@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Loki.UI.Wpf
 {
-    public class DefaultSplashModel : Screen
+    public class DefaultSplashModel : Screen, ISplashViewModel
     {
+        public async Task ApplicationInitialize()
+        {
+            await Task.Delay(500);
+        }
     }
 }
