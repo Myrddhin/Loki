@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Loki.Common
 {
@@ -34,7 +36,7 @@ namespace Loki.Common
         /// <param name = "message">The message instance.</param>
         public static void PublishOnUIThread(this IMessageComponent eventAggregator, object message)
         {
-            eventAggregator.Publish(message, ThreadingExtensions.OnUIThread);
+            eventAggregator.Publish(message, DelegateExtensions.OnUIThread);
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace Loki.Common
         /// <param name = "message">The message instance.</param>
         public static void BeginPublishOnUIThread(this IMessageComponent eventAggregator, object message)
         {
-            eventAggregator.Publish(message, ThreadingExtensions.BeginOnUIThread);
+            eventAggregator.Publish(message, DelegateExtensions.BeginOnUIThread);
         }
 
         /// <summary>

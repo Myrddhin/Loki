@@ -59,10 +59,11 @@
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />
-    <Compile Include="Common\Extensions\AggregatorExtensions.cs" />
+    <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Common\Extensions\GeneralExtensions.cs" />
     <Compile Include="Common\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Common\Extensions\ReflectionExtensions.cs" />
     <Compile Include="Common\Extensions\ThreadingExtensions.cs" />
     <Compile Include="Common\ICentralizedChangeTracking.cs" />
     <Compile Include="Common\INotifyPropertyChangedEx.cs" />
@@ -77,6 +78,10 @@
     <Compile Include="Common\MessageBus\MessageBus.cs" />
     <Compile Include="Common\ObservableHelper.cs" />
     <Compile Include="Common\Randomizer.cs" />
+    <Compile Include="UI\Extensions\DelegateExtensions.cs" />
+    <Compile Include="UI\Tasks\ITaskComponent.cs" />
+    <Compile Include="UI\Tasks\ITaskConfiguration.cs" />
+    <Compile Include="UI\Tasks\ITaskConfiguration.Generic.cs" />
     <Compile Include="Common\Toolkit\CoreServiceContainer.cs" />
     <Compile Include="Common\Toolkit\IExtensionType.cs" />
     <Compile Include="Common\Toolkit\ExtensionManager.cs" />
@@ -152,6 +157,8 @@
     <Compile Include="UI\Screens\Navigation\NavigationMessage.cs" />
     <Compile Include="UI\Screens\Navigation\NavigationViewModel.cs" />
     <Compile Include="UI\Screens\Screen.cs" />
+    <Compile Include="UI\Tasks\TaskCompletedEventArgs.cs" />
+    <Compile Include="UI\Tasks\TaskRun.cs" />
     <Compile Include="UI\TrackedObject.cs" />
     <Compile Include="UI\Commands\CommandManager.cs" />
     <Compile Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />
