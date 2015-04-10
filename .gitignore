@@ -49,6 +49,6 @@ Loki.Core_
 *.csproj.user
 *.Cache
 *.dll
-Build/*
+Build/Debug/Test/log4net.xml
 *.pdb
-*.suo
+Loki.v12.suo
