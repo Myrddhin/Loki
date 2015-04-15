@@ -2,8 +2,9 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using Loki.Common;
 
-namespace Loki.Common
+namespace System
 {
     public static class ObjectExtensions
     {
