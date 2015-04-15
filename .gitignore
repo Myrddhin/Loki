@@ -48,3 +48,4 @@ Loki.Core_
 [Oo]bj/
 *.csproj.user
 *.Cache
+Build/*
