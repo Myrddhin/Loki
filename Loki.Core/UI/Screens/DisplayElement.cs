@@ -7,15 +7,9 @@ namespace Loki.UI
 {
     public class DisplayElement : TrackedObject, IContextAware
     {
-        public IMessageComponent CommonBus
-        {
-            get;
-            set;
-        }
-
         private IObjectCreator context;
 
-        public IObjectCreator Context
+        protected IObjectCreator Context
         {
             get
             {
@@ -36,6 +30,10 @@ namespace Loki.UI
             OnContextInitialized(EventArgs.Empty);
         }
 
+        public void Release()
+        {
+        }
+
         #region ContextInitialized
 
         public event EventHandler ContextInitialized;
@@ -51,6 +49,12 @@ namespace Loki.UI
         }
 
         #endregion ContextInitialized
+
+        public IMessageComponent CommonBus
+        {
+            get;
+            set;
+        }
 
         public ICommandComponent CommandService
         {
