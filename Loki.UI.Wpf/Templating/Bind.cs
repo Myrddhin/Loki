@@ -53,6 +53,7 @@ namespace Loki.UI.Wpf
                 {
                     Toolkit.UI.Templating.CreateBind(d, e.NewValue);
                 }
+
                 return;
             }
 

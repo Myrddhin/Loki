@@ -11,7 +11,7 @@ using Loki.Common;
 
 namespace Loki.UI
 {
-    public class BindableCollection<T> : ObservableCollection<T>, IObservableCollection<T>, ISupportInitialize, IBindingList, IRaiseItemChangedEvents
+    public class BindableCollection<T> : ObservableCollection<T>, IObservableEnumerable, IObservableCollection<T>, ISupportInitialize, IBindingList, IRaiseItemChangedEvents
     {
         #region Log
 

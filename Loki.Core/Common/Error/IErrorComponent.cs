@@ -14,7 +14,7 @@ namespace Loki.Common
         /// <param name="message">The message.</param>
         /// <param name="log">The logger.</param>
         /// <param name="innerException">The inner exception.</param>
-        /// <returns>The builded error.</returns>
+        /// <returns>The build error.</returns>
         T BuildError<T>(string message, ILog log, Exception innerException) where T : Exception;
 
         /// <summary>

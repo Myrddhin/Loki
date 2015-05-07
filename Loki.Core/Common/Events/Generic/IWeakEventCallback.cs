@@ -12,7 +12,7 @@
     }
 
     /// <summary>
-    /// Weak event callback parametrized interface.
+    /// Weak event callback generic interface.
     /// </summary>
     /// <typeparam name="TArgs">The type of the args.</typeparam>
     public interface IWeakEventCallback<TArgs> : IWeakCallback

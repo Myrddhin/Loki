@@ -19,6 +19,8 @@ namespace Loki.UI.Win
             : base(splashView)
         {
             splashScreen = MainForm;
+
+            bootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
         }
 
         private Form splashScreen;
@@ -26,8 +28,6 @@ namespace Loki.UI.Win
         public void Run(params string[] args)
         {
             Toolkit.RegisterInstaller(UIInstaller.Winform);
-
-            bootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
 
             // Force synchronisation context from main thread.
             Toolkit.Initialize();
@@ -59,6 +59,7 @@ namespace Loki.UI.Win
             {
                 return MainForm;
             }
+
             set
             {
                 MainForm = value as Form;
