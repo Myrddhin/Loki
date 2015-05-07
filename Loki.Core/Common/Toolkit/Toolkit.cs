@@ -146,17 +146,6 @@ namespace Loki.Common
               {
                   return settings.Value;
               }
-          }
-
-          /// <summary>
-          /// Gets the task service.
-          /// </summary>
-          public static ITaskComponent Tasks
-          {
-              get
-              {
-                  return tasks.Value;
-              }
           }*/
     }
 }

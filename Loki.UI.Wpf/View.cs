@@ -118,7 +118,7 @@ namespace Loki.UI.Wpf
 
         private static void OnModelChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
         {
-            if (args.OldValue == args.NewValue)
+            if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
             {
                 return;
             }

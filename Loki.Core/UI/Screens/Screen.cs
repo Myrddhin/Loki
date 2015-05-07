@@ -201,7 +201,7 @@ namespace Loki.UI
 
         private PropertyChangedEventArgs busyChangedEventArgs = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsBusy);
 
-        private bool busy;
+        private bool busy = true;
 
         public bool IsBusy
         {
@@ -282,14 +282,13 @@ namespace Loki.UI
 
                 // subsribe to messagebus
                 CommonBus.Subscribe(this);
-                IsInitialized = true;
-
-                State = this;
+                OnInitialize();
 
                 // configure commands.
+                State = this;
                 Commands.SetTarget(this);
 
-                OnInitialize();
+                IsInitialized = true;
             }
         }
 
@@ -300,6 +299,7 @@ namespace Loki.UI
                 Log.DebugFormat("Loading {0}.", this);
                 OnLoad();
                 IsLoaded = true;
+                IsBusy = false;
             }
         }
 

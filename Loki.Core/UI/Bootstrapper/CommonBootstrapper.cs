@@ -103,6 +103,7 @@ namespace Loki.UI
                 }
 
                 Toolkit.Common.MessageBus.Subscribe(this);
+                Toolkit.Common.MessageBus.Subscribe(Toolkit.UI.Signals);
 
                 Toolkit.UI.Templating.LoadByConvention(ConventionManager, SelectedAssemblies.ToArray());
             });
