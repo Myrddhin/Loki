@@ -13,6 +13,6 @@ namespace Loki.UI
         /// <returns>
         ///   The collection of children.
         /// </returns>
-        IEnumerable Children { get; }
+        IObservableEnumerable Children { get; }
     }
 }

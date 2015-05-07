@@ -79,6 +79,7 @@
     <Compile Include="Common\ObservableHelper.cs" />
     <Compile Include="Common\Randomizer.cs" />
     <Compile Include="UI\Extensions\DelegateExtensions.cs" />
+    <Compile Include="UI\IObservableEnumerable.cs" />
     <Compile Include="UI\Tasks\ITaskComponent.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.Generic.cs" />

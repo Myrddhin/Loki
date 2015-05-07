@@ -31,7 +31,7 @@ namespace Loki.UI.Test
             }
         }
 
-        async public Task ApplicationInitialize()
+        public async Task ApplicationInitialize()
         {
             Name = "Luna";
             await Task.Delay(1000);

@@ -3,7 +3,7 @@
 namespace Loki.Common
 {
     /// <summary>
-    /// Logger manager abtraction.
+    /// Logger manager abstraction.
     /// </summary>
     public interface ILoggerComponent
     {

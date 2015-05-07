@@ -12,7 +12,7 @@ namespace Loki.UI
 
         public BindableCollection<NavigationElement> Children { get; private set; }
 
-        IEnumerable IParent.Children
+        IObservableEnumerable IParent.Children
         {
             get { return this.Children; }
         }
