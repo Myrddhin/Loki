@@ -38,21 +38,21 @@ namespace Loki.Common
         }
 
         /// <summary>
-        /// Builds the error with the specified format paramters.
+        /// Builds the error with the specified format parameters.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <param name="parameters">The params.</param>
+        /// <param name="parameters">The parameters.</param>
         protected T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
         {
             return ErrorManager.BuildErrorFormat<T>(message, Log, parameters);
         }
 
         /// <summary>
-        /// Builds the error with the specified format paramters.
+        /// Builds the error with the specified format parameters.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        /// <param name="parameters">The params.</param>
+        /// <param name="parameters">The parameters.</param>
         protected T BuildErrorFormat<T>(string message, Exception innerException, params object[] parameters) where T : Exception
         {
             return ErrorManager.BuildErrorFormat<T>(message, Log, innerException, parameters);

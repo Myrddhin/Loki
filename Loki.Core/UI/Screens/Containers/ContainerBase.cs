@@ -33,7 +33,7 @@ namespace Loki.UI
         /// Gets the children.
         /// </summary>
         /// <returns></returns>
-        IEnumerable IParent.Children
+        IObservableEnumerable IParent.Children
         {
             get { return Children; }
         }

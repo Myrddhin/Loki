@@ -33,5 +33,33 @@ namespace Loki.UI
         }
 
         #endregion Command
+
+        #region Parameter
+
+        private static PropertyChangedEventArgs argsParameterChanged = ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Parameter);
+
+        private static PropertyChangingEventArgs argsParameterChanging = ObservableHelper.CreateChangingArgs<CommandElement>(x => x.Parameter);
+
+        private object parameter;
+
+        public object Parameter
+        {
+            get
+            {
+                return parameter;
+            }
+
+            set
+            {
+                if (value != parameter)
+                {
+                    NotifyChanging(argsParameterChanging);
+                    parameter = value;
+                    NotifyChanged(argsParameterChanged);
+                }
+            }
+        }
+
+        #endregion Parameter
     }
 }

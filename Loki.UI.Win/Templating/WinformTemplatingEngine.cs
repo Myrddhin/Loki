@@ -5,6 +5,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.XtraBars.Docking2010;
+using DevExpress.XtraBars.Docking2010.Views;
+using DevExpress.XtraNavBar;
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
@@ -42,17 +45,23 @@ namespace Loki.UI.Win
                 View.ProtectedCall(control, () => bind = new FormBind(control, viewModel));
             }
 
-            //var documentManager = view as DocumentManager;
-            //if (documentManager != null)
-            //{
-            //    return new DocumentManagerBind(documentManager, viewModel);
-            //}
+            var documentManager = view as DocumentManager;
+            if (documentManager != null)
+            {
+                return new DocumentManagerBind(documentManager, viewModel);
+            }
 
-            //var document = view as BaseDocument;
-            //if (document != null)
-            //{
-            //    return new DocumentBind(document, viewModel);
-            //}
+            var document = view as BaseDocument;
+            if (document != null)
+            {
+                return new DocumentBind(document, viewModel);
+            }
+
+            var navControl = view as NavBarControl;
+            if (navControl != null)
+            {
+                return new NavBarControlBind(navControl, viewModel);
+            }
 
             return bind;
         }

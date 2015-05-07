@@ -10,7 +10,7 @@ namespace Loki.Common
     public static class EventAggregatorExtensions
     {
         /// <summary>
-        /// Publishes a message on the current thread (synchrone).
+        /// Publishes a message on the current thread (synchronized).
         /// </summary>
         /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name = "message">The message instance.</param>
@@ -40,7 +40,7 @@ namespace Loki.Common
         }
 
         /// <summary>
-        /// Publishes a message on the UI thread asynchrone.
+        /// Publishes a message on the UI thread async.
         /// </summary>
         /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name = "message">The message instance.</param>
@@ -50,7 +50,7 @@ namespace Loki.Common
         }
 
         /// <summary>
-        /// Publishes a message on the UI thread asynchrone.
+        /// Publishes a message on the UI thread async.
         /// </summary>
         /// <param name="eventAggregator">The event aggregator.</param>
         /// <param name="message">The message instance.</param>

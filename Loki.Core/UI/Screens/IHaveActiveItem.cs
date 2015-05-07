@@ -6,7 +6,7 @@
     public interface IHaveActiveItem
     {
         /// <summary>
-        /// The currently active item.
+        /// Gets or sets the currently active item.
         /// </summary>
         object ActiveItem { get; set; }
     }

@@ -7,9 +7,9 @@ namespace Loki.UI.Win.Test
     {
         public TestBootStrapper()
         {
-            //bootStrapper.Install(Loki.UI.Test.UIInstaller.All);
+            // bootStrapper.Install(Loki.UI.Test.UIInstaller.All);
 
-            //ControlBinder.Navigation.GlyphConverter = new CommandToGlyphConverter();
+            // ControlBinder.Navigation.GlyphConverter = new CommandToGlyphConverter();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Loki.UI
             }
         }
 
-        async public Task Run(string[] startParameters)
+        public async Task Run(string[] startParameters)
         {
             Task initializeTask = null;
             try
@@ -79,13 +79,13 @@ namespace Loki.UI
             }
         }
 
-        async private Task Initialize(string[] startParameters)
+        private async Task Initialize(string[] startParameters)
         {
             await InitializeFramework();
             await PreStart(startParameters);
         }
 
-        async private Task InitializeFramework()
+        private async Task InitializeFramework()
         {
             OnInitializing(EventArgs.Empty);
 
@@ -116,7 +116,7 @@ namespace Loki.UI
             Toolkit.UI.Signals.ApplicationExit(returnCode);
         }
 
-        async protected virtual Task PreStart(string[] startParameters)
+        protected async virtual Task PreStart(string[] startParameters)
         {
             // Creates main objects
             if (splashView != null)

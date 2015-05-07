@@ -45,6 +45,7 @@ namespace Loki.UI.Test
             {
                 item.DisplayName += "Activated";
             }
+
             base.ActivateItem(item);
         }
 
