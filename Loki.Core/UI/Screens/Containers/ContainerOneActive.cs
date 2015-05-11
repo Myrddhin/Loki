@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Loki.Common;
 
 namespace Loki.UI
 {
     public class ContainerOneActive<T> : ContainerBaseWithActiveItem<T> where T : class
     {
         private readonly BindableCollection<T> items = new BindableCollection<T>();
+
+        /// <summary>
+        /// Occurs when an activation request is processed.
+        /// </summary>
+        public event EventHandler<ClosingProcessedEventArgs<T>> ClosingProcessed = delegate { };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerOneActive&lt;T&gt;"/> class.
@@ -239,6 +243,7 @@ namespace Loki.UI
             }
 
             items.Remove(item);
+            ClosingProcessed(this, new ClosingProcessedEventArgs<T>() { Item = item, Success = true });
         }
     }
 }

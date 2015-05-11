@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Loki.Common;
@@ -23,6 +24,7 @@ namespace Loki.Castle
         {
             InternalContainer.SafeDispose();
             InternalContainer = new WindsorContainer();
+            InternalContainer.Kernel.AddFacility<TypedFactoryFacility>();
 
             this.Register(Element.For<IObjectCreator>().Instance(this));
         }
@@ -215,6 +217,11 @@ namespace Loki.Castle
         {
             ComponentRegistration<object> registration = Component.For(definition.Types);
 
+            if (definition.IsFactory)
+            {
+                registration.AsFactory();
+            }
+
             if (definition.Lifestyle.Type == LifestyleType.NoTracking)
             {
                 RegisterNoTracking(definition);
@@ -222,7 +229,7 @@ namespace Loki.Castle
 
             if (!string.IsNullOrEmpty(definition.Name))
             {
-                registration = registration.Named(GetName(typeof(T), definition.Name));
+                registration = registration.Named(definition.Name);
             }
 
             if (definition.Lifestyle.SingletonInstance != default(T))
@@ -270,7 +277,7 @@ namespace Loki.Castle
                     }
                     else
                     {
-                        registration = registration.DependsOn(Dependency.OnComponent(property.Key.Name, GetName(property.Key.PropertyType, property.Name)));
+                        registration = registration.DependsOn(Dependency.OnComponent(property.Key.Name, property.Name));
                     }
                 }
             }

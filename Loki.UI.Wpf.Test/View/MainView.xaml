@@ -3,7 +3,6 @@
     xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/docking"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:loki="clr-namespace:Loki.UI.Wpf;assembly=Loki.UI.Wpf"
-    xmlns:Loki2="clr-namespace:Loki.UI.Wpf.Binds;assembly=Loki.UI.Wpf"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar"
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
@@ -14,23 +13,22 @@
         <Style TargetType="dxb:BarButtonItem" x:Key="MNI_Style">
             <Setter Property="BarItemDisplayMode" Value="Default" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Command.Tag}" Value="Application.Search">
+                <DataTrigger Binding="{Binding Command.Name}" Value="Application.Search">
                     <Setter Property="Glyph" Value="{StaticResource MNI_search}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Command.Tag}" Value="Application.Save">
+                <DataTrigger Binding="{Binding Command.Name}" Value="Application.Save">
                     <Setter Property="Glyph" Value="{StaticResource MNI_save}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Command.Tag}" Value="Application.Refresh">
+                <DataTrigger Binding="{Binding Command.Name}" Value="Application.Refresh">
                     <Setter Property="Glyph" Value="{StaticResource MNI_refresh}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Command.Tag}" Value="Application.Export">
+                <DataTrigger Binding="{Binding Command.Name}" Value="Application.Export">
                     <Setter Property="Glyph" Value="{StaticResource MNI_search}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="mni_template">
             <ContentControl>
-                <!--"-->
                 <dxb:BarButtonItem Content="{Binding DisplayName}"
                                    GlyphAlignment="Top"
                                    GlyphSize="Large"
@@ -61,31 +59,33 @@
             </dxb:Bar>
         </dxb:BarManager.Bars>
         <Grid Background="Transparent">
-            <dxdo:DockLayoutManager ItemsSource="{Binding Documents.Children}" loki:Bind.Model="{Binding Documents.Children}">
-                <dxd:MVVMHelper.LayoutAdapter>
-                    <loki:DocumentItemLayoutAdapter HostingGroupName="DocumentGroup" />
-                </dxd:MVVMHelper.LayoutAdapter>
-                <dxdo:DockLayoutManager.AutoHideGroups>
-                    <dxdo:AutoHideGroup DockType="Left">
-                        <dxdo:LayoutPanel Caption="Navigation menu">
-                            <dxn:NavBarControl ItemsSource="{Binding Navigation.Children}">
-                                <dxn:NavBarControl.View>
-                                    <dxn:NavigationPaneView />
-                                </dxn:NavBarControl.View>
-                            </dxn:NavBarControl>
-                        </dxdo:LayoutPanel>
-                    </dxdo:AutoHideGroup>
-                </dxdo:DockLayoutManager.AutoHideGroups>
-                <dxdo:LayoutGroup>
-                    <dxdo:DocumentGroup loki:Bind.Model="{Binding Documents}" Name="DocumentGroup" MDIStyle="Tabbed" CaptionLocation="Top" ClosePageButtonShowMode="InActiveTabPageHeader">
-                        <dxdo:DocumentGroup.ItemStyle>
-                            <Style TargetType="{x:Type dxdo:DocumentPanel}">
-                                <Setter Property="loki:Bind.Model" Value="{Binding}" />
-                            </Style>
-                        </dxdo:DocumentGroup.ItemStyle>
-                    </dxdo:DocumentGroup>
-                </dxdo:LayoutGroup>
-            </dxdo:DockLayoutManager>
+            <Grid Background="Transparent">
+                <dxdo:DockLayoutManager ItemsSource="{Binding Documents.Children}">
+                    <dxdo:MVVMHelper.LayoutAdapter>
+                        <loki:DocumentItemLayoutAdapter HostingGroupName="DocumentGroup" />
+                    </dxdo:MVVMHelper.LayoutAdapter>
+                    <dxdo:DockLayoutManager.AutoHideGroups>
+                        <dxdo:AutoHideGroup DockType="Left">
+                            <dxdo:LayoutPanel ShowCaption="False" Caption="Navigation" AllowClose="False" AllowDock="True" AllowFloat="False" ItemWidth="200" ShowPinButton="False" ShowCloseButton="False" ShowControlBox="False" ShowMaximizeButton="False">
+                                <dxn:NavBarControl ItemsSource="{Binding Navigation.Children}">
+                                    <dxn:NavBarControl.View>
+                                        <dxn:ExplorerBarView />
+                                    </dxn:NavBarControl.View>
+                                </dxn:NavBarControl>
+                            </dxdo:LayoutPanel>
+                        </dxdo:AutoHideGroup>
+                    </dxdo:DockLayoutManager.AutoHideGroups>
+                    <dxdo:LayoutGroup>
+                        <dxdo:DocumentGroup  loki:Bind.Model="{Binding Documents}"  Name="DocumentGroup" DestroyOnClosingChildren="False" CaptionLocation="Top" ClosePageButtonShowMode="InActiveTabPageHeader" MDIStyle="Tabbed">
+                            <dxdo:DocumentGroup.ItemStyle>
+                                <Style TargetType="{x:Type dxdo:DocumentPanel}">
+                                    <Setter Property="loki:Bind.Model" Value="{Binding}" />
+                                </Style>
+                            </dxdo:DocumentGroup.ItemStyle>
+                        </dxdo:DocumentGroup>
+                    </dxdo:LayoutGroup>
+                </dxdo:DockLayoutManager>
+            </Grid>
         </Grid>
     </dxb:BarManager>
 </dx:DXWindow>

@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Loki.Common;
-using Loki.UI;
 
 namespace Loki.Commands
 {
@@ -73,6 +72,11 @@ namespace Loki.Commands
         }
 
         private void StatePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            handlers.Keys.Apply(x => x.RefreshState());
+        }
+
+        public void RefreshState()
         {
             handlers.Keys.Apply(x => x.RefreshState());
         }

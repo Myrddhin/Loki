@@ -282,11 +282,12 @@ namespace Loki.UI
 
                 // subsribe to messagebus
                 CommonBus.Subscribe(this);
-                OnInitialize();
 
                 // configure commands.
                 State = this;
                 Commands.SetTarget(this);
+
+                OnInitialize();
 
                 IsInitialized = true;
             }

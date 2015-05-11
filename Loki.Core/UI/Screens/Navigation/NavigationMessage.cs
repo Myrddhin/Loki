@@ -18,9 +18,8 @@ namespace Loki.UI
             get { return typeof(TViewModel); }
         }
 
-        bool INavigationMessage.Match(object existingViewModel)
+        public bool Match(TViewModel vm)
         {
-            TViewModel vm = existingViewModel as TViewModel;
             if (vm == null || Selector == null)
             {
                 return false;
@@ -31,13 +30,24 @@ namespace Loki.UI
             }
         }
 
-        void INavigationMessage.Initialize(object newViewModel)
+        public void Initialize(TViewModel vm)
         {
-            TViewModel vm = newViewModel as TViewModel;
             if (vm != null && Initializer != null)
             {
                 Initializer(vm);
             }
+        }
+
+        bool INavigationMessage.Match(object existingViewModel)
+        {
+            TViewModel vm = existingViewModel as TViewModel;
+            return this.Match(vm);
+        }
+
+        void INavigationMessage.Initialize(object newViewModel)
+        {
+            TViewModel vm = newViewModel as TViewModel;
+            this.Initialize(vm);
         }
     }
 }
