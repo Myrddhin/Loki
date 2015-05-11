@@ -52,3 +52,6 @@ Loki.Core_
 Build/*
 *.pdb
 *.suo
+Loki.UI.Win/Loki.UI.Win.csproj
+Loki.UI.Win.Test/Loki.UI.Win.Test.csproj
+Loki.UI.Wpf/Loki.UI.Wpf.csproj
