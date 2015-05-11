@@ -7,5 +7,7 @@ namespace Loki.IoC
         event EventHandler ContextInitialized;
 
         void SetContext(IObjectContext context);
+
+        void Release();
     }
 }

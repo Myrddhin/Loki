@@ -7,6 +7,7 @@ using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
 using Loki.UI.Wpf.Binds;
+using Loki.UI.Wpf.Templating;
 
 namespace Loki.UI.Wpf
 {
@@ -114,6 +115,12 @@ namespace Loki.UI.Wpf
             if (navBarItem != null)
             {
                 return new NavBarItemBind(navBarItem, viewModel);
+            }
+
+            var gridControl = view as DevExpress.Xpf.Grid.GridControl;
+            if (gridControl != null)
+            {
+                return new GridControlBind(gridControl, viewModel);
             }
 
             var fe = view as FrameworkElement;

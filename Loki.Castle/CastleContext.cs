@@ -280,6 +280,12 @@ namespace Loki.Castle
 
         public void Release(object objectToRelease)
         {
+            var awareItem = objectToRelease as IContextAware;
+            if (awareItem != null)
+            {
+                awareItem.Release();
+            }
+
             InternalContainer.Release(objectToRelease);
         }
 

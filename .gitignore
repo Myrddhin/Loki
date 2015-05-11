@@ -48,7 +48,6 @@ Loki.Core_
 [Oo]bj/
 *.csproj.user
 *.Cache
-*.dll
-Build/*
 *.pdb
-*.suo
+Loki.v12.suo
+Build/

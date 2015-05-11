@@ -23,7 +23,7 @@ namespace Loki.UI.Wpf.Binds
             var navMessage = viewModel as IMessageElement;
             if (navMessage != null)
             {
-                view.Click += (s, o) => Toolkit.IoC.DefaultContext.Get<IMessageComponent>().BeginPublishOnUIThread(navMessage.Message);
+                view.Click += (s, o) => Toolkit.Common.MessageBus.BeginPublishOnUIThread(navMessage.Message);
             }
 
             var navCommand = viewModel as ICommandElement;
