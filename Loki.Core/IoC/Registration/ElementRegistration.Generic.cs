@@ -61,6 +61,18 @@ namespace Loki.IoC.Registration
             get { return configuredProperties.Values; }
         }
 
+        public ElementRegistration<TService> AsFactory()
+        {
+            IsFactory = true;
+            return this;
+        }
+
+        public bool IsFactory
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Nameds the specified service.
         /// </summary>

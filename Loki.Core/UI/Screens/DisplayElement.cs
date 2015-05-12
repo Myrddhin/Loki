@@ -1,55 +1,12 @@
 ﻿using System;
 using Loki.Commands;
 using Loki.Common;
-using Loki.IoC;
+using Loki.UI.Tasks;
 
 namespace Loki.UI
 {
-    public class DisplayElement : TrackedObject, IContextAware
+    public class DisplayElement : TrackedObject
     {
-        private IObjectCreator context;
-
-        protected IObjectCreator Context
-        {
-            get
-            {
-                if (context == null)
-                {
-                    return Toolkit.IoC.DefaultContext;
-                }
-                else
-                {
-                    return context;
-                }
-            }
-        }
-
-        public void SetContext(IObjectContext externalContext)
-        {
-            context = externalContext;
-            OnContextInitialized(EventArgs.Empty);
-        }
-
-        public void Release()
-        {
-        }
-
-        #region ContextInitialized
-
-        public event EventHandler ContextInitialized;
-
-        protected virtual void OnContextInitialized(EventArgs e)
-        {
-            EventHandler handler = ContextInitialized;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-        #endregion ContextInitialized
-
         public IMessageComponent CommonBus
         {
             get;
@@ -68,10 +25,54 @@ namespace Loki.UI
             set;
         }
 
+        public IWindowManager Windows
+        {
+            get;
+            set;
+        }
+
+        public ITaskComponent Tasks
+        {
+            get;
+            set;
+        }
+
+        public IThreadingContext ThreadingContext
+        {
+            get;
+            set;
+        }
+
+        public ISignalManager Signals
+        {
+            get;
+            set;
+        }
+
         public CommandManager Commands
         {
             get;
             set;
+        }
+
+        protected void Information(string message)
+        {
+            ThreadingContext.OnUIThread(() => Signals.Message(message));
+        }
+
+        protected void Warning(string message)
+        {
+            ThreadingContext.OnUIThread(() => Signals.Message(message));
+        }
+
+        protected void Error(string message)
+        {
+            Error(new LokiException(message));
+        }
+
+        protected void Error(Exception exception)
+        {
+            ThreadingContext.OnUIThread(() => Signals.Error(exception, false));
         }
     }
 }

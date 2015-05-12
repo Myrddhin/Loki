@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("2.0.0.4")]
+[assembly: AssemblyVersion("2.0.0.5")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("fr-FR")]

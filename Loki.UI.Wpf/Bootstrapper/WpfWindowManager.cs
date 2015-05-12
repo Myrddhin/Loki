@@ -36,42 +36,42 @@ namespace Loki.UI.Wpf
             return DXMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
 
-        //public string GetOpenFileName(FileDialogInformations informations)
-        //{
-        //    var fileDialog = new Microsoft.Win32.OpenFileDialog();
-        //    fileDialog.Filter = informations.Filter;
-        //    fileDialog.DefaultExt = informations.DefaultExtension;
-        //    fileDialog.InitialDirectory = informations.InitialDirectory;
-        //    bool result = fileDialog.ShowDialog() ?? false;
+        public string GetOpenFileName(FileDialogInformations informations)
+        {
+            var fileDialog = new Microsoft.Win32.OpenFileDialog();
+            fileDialog.Filter = informations.Filter;
+            fileDialog.DefaultExt = informations.DefaultExtension;
+            fileDialog.InitialDirectory = informations.InitialDirectory;
+            bool result = fileDialog.ShowDialog() ?? false;
 
-        //    if (result)
-        //    {
-        //        return fileDialog.FileName;
-        //    }
-        //    else
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
+            if (result)
+            {
+                return fileDialog.FileName;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
-        //public string GetSaveFileName(FileDialogInformations informations)
-        //{
-        //    var fileDialog = new Microsoft.Win32.SaveFileDialog();
-        //    fileDialog.AddExtension = true;
-        //    fileDialog.Filter = informations.Filter;
-        //    fileDialog.DefaultExt = informations.DefaultExtension;
-        //    fileDialog.InitialDirectory = informations.InitialDirectory;
-        //    bool result = fileDialog.ShowDialog() ?? false;
+        public string GetSaveFileName(FileDialogInformations informations)
+        {
+            var fileDialog = new Microsoft.Win32.SaveFileDialog();
+            fileDialog.AddExtension = true;
+            fileDialog.Filter = informations.Filter;
+            fileDialog.DefaultExt = informations.DefaultExtension;
+            fileDialog.InitialDirectory = informations.InitialDirectory;
+            bool result = fileDialog.ShowDialog() ?? false;
 
-        //    if (result)
-        //    {
-        //        return fileDialog.FileName;
-        //    }
-        //    else
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
+            if (result)
+            {
+                return fileDialog.FileName;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
         public bool? ShowAsPopup(object viewModel)
         {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Loki.UI.Tasks
@@ -9,8 +6,8 @@ namespace Loki.UI.Tasks
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public interface ITaskConfiguration<TArg> : ITaskConfiguration
+    public interface ITaskConfiguration<TArg, TResult> : ITaskConfiguration
     {
-        void Start(TArg args);
+        Func<TArg, Task<TResult>> DoWorkAsync { get; }
     }
 }

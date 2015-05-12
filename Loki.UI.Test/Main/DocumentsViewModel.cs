@@ -1,11 +1,12 @@
 ﻿using System;
 using Loki.Commands;
-using Loki.Common;
 
 namespace Loki.UI.Test
 {
-    public class DocumentsViewModel : ContainerOneActive<Screen>, IHandle<INavigationMessage>
+    public class DocumentsViewModel : ContainerOneActive<Screen>, IDocumentContainer
     {
+        public IScreenFactory ScreenFactory { get; set; }
+
         public DocumentsViewModel()
         {
             /*  var document1 = new Screen() { DisplayName = "Document 1 Test" };
@@ -13,6 +14,12 @@ namespace Loki.UI.Test
 
               Items.Add(document1);
               Items.Add(document2);*/
+            this.ClosingProcessed += DocumentsViewModel_ClosingProcessed;
+        }
+
+        private void DocumentsViewModel_ClosingProcessed(object sender, ClosingProcessedEventArgs<Screen> e)
+        {
+            ScreenFactory.Release(e.Item);
         }
 
         protected override void OnInitialize()
@@ -49,9 +56,10 @@ namespace Loki.UI.Test
             base.ActivateItem(item);
         }
 
-        public void Handle(INavigationMessage message)
+        public void Handle(NavigationMessage<Screen> message)
         {
-            var viewModel = Toolkit.IoC.DefaultContext.Get(message.NavigateTo) as Screen;
+            var viewModel = ScreenFactory.Create<Screen>() as Screen;
+            //var viewModel = Toolkit.IoC.DefaultContext.Get(message.NavigateTo) as Screen;
             if (viewModel != null)
             {
                 viewModel.DisplayName = "Created by navigation at " + DateTime.Now.ToString();

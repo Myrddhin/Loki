@@ -8,9 +8,9 @@ namespace Loki.UI
 
         bool DesignMode { get; }
 
-        // string GetOpenFileName(FileDialogInformations informations);
+        string GetOpenFileName(FileDialogInformations informations);
 
-        //  string GetSaveFileName(FileDialogInformations informations);
+        string GetSaveFileName(FileDialogInformations informations);
 
         bool? ShowAsPopup(object viewModel);
 

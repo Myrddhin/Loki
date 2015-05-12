@@ -80,6 +80,9 @@
     <Compile Include="Common\Randomizer.cs" />
     <Compile Include="UI\Extensions\DelegateExtensions.cs" />
     <Compile Include="UI\IObservableEnumerable.cs" />
+    <Compile Include="UI\Screens\AsyncScreen.cs" />
+    <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
+    <Compile Include="UI\Screens\FileDialogInformations.cs" />
     <Compile Include="UI\Tasks\ITaskComponent.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.Generic.cs" />
@@ -158,7 +161,10 @@
     <Compile Include="UI\Screens\Navigation\NavigationMessage.cs" />
     <Compile Include="UI\Screens\Navigation\NavigationViewModel.cs" />
     <Compile Include="UI\Screens\Screen.cs" />
+    <Compile Include="UI\Tasks\TaskBuilder.cs" />
     <Compile Include="UI\Tasks\TaskCompletedEventArgs.cs" />
+    <Compile Include="UI\Tasks\TaskComponent.cs" />
+    <Compile Include="UI\Tasks\TaskConfiguration.cs" />
     <Compile Include="UI\Tasks\TaskRun.cs" />
     <Compile Include="UI\TrackedObject.cs" />
     <Compile Include="UI\Commands\CommandManager.cs" />

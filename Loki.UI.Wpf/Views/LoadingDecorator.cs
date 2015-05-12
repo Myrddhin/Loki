@@ -19,6 +19,8 @@ namespace Loki.UI.Wpf
 
         public static readonly DependencyProperty UseSplashScreenProperty = DependencyProperty.Register("UseSplashScreen", typeof(bool), typeof(LoadingDecorator), new PropertyMetadata(true));
 
+        public static readonly DependencyProperty DisplayTextProperty = DependencyProperty.Register("DisplayText", typeof(string), typeof(LoadingDecorator), new PropertyMetadata(null));
+
         private bool contentLoaded;
 
         private FrameworkElement loadingChild = null;
@@ -29,6 +31,12 @@ namespace Loki.UI.Wpf
         public LoadingDecorator()
         {
             Loaded += OnLoaded;
+        }
+
+        public string DisplayText
+        {
+            get { return (string)GetValue(DisplayTextProperty); }
+            set { SetValue(DisplayTextProperty, value); }
         }
 
         public bool IsLoading
@@ -96,6 +104,7 @@ namespace Loki.UI.Wpf
         {
             object[] parameters = (object[])parameter;
             DataTemplate splashScreenTemplate = (DataTemplate)parameters[0];
+            string displayText = (string)parameters[1];
             if (splashScreenTemplate == null)
             {
                 return new WaitIndicator()
@@ -103,7 +112,7 @@ namespace Loki.UI.Wpf
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     DeferedVisibility = true,
-                    Content = "Chargement..."
+                    Content = displayText == null ? "Chargement..." : displayText
                 };
             }
             else
@@ -261,7 +270,7 @@ namespace Loki.UI.Wpf
                     CreateSplashScreenWindow,
                     CreateSplashScreen,
                     new object[] { pos.Left, pos.Top, pos.Width, pos.Height, themeName },
-                    new object[] { SplashScreenTemplate });
+                    new object[] { SplashScreenTemplate, DisplayText });
             }
         }
     }
