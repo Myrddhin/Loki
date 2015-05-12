@@ -37,6 +37,12 @@ namespace Loki.UI
             set;
         }
 
+        public IThreadingContext ThreadingContext
+        {
+            get;
+            set;
+        }
+
         public ISignalManager Signals
         {
             get;
@@ -51,22 +57,22 @@ namespace Loki.UI
 
         protected void Information(string message)
         {
-            CommonBus.PublishOnUIThread(new InformationMessage(message));
+            ThreadingContext.OnUIThread(() => Signals.Message(message));
         }
 
         protected void Warning(string message)
         {
-            CommonBus.PublishOnUIThread(new WarningMessage(message));
+            ThreadingContext.OnUIThread(() => Signals.Message(message));
         }
 
         protected void Error(string message)
         {
-            CommonBus.PublishOnUIThread(new ErrorMessage(new LokiException(message)));
+            Error(new LokiException(message));
         }
 
         protected void Error(Exception exception)
         {
-            CommonBus.PublishOnUIThread(new ErrorMessage(exception));
+            ThreadingContext.OnUIThread(() => Signals.Error(exception, false));
         }
     }
 }

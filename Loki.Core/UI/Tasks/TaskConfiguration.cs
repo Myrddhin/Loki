@@ -7,7 +7,7 @@ namespace Loki.UI.Tasks
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    internal class TaskConfiguration<TArgs, TResult> : ITaskConfiguration<TArgs>
+    internal class TaskConfiguration<TArgs, TResult> : ITaskConfiguration<TArgs, TResult>
     {
         private TaskScheduler initialContextScheduler;
 
@@ -30,7 +30,7 @@ namespace Loki.UI.Tasks
 
         public string Title { get; set; }
 
-        public Func<TArgs, TResult> Worker { get; set; }
+        public Func<TArgs, Task<TResult>> Worker { get; set; }
 
         public Action<TResult> Callback { get; set; }
 
@@ -46,14 +46,7 @@ namespace Loki.UI.Tasks
                 return;
             }
 
-            var initialTask = new Task<TResult>(
-                  () =>
-                  {
-                      return Worker(args);
-                  });
-
-            TaskRun run = new TaskRun(Title, initialTask);
-            initialTask.ContinueWith(
+            var initialTask = Worker(args).ContinueWith(
                 t =>
                 {
                     runLock = 0;
@@ -68,6 +61,8 @@ namespace Loki.UI.Tasks
                 },
                   initialContextScheduler);
 
+            TaskRun run = new TaskRun(Title, initialTask);
+
             mainService.Start(run);
         }
 
@@ -79,6 +74,11 @@ namespace Loki.UI.Tasks
         public bool IsRunning
         {
             get { return runLock != 0; }
+        }
+
+        public Func<TArgs, Task<TResult>> DoWorkAsync
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

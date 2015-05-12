@@ -44,20 +44,18 @@ namespace Loki.UI
 
         #region Background workers
 
-        protected ITaskConfiguration<TArg> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction)
+        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction)
         {
             return CreateWorker<TArg, TResult>(title, workAction, callbackAction, this.Error);
         }
 
-        protected ITaskConfiguration<TArg> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction, Action<Exception> errorAction)
+        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction, Action<Exception> errorAction)
         {
             string taskDisplayTitle = string.Format(CultureInfo.InvariantCulture, "{0} : {1}", DisplayName, title);
-            Func<TArg, TResult> runner = (args) =>
+            Func<TArg, Task<TResult>> runner = async (args) =>
                 {
-                    Toolkit.UI.Threading.OnUIThread(() => BeginBackgroudWork(title));
-                    var result = workAction(args);
-                    Task.WaitAll(result);
-                    return result.Result;
+                    await Toolkit.UI.Threading.OnUIThreadAsync(() => BeginBackgroudWork(title));
+                    return await workAction(args);
                 };
 
             Action<TResult> callBack = result =>
@@ -72,7 +70,59 @@ namespace Loki.UI
                     errorAction(ex);
                 };
 
-            return Tasks.CreateTask<TArg, TResult>(taskDisplayTitle, runner, callBack, error);
+            return new TaskConfiguration<TArg, TResult>(this, title, workAction, errorAction);
+        }
+
+        private class TaskConfiguration<TArg, TResult> : ITaskConfiguration<TArg, TResult>
+        {
+            public TaskConfiguration(AsyncScreen parent, string title, Func<TArg, Task<TResult>> worker, Action<Exception> errorAction)
+            {
+                Title = title;
+                DoWorkAsync = async (args) =>
+                    {
+                        try
+                        {
+                            await Toolkit.UI.Threading.OnUIThreadAsync(() => parent.BeginBackgroudWork(title));
+                            return await worker(args);
+                        }
+                        catch (Exception ex)
+                        {
+                            errorAction(ex);
+                        }
+                        finally
+                        {
+                            Toolkit.UI.Threading.OnUIThread(() => parent.EndBackgroudWork(title));
+                        }
+
+                        return await Task.FromResult(default(TResult));
+                    };
+            }
+
+            private Func<TArg, Task<TResult>> worker;
+
+            public Func<TArg, Task<TResult>> DoWorkAsync
+            {
+                get;
+                private set;
+            }
+
+            public string Title
+            {
+                get;
+                private set;
+            }
+
+            public void Cancel()
+            {
+                throw new NotImplementedException();
+            }
+
+            private bool running;
+
+            public bool IsRunning
+            {
+                get { return running; }
+            }
         }
 
         private HashSet<string> titles = new HashSet<string>();
