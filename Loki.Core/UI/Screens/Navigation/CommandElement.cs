@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using System.Windows.Input;
+using Loki.Commands;
 using Loki.Common;
 
 namespace Loki.UI

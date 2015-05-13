@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Loki.Commands;
 using Loki.Common;
 
 namespace Loki.UI.Win
@@ -16,6 +17,42 @@ namespace Loki.UI.Win
         public IValueConverter GlyphConverter { get; set; }
 
         public IValueConverter NameConverter { get; set; }
+
+        internal void BindCommandActivation(
+            object component,
+            PropertyInfo property,
+            object bindingContext,
+            ICommand command,
+            object commandDefaultParameter = null)
+        {
+            // check in control property is editable
+            if (property.CanWrite)
+            {
+                var valueSetter = PropertySetter(property);
+
+                Func<object, Action> functor = c =>
+                {
+                    return () =>
+                    {
+                        var value = command.CanExecute(commandDefaultParameter);
+                        valueSetter(c, value);
+                    };
+                };
+
+                Action<object, object, EventArgs> handler = (context, sender, e) => Toolkit.UI.Threading.OnUIThread(functor(context));
+
+                // register in change manager service
+                Toolkit.Common.Events.CanExecuteChanged.Register(command, component, handler);
+
+                ICloseable closable = bindingContext as ICloseable;
+                if (closable != null)
+                {
+                    closable.Closing += (s, e) => Toolkit.Common.Events.CanExecuteChanged.Unregister(command, component);
+                }
+
+                Toolkit.UI.Threading.OnUIThread(functor(component));
+            }
+        }
 
         protected internal IConductor GetContainer<TModel>(System.Windows.Forms.Control control, Expression<Func<TModel, object>> propertyGetter) where TModel : class
         {
@@ -33,6 +70,32 @@ namespace Loki.UI.Win
             if (containerModel == null)
             {
                 Log.Warn("Navigation/Menu model must be a container");
+                return null;
+            }
+            else
+            {
+                return containerModel;
+            }
+        }
+
+        protected internal TBinded GetBindedObject<TModel, TBinded>(System.Windows.Forms.Control control, Expression<Func<TModel, TBinded>> propertyGetter)
+            where TModel : class
+            where TBinded : class
+        {
+            TModel model = View.GetViewModel<TModel>(control);
+
+            if (model == null)
+            {
+                Log.WarnFormat("Form {0} is not binded to a {1} model", control, model);
+                return null;
+            }
+
+            var bindingTarget = propertyGetter.Compile()(model);
+
+            var containerModel = bindingTarget as TBinded;
+            if (containerModel == null)
+            {
+                Log.WarnFormat("Binding is done on a wrong type {0} instead of {1}", bindingTarget.GetType(), typeof(TBinded));
                 return null;
             }
             else
