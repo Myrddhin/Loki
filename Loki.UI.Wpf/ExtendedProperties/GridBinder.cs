@@ -61,7 +61,7 @@ namespace Loki.UI.Wpf
                     item.CommandParameter = grid.SelectedItems;
                     if (grid.SelectionMode == MultiSelectMode.None)
                     {
-                        grid.SelectionMode = MultiSelectMode.MultipleRow;
+                        grid.SelectionMode = MultiSelectMode.Row;
                     }
 
                     item.IsEnabled = comm.Command.CanExecute(item.CommandParameter);
