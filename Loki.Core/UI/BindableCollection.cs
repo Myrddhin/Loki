@@ -100,7 +100,7 @@ namespace Loki.UI
 
             if (oldRaiseEvents)
             {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+                FireListChanged(ListChangedType.Reset, -1);
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), oldCount));
             }
         }
@@ -115,6 +115,7 @@ namespace Loki.UI
         {
             IsNotifying = true;
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            FireListChanged(ListChangedType.Reset, -1);
         }
 
         public void RemoveRange(IEnumerable<T> items)
@@ -130,7 +131,7 @@ namespace Loki.UI
 
             if (oldRaiseEvents)
             {
-                OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+                FireListChanged(ListChangedType.Reset, -1);
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, null, items.ToList()));
             }
         }

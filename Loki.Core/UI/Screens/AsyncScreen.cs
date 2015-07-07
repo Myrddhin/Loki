@@ -44,31 +44,14 @@ namespace Loki.UI
 
         #region Background workers
 
-        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction)
+        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction)
         {
-            return CreateWorker<TArg, TResult>(title, workAction, callbackAction, this.Error);
+            return CreateWorker<TArg, TResult>(title, workAction, this.Error);
         }
 
-        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<TResult> callbackAction, Action<Exception> errorAction)
+        protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<Exception> errorAction)
         {
             string taskDisplayTitle = string.Format(CultureInfo.InvariantCulture, "{0} : {1}", DisplayName, title);
-            Func<TArg, Task<TResult>> runner = async (args) =>
-                {
-                    await Toolkit.UI.Threading.OnUIThreadAsync(() => BeginBackgroudWork(title));
-                    return await workAction(args);
-                };
-
-            Action<TResult> callBack = result =>
-                {
-                    EndBackgroudWork(title);
-                    callbackAction(result);
-                };
-
-            Action<Exception> error = ex =>
-                {
-                    EndBackgroudWork(title);
-                    errorAction(ex);
-                };
 
             return new TaskConfiguration<TArg, TResult>(this, title, workAction, errorAction);
         }
@@ -97,8 +80,6 @@ namespace Loki.UI
                         return await Task.FromResult(default(TResult));
                     };
             }
-
-            private Func<TArg, Task<TResult>> worker;
 
             public Func<TArg, Task<TResult>> DoWorkAsync
             {
