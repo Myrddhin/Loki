@@ -45,25 +45,18 @@
     <Compile Include="Bootstrapper\WindwsFormsThreadingContext.cs" />
     <Compile Include="Bootstrapper\WinformBootstrapper.cs" />
     <Compile Include="Bootstrapper\WinformSplashBootstrapper.cs" />
-    <Compile Include="Bootstrapper\WinformWindowManager.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
-    <Compile Include="Extensions\BarExtensions.cs" />
     <Compile Include="Extensions\DocumentManagerExtensions.cs" />
-    <Compile Include="Extensions\EditorExtensions.cs" />
-    <Compile Include="Extensions\GridColumnExtensions.cs" />
-    <Compile Include="Extensions\GridViewExtensions.cs" />
     <Compile Include="Extensions\NavigationExtensions.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templating\BarBind.cs" />
     <Compile Include="Templating\Binder.cs" />
     <Compile Include="Templating\ComponentBind.cs" />
     <Compile Include="Templating\ControlBind.cs" />
     <Compile Include="Templating\DocumentBind.cs" />
     <Compile Include="Templating\DocumentManagerBind.cs" />
     <Compile Include="Templating\FormBind.cs" />
-    <Compile Include="Templating\GridViewBind.cs" />
     <Compile Include="Templating\NavBarControlBind.cs" />
     <Compile Include="Templating\NotifyPropertyChangedWrapper.cs" />
     <Compile Include="Templating\WinformTemplatingEngine.cs" />
@@ -82,14 +75,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v14.1.Core, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraBars.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraGrid.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraNavBar.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />

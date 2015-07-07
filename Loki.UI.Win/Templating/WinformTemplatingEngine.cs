@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraBars.Docking2010.Views;
-using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraNavBar;
 using Loki.Common;
 using Loki.IoC;
@@ -40,10 +39,10 @@ namespace Loki.UI.Win
 
             object bind = null;
 
-            var form = view as Form;
-            if (form != null)
+            var control = view as Form;
+            if (control != null)
             {
-                View.ProtectedCall(form, () => bind = new FormBind(form, viewModel));
+                View.ProtectedCall(control, () => bind = new FormBind(control, viewModel));
             }
 
             var documentManager = view as DocumentManager;
@@ -62,18 +61,6 @@ namespace Loki.UI.Win
             if (navControl != null)
             {
                 return new NavBarControlBind(navControl, viewModel);
-            }
-
-            var gridView = view as GridView;
-            if (gridView != null)
-            {
-                return new GridViewBind(gridView, viewModel);
-            }
-
-            var control = view as Control;
-            if (control != null)
-            {
-                View.ProtectedCall(control, () => bind = new ControlBind<System.Windows.Forms.Control>(control, viewModel));
             }
 
             return bind;

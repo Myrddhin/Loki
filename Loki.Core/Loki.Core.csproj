@@ -82,7 +82,6 @@
     <Compile Include="UI\IObservableEnumerable.cs" />
     <Compile Include="UI\Screens\AsyncScreen.cs" />
     <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
-    <Compile Include="UI\Screens\EditableElement.cs" />
     <Compile Include="UI\Screens\FileDialogInformations.cs" />
     <Compile Include="UI\Tasks\ITaskComponent.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.cs" />

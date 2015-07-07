@@ -9,7 +9,6 @@ namespace Loki.UI.Win
         {
             context.Register(Element.For<IThreadingContext>().ImplementedBy<WindwsFormsThreadingContext>());
             context.Register(Element.For<ITemplatingEngine>().ImplementedBy<WinformTemplatingEngine>());
-            context.Register(Element.For<IWindowManager>().ImplementedBy<WinformWindowManager>());
             context.Register(Element.For<DefaultSplashModel>());
         }
 
