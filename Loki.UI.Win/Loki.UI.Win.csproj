@@ -61,9 +61,7 @@
     <Compile Include="Templating\NotifyPropertyChangedWrapper.cs" />
     <Compile Include="Templating\WinformTemplatingEngine.cs" />
     <Compile Include="View.cs" />
-    <Compile Include="Views\SplashView.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Views\SplashView.cs" />
     <Compile Include="Views\SplashView.Designer.cs">
       <DependentUpon>SplashView.cs</DependentUpon>
     </Compile>
