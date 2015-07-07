@@ -88,6 +88,21 @@
         }
 
         /// <summary>
+        /// Gets a per request lifestyle.
+        /// </summary>
+        /// <value>
+        /// Modified configuration.
+        /// </value>
+        public ElementRegistration<TService> PerRequest
+        {
+            get
+            {
+                Type = LifestyleType.PerRequest;
+                return parent;
+            }
+        }
+
+        /// <summary>
         /// Gets the type.
         /// </summary>
         /// <value>

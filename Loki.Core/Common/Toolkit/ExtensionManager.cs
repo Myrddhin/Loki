@@ -24,7 +24,15 @@ namespace Loki.Common
         public ExtensionManager(string defaultComponentName)
         {
             this.defaultComponentName = defaultComponentName;
-            this.searchDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (null == AppDomain.CurrentDomain.RelativeSearchPath)
+            {
+                this.searchDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+            else
+            {
+                this.searchDirectory = AppDomain.CurrentDomain.RelativeSearchPath;
+            }
 
             // An aggregate catalog that combines multiple catalogs
             catalog = new AggregateCatalog();
@@ -42,7 +50,7 @@ namespace Loki.Common
         public void Initialize()
         {
             // Adds all the parts found in the same appdomain path
-            catalog.Catalogs.Add(new DirectoryCatalog(AppDomain.CurrentDomain.BaseDirectory, "Loki*.dll"));
+            catalog.Catalogs.Add(new DirectoryCatalog(searchDirectory, "Loki*.dll"));
 
             // Create the CompositionContainer with the parts in the catalog
             container = new CompositionContainer(catalog);

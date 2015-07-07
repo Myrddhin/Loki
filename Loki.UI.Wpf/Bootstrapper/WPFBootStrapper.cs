@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using Loki.Common;
 
@@ -12,6 +11,8 @@ namespace Loki.UI.Wpf
 
         public WpfBootStrapper()
         {
+            BootStrapper = new CommonBootstrapper<TMainViewModelType, DefaultSplashModel>(this);
+
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -20,8 +21,6 @@ namespace Loki.UI.Wpf
                 Application.Current.MainWindow = new SplashView();
                 mainObject = Application.Current.MainWindow;
                 Application.Current.MainWindow.Show();
-
-                BootStrapper = new CommonBootstrapper<TMainViewModelType, DefaultSplashModel>(this);
 
                 Toolkit.Initialize();
                 Toolkit.UI.Threading.OnUIThread(() => { });

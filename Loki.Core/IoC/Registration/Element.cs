@@ -31,6 +31,19 @@ namespace Loki.IoC.Registration
         }
 
         /// <summary>
+        /// Registers a new service type.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service.</typeparam>
+        /// <returns>Returns the registration object.</returns>
+        public static ElementRegistration<TService> For<TService, TService2>() where TService : class
+        {
+            var registration = new ElementRegistration<TService>();
+            registration.Types.Add(typeof(TService2));
+
+            return registration;
+        }
+
+        /// <summary>
         /// Registers a new type.
         /// </summary>
         /// <param name="type">The type.</param>

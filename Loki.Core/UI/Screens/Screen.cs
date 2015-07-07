@@ -244,6 +244,7 @@ namespace Loki.UI
             Load();
 
             IsActive = true;
+            this.Refresh();
             Log.DebugFormat("Activating {0}.", this.DisplayName);
             OnActivate();
 
@@ -341,11 +342,13 @@ namespace Loki.UI
 
                 Log.DebugFormat("Closed {0}.", this);
 
-                Closed(this, EventArgs.Empty);
-
                 if (DialogResultSetter != null)
                 {
                     DialogResultSetter(dialogResult);
+                }
+                else
+                {
+                    Closed(this, EventArgs.Empty);
                 }
             }
         }
