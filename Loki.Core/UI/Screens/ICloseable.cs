@@ -15,12 +15,7 @@ namespace Loki.UI
         void TryClose(bool? dialogResult = null);
 
         /// <summary>
-        /// Occurs when this instance is closing.
-        /// </summary>
-        event EventHandler Closing;
-
-        /// <summary>
-        /// Occurs when this instance is closed (just before dialog result is set).
+        /// Occurs when this instance is closed.
         /// </summary>
         event EventHandler Closed;
 

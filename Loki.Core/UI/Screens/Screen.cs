@@ -23,11 +23,6 @@ namespace Loki.UI
         public event EventHandler Closed = delegate { };
 
         /// <summary>
-        /// Occurs when this instance is closed.
-        /// </summary>
-        public event EventHandler Closing = delegate { };
-
-        /// <summary>
         /// Raised after deactivation.
         /// </summary>
         public event EventHandler<DesactivationEventArgs> Desactivated = delegate { };
@@ -314,13 +309,6 @@ namespace Loki.UI
 
         public void TryClose(bool? dialogResult = null)
         {
-            var conductor = Parent as IConductor;
-            if (conductor != null)
-            {
-                conductor.CloseItem(this);
-            }
-            else
-            {
                 if (closing)
                 {
                     return;
@@ -328,9 +316,6 @@ namespace Loki.UI
 
                 closing = true;
 
-                Closing(this, EventArgs.Empty);
-
-                Tracking = false;
                 ((IDesactivable)this).Desactivate(true);
 
                 // unsubscribe to message bus
@@ -346,11 +331,8 @@ namespace Loki.UI
                 {
                     DialogResultSetter(dialogResult);
                 }
-                else
-                {
-                    Closed(this, EventArgs.Empty);
-                }
-            }
+
+            Closed(this, EventArgs.Empty);
         }
 
         /// <summary>

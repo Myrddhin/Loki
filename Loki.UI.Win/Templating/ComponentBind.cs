@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
-using Loki.Commands;
 using Loki.Common;
 
 namespace Loki.UI.Win
@@ -45,16 +44,6 @@ namespace Loki.UI.Win
         protected string GetName(object item)
         {
             return binder.GetName(item);
-        }
-
-        protected void BindCommandActivation(
-             object component,
-            PropertyInfo property,
-            object bindingContext,
-            ICommand command,
-            object commandDefaultParameter = null)
-        {
-            binder.BindCommandActivation(component, property, bindingContext, command, commandDefaultParameter);
         }
     }
 }
