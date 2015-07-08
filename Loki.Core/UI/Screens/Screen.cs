@@ -239,6 +239,7 @@ namespace Loki.UI
             Load();
 
             IsActive = true;
+            this.Refresh();
             Log.DebugFormat("Activating {0}.", this.DisplayName);
             OnActivate();
 
@@ -308,28 +309,28 @@ namespace Loki.UI
 
         public void TryClose(bool? dialogResult = null)
         {
-            if (closing)
-            {
-                return;
-            }
+                if (closing)
+                {
+                    return;
+                }
 
-            closing = true;
+                closing = true;
 
-            ((IDesactivable)this).Desactivate(true);
+                ((IDesactivable)this).Desactivate(true);
 
-            // unsubscribe to message bus
-            CommonBus.Unsubscribe(this);
+                // unsubscribe to message bus
+                CommonBus.Unsubscribe(this);
 
-            OnClose();
+                OnClose();
 
-            Commands.SafeDispose();
+                Commands.SafeDispose();
 
-            Log.DebugFormat("Closed {0}.", this);
+                Log.DebugFormat("Closed {0}.", this);
 
-            if (DialogResultSetter != null)
-            {
-                DialogResultSetter(dialogResult);
-            }
+                if (DialogResultSetter != null)
+                {
+                    DialogResultSetter(dialogResult);
+                }
 
             Closed(this, EventArgs.Empty);
         }

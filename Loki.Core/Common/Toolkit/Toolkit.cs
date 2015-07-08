@@ -94,11 +94,17 @@ namespace Loki.Common
         /// </summary>
         public static void Reset()
         {
+            Shutdown();
+
+            Initialize();
+        }
+
+        public static void Shutdown()
+        {
             IoC.SafeDispose();
 
             common = null;
-
-            Initialize();
+            ui = null;
         }
 
         #endregion Object Context
