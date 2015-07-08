@@ -49,5 +49,5 @@ Loki.Core_
 *.csproj.user
 *.Cache
 *.pdb
-Loki.v12.suo
+*.suo
 Build/
