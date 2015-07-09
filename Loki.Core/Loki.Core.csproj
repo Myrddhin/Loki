@@ -59,6 +59,7 @@
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />
+    <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Common\Extensions\GeneralExtensions.cs" />

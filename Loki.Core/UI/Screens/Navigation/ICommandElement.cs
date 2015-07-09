@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+﻿using Loki.Commands;
 
 namespace Loki.UI
 {

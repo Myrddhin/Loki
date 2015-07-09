@@ -71,7 +71,8 @@ namespace Loki.UI.Win
 
         private void View_DocumentClosed(object sender, DocumentEventArgs e)
         {
-            // throw new NotImplementedException();
+            var activable = e.Document.Tag;
+            ((IConductor)this.ViewModel).CloseItem(activable);
         }
 
         private void View_DocumentAdded(object sender, DocumentEventArgs e)
