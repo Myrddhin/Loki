@@ -51,3 +51,4 @@ Loki.Core_
 *.pdb
 *.suo
 Build/
+*.bak
