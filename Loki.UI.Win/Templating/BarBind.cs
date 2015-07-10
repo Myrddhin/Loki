@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DevExpress.XtraBars;
 using Loki.Common;
 
-namespace Loki.UI.Win.Templating
+namespace Loki.UI.Win
 {
     public class BarBind : ComponentBind<Bar>
     {

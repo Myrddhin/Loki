@@ -7,7 +7,7 @@ namespace Loki.UI.Win
 {
     public static class BarExtensions
     {
-        public static void Bind<TModel>(Bar bar, Expression<Func<TModel, object>> propertyGetter) where TModel : class
+        public static void Bind<TModel>(this Bar bar, Expression<Func<TModel, object>> propertyGetter) where TModel : class
         {
             Binder binder = new Binder();
 

@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraBars.Docking2010.Views;
 using DevExpress.XtraGrid.Views.Grid;
@@ -68,6 +70,12 @@ namespace Loki.UI.Win
             if (gridView != null)
             {
                 return new GridViewBind(gridView, viewModel);
+            }
+
+            var barView = view as Bar;
+            if (barView != null)
+            {
+                return new BarBind(barView, viewModel);
             }
 
             var control = view as Control;
