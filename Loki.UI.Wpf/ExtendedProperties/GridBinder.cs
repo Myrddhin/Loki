@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 using Loki.Common;
@@ -14,6 +15,13 @@ namespace Loki.UI.Wpf
         public static DependencyProperty RowCommandsProperty =
             DependencyProperty.RegisterAttached(
                 "RowCommands",
+                typeof(object),
+                typeof(GridBinder),
+                new PropertyMetadata(null, RowCommandsChanged));
+
+        public static DependencyProperty DblClickCommandProperty =
+            DependencyProperty.RegisterAttached(
+                "DblClickCommand",
                 typeof(object),
                 typeof(GridBinder),
                 new PropertyMetadata(null, RowCommandsChanged));
@@ -38,6 +46,26 @@ namespace Loki.UI.Wpf
             return d.GetValue(RowCommandsProperty);
         }
 
+        /// <summary>
+        /// Sets the model.
+        /// </summary>
+        /// <param name="d">The element to attach the model to.</param>
+        /// <param name="value">The model.</param>
+        public static void SetDblClickCommand(DependencyObject d, object value)
+        {
+            d.SetValue(DblClickCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        /// <param name="d">The element the model is attached to.</param>
+        /// <returns>The model.</returns>
+        public static object GetDblClickCommand(DependencyObject d)
+        {
+            return d.GetValue(DblClickCommandProperty);
+        }
+
         private static void RowCommandsChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
         {
             if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
@@ -56,7 +84,7 @@ namespace Loki.UI.Wpf
                 foreach (var comm in commands)
                 {
                     BarButtonItem item = new BarButtonItem();
-                    item.Name = "row_" + comm.DisplayName;
+                    // item.Name = "row_" + comm.Command.Name;
                     item.Content = comm.DisplayName;
                     item.CommandParameter = grid.SelectedItems;
                     if (grid.SelectionMode == MultiSelectMode.None)
@@ -81,6 +109,41 @@ namespace Loki.UI.Wpf
                             e.Customizations.Add(item);
                         }
                     };
+            }
+        }
+
+        private static void DblClickCommandChanged(DependencyObject targetLocation,
+            DependencyPropertyChangedEventArgs args)
+        {
+            if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
+            {
+                return;
+            }
+
+            var commands = args.NewValue as ICommand;
+            var grid = targetLocation as GridControl;
+            if (grid == null || commands == null)
+            {
+                return;
+            }
+
+            var tableView = grid.View as TableView;
+            if (tableView != null)
+            {
+                tableView.RowDoubleClick += (s, e) =>
+                {
+                    var info = e.HitInfo;
+                    if (!info.InRow)
+                    {
+                        return;
+                    }
+
+                    var row = tableView.GetRowElementByRowHandle(info.RowHandle);
+                    if (row != null)
+                    {
+                        commands.Execute(row);
+                    }
+                };
             }
         }
     }

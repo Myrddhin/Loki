@@ -12,8 +12,6 @@ namespace Loki.UI.Wpf
 
         public WpfSplashBootStrapper(Window splashWindow)
         {
-            BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
-
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -28,6 +26,8 @@ namespace Loki.UI.Wpf
 
                 Application.Current.Startup += Application_Startup;
             }
+
+            BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
         }
 
         private bool? inDesignMode = null;
