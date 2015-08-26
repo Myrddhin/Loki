@@ -19,6 +19,7 @@ namespace Loki.UI.Wpf
 
                 Application.Current.MainWindow = splashWindow;
                 mainObject = Application.Current.MainWindow;
+                BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
                 Application.Current.MainWindow.Show();
 
                 Toolkit.Initialize();
