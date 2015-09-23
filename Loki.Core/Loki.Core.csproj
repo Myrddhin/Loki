@@ -102,7 +102,7 @@
     <Compile Include="IoC\ContextExtensions.cs" />
     <Compile Include="IoC\IContextAware.cs" />
     <Compile Include="IoC\IContextInstaller.cs" />
-    <Compile Include="IoC\IEngine.cs" />
+    <Compile Include="IoC\IIoCComponent.cs" />
     <Compile Include="IoC\IObjectContext.cs">
       <SubType>Code</SubType>
     </Compile>

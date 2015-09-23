@@ -1,30 +1,41 @@
 ﻿using Loki.IoC;
-using Loki.IoC.Registration;
 
 namespace Loki.Common
 {
+    /// <summary>
+    /// Core services installers.
+    /// </summary>
     public static class ServicesInstaller
     {
-        private static CoreServicesInstaller coreServices = new CoreServicesInstaller();
+        private static readonly CoreServicesInstaller CoreServices = new CoreServicesInstaller();
 
-        private static UIServicesInstaller uiServices = new UIServicesInstaller();
+        private static readonly UIServicesInstaller UIServices = new UIServicesInstaller();
 
+        /// <summary>
+        /// Gets the UI services installer.
+        /// </summary>
         public static IContextInstaller UI
         {
             get
             {
-                return uiServices;
+                return UIServices;
             }
         }
 
+        /// <summary>
+        /// Gets the core services installer.
+        /// </summary>
         public static IContextInstaller Core
         {
             get
             {
-                return coreServices;
+                return CoreServices;
             }
         }
 
+        /// <summary>
+        /// Gets all loki services installer.
+        /// </summary>
         public static IContextInstaller All
         {
             get

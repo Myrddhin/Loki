@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using Loki.Core.Resources;
 
@@ -29,10 +30,6 @@ namespace Loki.Common
         private KeyCollection keys;
 
         private ValueCollection values;
-
-        protected BaseDictionary()
-        {
-        }
 
         public abstract int Count { get; }
 
@@ -62,12 +59,12 @@ namespace Loki.Common
         {
             get
             {
-                if (this.keys == null)
+                if (keys == null)
                 {
                     Interlocked.CompareExchange(ref keys, new KeyCollection(this), null);
                 }
 
-                return this.keys;
+                return keys;
             }
         }
 
@@ -75,12 +72,12 @@ namespace Loki.Common
         {
             get
             {
-                if (this.values == null)
+                if (values == null)
                 {
                     Interlocked.CompareExchange(ref values, new ValueCollection(this), null);
                 }
 
-                return this.values;
+                return values;
             }
         }
 
@@ -90,7 +87,7 @@ namespace Loki.Common
             get
             {
                 TValue value;
-                if (!this.TryGetValue(key, out value))
+                if (!TryGetValue(key, out value))
                 {
                     throw new KeyNotFoundException();
                 }
@@ -106,13 +103,13 @@ namespace Loki.Common
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            this.Add(item.Key, item.Value);
+            Add(item.Key, item.Value);
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             TValue value;
-            if (!this.TryGetValue(item.Key, out value))
+            if (!TryGetValue(item.Key, out value))
             {
                 return false;
             }
@@ -127,17 +124,17 @@ namespace Loki.Common
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (!this.Contains(item))
+            if (!Contains(item))
             {
                 return false;
             }
 
-            return this.Remove(item.Key);
+            return Remove(item.Key);
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         private abstract class Collection<T> : BaseObject, ICollection<T>
@@ -146,12 +143,12 @@ namespace Loki.Common
 
             protected Collection(IDictionary<TKey, TValue> dictionary)
             {
-                this.ReferenceDict = dictionary;
+                ReferenceDict = dictionary;
             }
 
             public int Count
             {
-                get { return this.ReferenceDict.Count; }
+                get { return ReferenceDict.Count; }
             }
 
             public bool IsReadOnly
@@ -166,23 +163,12 @@ namespace Loki.Common
 
             public virtual bool Contains(T item)
             {
-                foreach (T element in this)
-                {
-                    if (EqualityComparer<T>.Default.Equals(element, item))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return this.Any(element => EqualityComparer<T>.Default.Equals(element, item));
             }
 
             public IEnumerator<T> GetEnumerator()
             {
-                foreach (KeyValuePair<TKey, TValue> pair in this.ReferenceDict)
-                {
-                    yield return GetItem(pair);
-                }
+                return ReferenceDict.Select(GetItem).GetEnumerator();
             }
 
             protected abstract T GetItem(KeyValuePair<TKey, TValue> pair);
@@ -204,7 +190,7 @@ namespace Loki.Common
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return this.GetEnumerator();
+                return GetEnumerator();
             }
         }
 
@@ -222,7 +208,7 @@ namespace Loki.Common
 
             public override bool Contains(TKey item)
             {
-                return this.ReferenceDict.ContainsKey(item);
+                return ReferenceDict.ContainsKey(item);
             }
         }
 
@@ -239,7 +225,7 @@ namespace Loki.Common
             }
         }
 
-        private static void Copy<T>(ICollection<T> source, T[] array, int arrayIndex)
+        private static void Copy<T>(ICollection<T> source, IList<T> array, int arrayIndex)
         {
             ILog log = Toolkit.Common.Logger.GetLog(typeof(BaseDictionary<TKey, TValue>).Name);
 
@@ -248,12 +234,12 @@ namespace Loki.Common
                 throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest, log);
             }
 
-            if (arrayIndex < 0 || arrayIndex > array.Length)
+            if (arrayIndex < 0 || arrayIndex > array.Count)
             {
                 throw Toolkit.Common.ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange, log);
             }
 
-            if ((array.Length - arrayIndex) < source.Count)
+            if ((array.Count - arrayIndex) < source.Count)
             {
                 throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest, log);
             }

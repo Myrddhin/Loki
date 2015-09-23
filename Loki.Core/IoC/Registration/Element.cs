@@ -8,19 +8,6 @@ namespace Loki.IoC.Registration
     public static class Element
     {
         /// <summary>
-        /// Registers a new entity type.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
-        /// <returns>Returns the registration object.</returns>
-        public static ElementRegistration<TEntity> Entity<TEntity, TImplementation>()
-            where TEntity : class
-            where TImplementation : class, TEntity
-        {
-            return For<TEntity>().ImplementedBy<TImplementation>().Lifestyle.NoTracking;
-        }
-
-        /// <summary>
         /// Registers a new service type.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
@@ -31,10 +18,17 @@ namespace Loki.IoC.Registration
         }
 
         /// <summary>
-        /// Registers a new service type.
+        /// Registers a new service type with two contracts.
         /// </summary>
-        /// <typeparam name="TService">The type of the service.</typeparam>
-        /// <returns>Returns the registration object.</returns>
+        /// <typeparam name="TService">
+        /// The first type of the service.
+        /// </typeparam>
+        /// <typeparam name="TService2">
+        /// The second type of the service.
+        /// </typeparam>
+        /// <returns>
+        /// Returns the registration object.
+        /// </returns>
         public static ElementRegistration<TService> For<TService, TService2>() where TService : class
         {
             var registration = new ElementRegistration<TService>();
@@ -64,16 +58,6 @@ namespace Loki.IoC.Registration
             where TImplementation : class, TService
         {
             return For<TService>().ImplementedBy<TImplementation>().Lifestyle.Singleton;
-        }
-
-        /// <summary>
-        /// Registers a new viewmodel.
-        /// </summary>
-        /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-        /// <returns>Returns the registration object.</returns>
-        public static ElementRegistration<TViewModel> ViewModel<TViewModel>() where TViewModel : class
-        {
-            return For<TViewModel>().Lifestyle.Transient;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Loki.UI.Wpf
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Toolkit.RegisterInstaller(Loki.UI.Wpf.UIInstaller.Wpf);
+                Toolkit.RegisterInstaller(UIInstaller.Wpf);
 
                 Application.Current.MainWindow = splashWindow;
                 mainObject = Application.Current.MainWindow;
@@ -46,8 +46,6 @@ namespace Loki.UI.Wpf
                 return inDesignMode.GetValueOrDefault(false);
             }
         }
-
-        //public strin
 
         public object EntryPoint
         {

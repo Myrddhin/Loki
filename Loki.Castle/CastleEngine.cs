@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using Loki.Common;
 using Loki.IoC;
-using Loki.UI;
 
 namespace Loki.Castle
 {
@@ -12,9 +11,9 @@ namespace Loki.Castle
     [ExportMetadata("Type", "Windsor")]
     public class CastleEngine : BaseObject, IIoCComponent, IDisposable
     {
-        private const string DefaultContextName = "ApplicationMainContext";
+        private const string DefaultContextName = "MainContext";
 
-        private Dictionary<string, IObjectContext> contextes;
+        private readonly Dictionary<string, IObjectContext> contextes;
 
         public IReadOnlyDictionary<string, IObjectContext> Contexts
         {
@@ -35,10 +34,7 @@ namespace Loki.Castle
         {
             var context = new CastleContext();
 
-            foreach (var installer in Toolkit.Installers)
-            {
-                installer.Install(context);
-            }
+            ServicesInstaller.All.Install(context);
 
             contextes[contextName] = context;
             return context;
@@ -51,6 +47,12 @@ namespace Loki.Castle
         public void DropContext(IObjectContext context)
         {
             var internalContext = Contexts.FirstOrDefault(x => x.Value == context);
+
+            if (internalContext.Value == DefaultContext)
+            {
+                throw new NotSupportedException();
+            }
+
             if (internalContext.Value != null)
             {
                 internalContext.Value.Dispose();
@@ -65,20 +67,6 @@ namespace Loki.Castle
         public IObjectContext DefaultContext
         {
             get { return Contexts[DefaultContextName]; }
-        }
-
-        public TViewModel GetViewModel<TViewModel>() where TViewModel : class
-        {
-            var selectedVM = DefaultContext.Get<TViewModel>();
-
-            var initializable = selectedVM as IInitializable;
-            if (initializable != null && !initializable.IsInitialized)
-            {
-                initializable.Initialize();
-            }
-
-            // L_SelectedVM.Clean += L_SelectedVM_Clean;
-            return selectedVM;
         }
 
         /// <summary>
@@ -96,16 +84,6 @@ namespace Loki.Castle
         {
             CreateContext(DefaultContextName);
         }
-
-        /*private void CleanReferences(object sender, EventArgs e)
-        {
-            UI.IViewModel cleanableObject = sender as UI.IViewModel;
-            if (cleanableObject != null)
-            {
-                cleanableObject.Clean -= CleanReferences;
-                userInterfaceContext.Release(cleanableObject);
-            }
-        }*/
 
         #region Disposable
 

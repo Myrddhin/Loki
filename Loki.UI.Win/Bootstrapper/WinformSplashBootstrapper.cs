@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Loki.Common;
-using Loki.UI.Win.Views;
 
 namespace Loki.UI.Win
 {

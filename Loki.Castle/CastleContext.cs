@@ -26,7 +26,7 @@ namespace Loki.Castle
             InternalContainer = new WindsorContainer();
             InternalContainer.Kernel.AddFacility<TypedFactoryFacility>();
 
-            this.Register(Element.For<IObjectCreator>().Instance(this));
+            Register(Element.For<IObjectCreator>().Instance(this));
         }
 
         public void Reset()
@@ -36,7 +36,7 @@ namespace Loki.Castle
 
         protected WindsorContainer InternalContainer { get; private set; }
 
-        private ConcurrentDictionary<Type, Func<object>> builders = new ConcurrentDictionary<Type, Func<object>>();
+        private readonly ConcurrentDictionary<Type, Func<object>> builders = new ConcurrentDictionary<Type, Func<object>>();
 
         #region Disposable
 
@@ -55,15 +55,17 @@ namespace Loki.Castle
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (disposed)
             {
-                if (disposing)
-                {
-                    InternalContainer.Dispose();
-                }
-
-                disposed = true;
+                return;
             }
+
+            if (disposing)
+            {
+                InternalContainer.Dispose();
+            }
+
+            disposed = true;
         }
 
         #endregion Disposable
@@ -91,7 +93,7 @@ namespace Loki.Castle
         public T Get<T>() where T : class
         {
             var type = typeof(T);
-            T item = null;
+            T item;
             if (!builders.ContainsKey(type))
             {
                 item = InternalContainer.Resolve<T>();
@@ -119,14 +121,8 @@ namespace Loki.Castle
         public object Get(Type type)
         {
             object item = null;
-            if (!builders.ContainsKey(type))
-            {
-                item = InternalContainer.Resolve(type);
-            }
-            else
-            {
-                item = builders[type]();
-            }
+
+            item = !builders.ContainsKey(type) ? InternalContainer.Resolve(type) : builders[type]();
 
             var awareItem = item as IContextAware;
             if (awareItem != null)
@@ -146,17 +142,21 @@ namespace Loki.Castle
         public IEnumerable<object> GetAll(Type type)
         {
             var result = InternalContainer.ResolveAll(type).OfType<object>();
-            foreach (var awareItem in result.OfType<IContextAware>())
+
+            // Fix enumerate closure
+            var enumerable = result as object[] ?? result.ToArray();
+
+            foreach (var awareItem in enumerable.OfType<IContextAware>())
             {
                 awareItem.SetContext(this);
             }
 
-            foreach (var initializable in result.OfType<IInitializable>())
+            foreach (var initializable in enumerable.OfType<IInitializable>())
             {
                 initializable.Initialize();
             }
 
-            return result;
+            return enumerable;
         }
 
         public IEnumerable<T> GetAll<T>()
@@ -178,7 +178,7 @@ namespace Loki.Castle
 
         public object Get(Type type, string objectName)
         {
-            object item = null;
+            object item;
 
             if (!builders.ContainsKey(type))
             {
@@ -222,11 +222,6 @@ namespace Loki.Castle
                 registration.AsFactory();
             }
 
-            if (definition.Lifestyle.Type == LifestyleType.NoTracking)
-            {
-                RegisterNoTracking(definition);
-            }
-
             if (!string.IsNullOrEmpty(definition.Name))
             {
                 registration = registration.Named(definition.Name);
@@ -257,9 +252,6 @@ namespace Loki.Castle
                     case LifestyleType.PerRequest:
                         registration = registration.LifestylePerWebRequest();
                         break;
-
-                    default:
-                        break;
                 }
             }
 
@@ -267,18 +259,14 @@ namespace Loki.Castle
             {
                 if (property.Ignore)
                 {
-                    registration = registration.PropertiesIgnore(x => x.Name == property.Key.Name);
+                    var iterateProperty = property;
+                    registration = registration.PropertiesIgnore(x => x.Name == iterateProperty.Key.Name);
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(property.Name))
-                    {
-                        registration = registration.DependsOn(global::Castle.MicroKernel.Registration.Property.ForKey(property.Key.Name).Eq(property.Value));
-                    }
-                    else
-                    {
-                        registration = registration.DependsOn(Dependency.OnComponent(property.Key.Name, property.Name));
-                    }
+                    registration = string.IsNullOrEmpty(property.Name) ?
+                        registration.DependsOn(Property.ForKey(property.Key.Name).Eq(property.Value))
+                        : registration.DependsOn(Dependency.OnComponent(property.Key.Name, property.Name));
                 }
             }
 
@@ -296,35 +284,16 @@ namespace Loki.Castle
             InternalContainer.Release(objectToRelease);
         }
 
-        private void RegisterNoTracking<T>(ElementRegistration<T> definition) where T : class
-        {
-            Type interfaceType = definition.Types.First();
-            if (!builders.ContainsKey(interfaceType))
-            {
-                // build new builder
-                var concreteType = definition.Implementation;
-
-                if (concreteType == null)
-                {
-                    concreteType = interfaceType;
-                }
-
-                var constructor = concreteType.GetConstructor(Type.EmptyTypes);
-
-                Func<object> builder = () => constructor.Invoke(new object[0] { });
-
-                builders.TryAdd(interfaceType, builder);
-            }
-        }
-
         public void Initialize(params IContextInstaller[] installers)
         {
-            if (installers != null)
+            if (installers == null)
             {
-                foreach (var installer in installers)
-                {
-                    installer.Install(this);
-                }
+                return;
+            }
+
+            foreach (var installer in installers)
+            {
+                installer.Install(this);
             }
         }
     }

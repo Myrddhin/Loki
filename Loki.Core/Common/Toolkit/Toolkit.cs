@@ -24,8 +24,8 @@ namespace Loki.Common
         {
             InitializeIoC();
 
-            common = new CoreServiceContainer(Toolkit.IoC.DefaultContext);
-            ui = new UIServiceContainer(Toolkit.IoC.DefaultContext);
+            common = new CoreServiceContainer(IoC.DefaultContext);
+            ui = new UIServiceContainer(IoC.DefaultContext);
         }
 
         private static void InitializeIoC()
@@ -43,12 +43,13 @@ namespace Loki.Common
 
         #region Object Context
 
-        private static List<IContextInstaller> installers = new List<IContextInstaller>(new IContextInstaller[] { ServicesInstaller.All });
+        private static readonly List<IContextInstaller> installers = new List<IContextInstaller>(new[] { ServicesInstaller.All });
 
         private static CoreServiceContainer common;
 
         private static UIServiceContainer ui;
 
+        [Obsolete]
         public static CoreServiceContainer Common
         {
             get
@@ -62,6 +63,7 @@ namespace Loki.Common
             }
         }
 
+        [Obsolete]
         public static UIServiceContainer UI
         {
             get
@@ -109,26 +111,6 @@ namespace Loki.Common
 
         #endregion Object Context
 
-        /*
-
-        private static Lazy<ICommandComponent> commands = new Lazy<ICommandComponent>(() => Context.Get<ICommandComponent>());
-
-            private static Lazy<ISettingsComponent> settings = new Lazy<ISettingsComponent>(() => Context.Get<ISettingsComponent>());
-
-            private static Lazy<ITaskComponent> tasks = new Lazy<ITaskComponent>(() => Context.Get<ITaskComponent>());
-
-            /// <summary>
-            /// Gets the command service.
-            /// </summary>
-            /// <value>The configured command service.</value>
-            public static ICommandComponent Commands
-            {
-                get
-                {
-                    return commands.Value;
-                }
-            }*/
-
         /// <summary>
         /// Gets the engine service.
         /// </summary>
@@ -139,19 +121,5 @@ namespace Loki.Common
                 return engineManager.SelectedComponent;
             }
         }
-
-        /*
-
-          /// <summary>
-          /// Gets the settings service.
-          /// </summary>
-          /// <value>The configured settings service.</value>
-          public static ISettingsComponent Settings
-          {
-              get
-              {
-                  return settings.Value;
-              }
-          }*/
     }
 }

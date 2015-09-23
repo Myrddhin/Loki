@@ -20,14 +20,14 @@ namespace Loki.UI.Test
         {
             base.Install(context);
 
-            context.Register(Element.ViewModel<MenuViewModel>());
-            context.Register(Element.ViewModel<MainViewModel>());
-            context.Register(Element.ViewModel<DocumentsViewModel>().Properties(Property<DocumentsViewModel>.ForKey(x => x.ActiveItem).Ignore()));
-            context.Register(Element.ViewModel<NavigationMenuViewModel>());
+            context.Register(Element.For<MenuViewModel>().Lifestyle.Transient);
+            context.Register(Element.For<MainViewModel>().Lifestyle.Transient);
+            context.Register(Element.For<DocumentsViewModel>().Lifestyle.Transient.Properties(Property<DocumentsViewModel>.ForKey(x => x.ActiveItem).Ignore()));
+            context.Register(Element.For<NavigationMenuViewModel>().Lifestyle.Transient);
             context.Register(Element.For<IScreenFactory>().AsFactory());
 
-            context.Register(Element.ViewModel<SplashViewModel>());
-            context.Register(Element.ViewModel<Screen>());
+            context.Register(Element.For<SplashViewModel>().Lifestyle.Transient);
+            context.Register(Element.For<Screen>().Lifestyle.Transient);
         }
     }
 }
