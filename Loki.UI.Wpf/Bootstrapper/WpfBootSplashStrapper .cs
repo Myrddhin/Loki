@@ -15,7 +15,7 @@ namespace Loki.UI.Wpf
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Toolkit.RegisterInstaller(UIInstaller.Wpf);
+                Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
 
                 Application.Current.MainWindow = splashWindow;
                 mainObject = Application.Current.MainWindow;

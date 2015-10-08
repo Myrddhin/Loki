@@ -9,20 +9,18 @@ namespace Loki.Common
 {
     internal class ErrorService : LoggableObject, IErrorComponent
     {
-        private ConcurrentDictionary<Type, Func<string, Exception, Exception>> fullTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception, Exception>>();
-        private ConcurrentDictionary<Type, Func<string, Exception>> stringTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception>>();
+        public ErrorService(ILoggerComponent logManager)
+            : base(logManager)
+        {
+        }
 
-        public T BuildError<T>(string message, ILog log, Exception innerException) where T : Exception
+        private readonly ConcurrentDictionary<Type, Func<string, Exception, Exception>> fullTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception, Exception>>();
+        private readonly ConcurrentDictionary<Type, Func<string, Exception>> stringTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception>>();
+
+        public T BuildError<T>(string message, Exception innerException) where T : Exception
         {
             // log exception
-            if (log != null)
-            {
-                log.Error(message, innerException);
-            }
-            else
-            {
-                Log.Error(message, innerException);
-            }
+            Log.Error(message, innerException);
 
             Type exceptionType = typeof(T);
 
@@ -43,22 +41,15 @@ namespace Loki.Common
             }
         }
 
-        public T BuildError<T>(string message, ILog log) where T : Exception
+        public T BuildError<T>(string message) where T : Exception
         {
-            return BuildError<T>(message, log, null);
+            return BuildError<T>(message, null);
         }
 
-        public T BuildErrorFormat<T>(string message, ILog log, Exception innerException, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
         {
             // log exception
-            if (log != null)
-            {
-                log.ErrorFormat(message, innerException, parameters);
-            }
-            else
-            {
-                Log.ErrorFormat(message, innerException, parameters);
-            }
+            Log.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
 
             Type exceptionType = typeof(T);
 
@@ -79,28 +70,21 @@ namespace Loki.Common
             }
         }
 
-        public T BuildErrorFormat<T>(string message, ILog log, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
         {
-            return BuildErrorFormat<T>(message, log, null, parameters);
+            return this.BuildErrorFormat<T>(null, message, parameters);
         }
 
-        public void LogError(string message, ILog log, Exception innerException, params object[] parameters)
+        public void LogError(string message, Exception innerException, params object[] parameters)
         {
-            if (log != null)
-            {
-                log.ErrorFormat(message, innerException);
-            }
-            else
-            {
-                Log.ErrorFormat(message, innerException);
-            }
+            Log.Error(message, innerException);
         }
 
         private void BuildTypeConstructorWithString(Type exceptionType)
         {
             if (!stringTypeBuilders.ContainsKey(exceptionType))
             {
-                ConstructorInfo info = exceptionType.GetConstructor(new Type[] { typeof(string) });
+                ConstructorInfo info = exceptionType.GetConstructor(new[] { typeof(string) });
                 if (info != null)
                 {
                     ParameterExpression messageExpression = Expression.Parameter(typeof(string));
@@ -118,7 +102,7 @@ namespace Loki.Common
         {
             if (!fullTypeBuilders.ContainsKey(exceptionType))
             {
-                ConstructorInfo info = exceptionType.GetConstructor(new Type[] { typeof(string), typeof(Exception) });
+                ConstructorInfo info = exceptionType.GetConstructor(new[] { typeof(string), typeof(Exception) });
                 if (info != null)
                 {
                     ParameterExpression messageExpression = Expression.Parameter(typeof(string));

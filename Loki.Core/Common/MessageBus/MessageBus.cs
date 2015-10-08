@@ -8,14 +8,14 @@ namespace Loki.Common
     /// <summary>
     /// Enables loosely-coupled publication of and subscription to events.
     /// </summary>
-    public class MessageBus : IMessageComponent
+    public class MessageBus : BaseObject, IMessageComponent
     {
         private readonly List<Handler> handlers = new List<Handler>();
 
         /// <summary>
         /// Processing of handler results on publication thread.
         /// </summary>
-        private static Action<object, object> handlerResultProcessing = (target, result) => { };
+        private static readonly Action<object, object> HandlerResultProcessing = (target, result) => { };
 
         /// <summary>
         /// Searches the subscribed handlers to check if we have a handler for
@@ -25,7 +25,10 @@ namespace Loki.Common
         /// <returns>True if any handler is found, false if not.</returns>
         public bool HandlerExistsFor(Type messageType)
         {
-            return handlers.Any(handler => handler.Handles(messageType) & !handler.IsDead);
+            lock (handlers)
+            {
+                return this.handlers.Any(handler => handler.Handles(messageType) & !handler.IsDead);
+            }
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace Loki.Common
         /// </summary>
         /// <param name = "message">The message instance.</param>
         /// <param name = "marshal">Allows the publisher to provide a custom thread marshaller for the message publication.</param>
-        public virtual void Publish(object message, Action<System.Action> marshal)
+        public virtual void Publish(object message, Action<Action> marshal)
         {
             if (message == null)
             {
@@ -158,7 +161,7 @@ namespace Loki.Common
                         var result = pair.Value.Invoke(target, new[] { message });
                         if (result != null)
                         {
-                            handlerResultProcessing(target, result);
+                            HandlerResultProcessing(target, result);
                         }
                     }
                 }

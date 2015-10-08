@@ -20,10 +20,5 @@ namespace Loki.IoC
         /// <typeparam name="T">Concrete type.</typeparam>
         /// <param name="definition">The type definition.</param>
         void Register<T>(ElementRegistration<T> definition) where T : class;
-
-        /// <summary>
-        /// Resets the context.
-        /// </summary>
-        void Reset();
     }
 }

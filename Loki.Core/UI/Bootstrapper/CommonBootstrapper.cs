@@ -9,7 +9,7 @@ using Loki.IoC.Registration;
 
 namespace Loki.UI
 {
-    public class CommonBootstrapper<TMainModel, TSplashModel> : BaseObject
+    public class CommonBootstrapper<TMainModel, TSplashModel> : BaseObject, IHandle<WarningMessage>, IHandle<ErrorMessage>, IHandle<InformationMessage>
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
@@ -167,6 +167,21 @@ namespace Loki.UI
             Toolkit.Common.MessageBus.PublishOnUIThread(new StartMessage(startParameters));
 
             splashModel.TryClose();
+        }
+
+        public void Handle(WarningMessage message)
+        {
+            Toolkit.UI.Signals.Warning(message.Message);
+        }
+
+        public void Handle(ErrorMessage message)
+        {
+            Toolkit.UI.Signals.Error(message.Error, false);
+        }
+
+        public void Handle(InformationMessage message)
+        {
+            Toolkit.UI.Signals.Message(message.Message);
         }
     }
 }

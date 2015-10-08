@@ -13,6 +13,12 @@ namespace Loki.IoC
         void Initialize();
 
         /// <summary>
+        /// Registers a new installer for all future contextes.
+        /// </summary>
+        /// <param name="installer">The installer to add.</param>
+        void RegisterInstaller(IContextInstaller installer);
+
+        /// <summary>
         /// Gets the data context.
         /// </summary>
         /// <returns>The data context.</returns>

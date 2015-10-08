@@ -61,7 +61,7 @@ namespace Loki.Common
         {
             if (key == null)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException, Log);
+                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
             }
 
             WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);

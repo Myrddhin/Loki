@@ -19,21 +19,6 @@
         }
 
         /// <summary>
-        /// Gets a no tracking lifestyle.
-        /// </summary>
-        /// <value>
-        /// Modified configuration.
-        /// </value>
-        public ElementRegistration<TService> NoTracking
-        {
-            get
-            {
-                Type = LifestyleType.NoTracking;
-                return parent;
-            }
-        }
-
-        /// <summary>
         /// Gets the pool size maximum.
         /// </summary>
         /// <value>

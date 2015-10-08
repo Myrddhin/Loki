@@ -62,14 +62,14 @@ namespace Loki.UI.Wpf
             foreach (var match in conventionManager.ViewViewModel(assemblies))
             {
                 associations.Add(match.Key, match.Value);
-                internalContext.Register(Element.For(match.Value).Lifestyle.NoTracking);
+                internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
             }
         }
 
         public void RegisterAssociation(Type modelType, Type viewType)
         {
             typeAssociations[modelType] = viewType;
-            internalContext.Register(Element.For(viewType).Lifestyle.NoTracking);
+            internalContext.Register(Element.For(viewType).Lifestyle.Transient);
         }
 
         public void RegisterAssociation<TModel, TView>()

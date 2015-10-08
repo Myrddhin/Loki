@@ -23,10 +23,11 @@ namespace Loki.UI.Win
 
         public void Run(params string[] args)
         {
-            Toolkit.RegisterInstaller(UIInstaller.Winform);
+            Toolkit.Initialize();
+            Toolkit.IoC.RegisterInstaller(UIInstaller.Winform);
 
             // Force synchronisation context from main thread.
-            Toolkit.Initialize();
+
             Toolkit.UI.Threading.OnUIThread(() => { });
 
             Task.Factory.StartNew(() => bootStrapper.Run(args));

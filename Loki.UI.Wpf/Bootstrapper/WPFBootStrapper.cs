@@ -11,18 +11,18 @@ namespace Loki.UI.Wpf
 
         public WpfBootStrapper()
         {
-            BootStrapper = new CommonBootstrapper<TMainViewModelType, DefaultSplashModel>(this);
-
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Toolkit.RegisterInstaller(Loki.UI.Wpf.UIInstaller.Wpf);
+                Toolkit.Initialize();
+                Toolkit.IoC.RegisterInstaller(Loki.UI.Wpf.UIInstaller.Wpf);
 
                 Application.Current.MainWindow = new SplashView();
                 mainObject = Application.Current.MainWindow;
                 Application.Current.MainWindow.Show();
 
-                Toolkit.Initialize();
+                BootStrapper = new CommonBootstrapper<TMainViewModelType, DefaultSplashModel>(this);
+
                 Toolkit.UI.Threading.OnUIThread(() => { });
 
                 Application.Current.Startup += Application_Startup;

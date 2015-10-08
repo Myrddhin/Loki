@@ -13,6 +13,8 @@ namespace Loki.Common
     /// </summary>
     internal class Log4NetLogger : ILoggerComponent
     {
+        private readonly ConcurrentDictionary<string, ILog> store = new ConcurrentDictionary<string, ILog>();
+
         public string LogFileName
         {
             get
@@ -25,9 +27,7 @@ namespace Loki.Common
             }
         }
 
-        private bool configured = false;
-
-        private ConcurrentDictionary<string, ILog> store = new ConcurrentDictionary<string, ILog>();
+        private bool configured;
 
         public void Configure()
         {

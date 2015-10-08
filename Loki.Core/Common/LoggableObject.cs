@@ -7,11 +7,30 @@ namespace Loki.Common
     /// </summary>
     public class LoggableObject
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoggableObject"/> class.
+        /// Uses the static callback to find log component.
+        /// </summary>
+        public LoggableObject()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoggableObject"/> class with dependency injection.
+        /// </summary>
+        /// <param name="logManager">
+        /// Log component.
+        /// </param>
+        public LoggableObject(ILoggerComponent logManager)
+        {
+            this.logger = logManager;
+        }
+
         #region Log
 
-        private ILog log = null;
+        private ILog log;
 
-        private string loggerName = null;
+        private string loggerName;
 
         /// <summary>
         /// Gets the logger.
@@ -37,18 +56,15 @@ namespace Loki.Common
         {
             get
             {
-                if (loggerName == null)
-                {
-                    loggerName = this.GetType().FullName;
-                }
-
-                return loggerName;
+                return this.loggerName ?? (this.loggerName = this.GetType().FullName);
             }
         }
 
+        private readonly ILoggerComponent logger;
+
         internal virtual ILog GetLog()
         {
-            return Toolkit.Common.Logger.GetLog(LoggerName);
+            return logger == null ? Toolkit.Common.Logger.GetLog(LoggerName) : logger.GetLog(LoggerName);
         }
 
         #endregion Log

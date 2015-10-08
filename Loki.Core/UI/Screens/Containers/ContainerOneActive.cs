@@ -29,11 +29,13 @@ namespace Loki.UI
 
                     case NotifyCollectionChangedAction.Remove:
                         e.OldItems.OfType<IChild>().Apply(x => x.Parent = null);
+                        e.OldItems.OfType<T>().Apply(x => Factory.Release(x));
                         break;
 
                     case NotifyCollectionChangedAction.Replace:
                         e.NewItems.OfType<IChild>().Apply(x => x.Parent = this);
                         e.OldItems.OfType<IChild>().Apply(x => x.Parent = null);
+                        e.OldItems.OfType<T>().Apply(x => Factory.Release(x));
                         break;
 
                     case NotifyCollectionChangedAction.Reset:

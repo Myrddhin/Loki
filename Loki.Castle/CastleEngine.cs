@@ -9,11 +9,13 @@ namespace Loki.Castle
 {
     [Export(typeof(IIoCComponent))]
     [ExportMetadata("Type", "Windsor")]
-    public class CastleEngine : BaseObject, IIoCComponent, IDisposable
+    public class CastleEngine : IIoCComponent, IDisposable
     {
         private const string DefaultContextName = "MainContext";
 
         private readonly Dictionary<string, IObjectContext> contextes;
+
+        private readonly HashSet<IContextInstaller> installers;
 
         public IReadOnlyDictionary<string, IObjectContext> Contexts
         {
@@ -34,7 +36,7 @@ namespace Loki.Castle
         {
             var context = new CastleContext();
 
-            ServicesInstaller.All.Install(context);
+            context.Initialize(installers.ToArray());
 
             contextes[contextName] = context;
             return context;
@@ -60,6 +62,15 @@ namespace Loki.Castle
             }
         }
 
+        public void RegisterInstaller(IContextInstaller installer)
+        {
+            installers.Add(installer);
+            foreach (var ctx in contextes.Values)
+            {
+                installer.Install(ctx);
+            }
+        }
+
         /// <summary>
         /// Gets the data context.
         /// </summary>
@@ -75,6 +86,7 @@ namespace Loki.Castle
         public CastleEngine()
         {
             contextes = new Dictionary<string, IObjectContext>();
+            installers = new HashSet<IContextInstaller>();
         }
 
         /// <summary>
@@ -82,6 +94,7 @@ namespace Loki.Castle
         /// </summary>
         public void Initialize()
         {
+            installers.Add(ServicesInstaller.All);
             CreateContext(DefaultContextName);
         }
 
@@ -108,6 +121,8 @@ namespace Loki.Castle
             GC.SuppressFinalize(this);
         }
 
+        private bool disposed;
+
         /// <summary>
         /// Releases the unmanaged resources used by an instance of the <see cref="CastleEngine" />
         /// class and optionally releases the managed resources.
@@ -116,12 +131,19 @@ namespace Loki.Castle
         /// resources; <strong>false</strong> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (disposed)
+            {
+                return;
+            }
+
             foreach (var context in Contexts)
             {
                 context.Value.SafeDispose();
             }
 
             contextes.Clear();
+
+            disposed = true;
         }
 
         #endregion Disposable

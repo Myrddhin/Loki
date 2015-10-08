@@ -8,7 +8,7 @@ namespace Loki.Common
     /// </summary>
     internal class Log4NetLog : ILog
     {
-        private log4net.ILog logger;
+        private readonly log4net.ILog logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Log4NetLog"/> class.

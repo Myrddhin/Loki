@@ -77,20 +77,6 @@ namespace Loki.Common
             }
         }
 
-        public static IEnumerable<IContextInstaller> Installers
-        {
-            get { return installers; }
-        }
-
-        /// <summary>
-        /// Registers an additional installer for the toolkit.
-        /// </summary>
-        /// <param name="installer">The installer.</param>
-        public static void RegisterInstaller(IContextInstaller installer)
-        {
-            installers.Add(installer);
-        }
-
         /// <summary>
         /// Resets the toolkit.
         /// </summary>

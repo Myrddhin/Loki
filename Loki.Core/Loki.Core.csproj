@@ -59,6 +59,7 @@
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />
+    <Compile Include="IoC\IoCContext.cs" />
     <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Common\INotifyPropertyChangedEx.cs" />
     <Compile Include="Common\LoggableObject.cs" />
     <Compile Include="Common\Log\ILog.cs" />
-    <Compile Include="Common\Log\ILogger.cs" />
+    <Compile Include="Common\Log\ILoggerComponent.cs" />
     <Compile Include="Common\Log\Log4NetLog.cs" />
     <Compile Include="Common\Log\Log4NetLogger.cs" />
     <Compile Include="Common\MessageBus\IHandle.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="UI\Screens\AsyncScreen.cs" />
     <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
     <Compile Include="UI\Screens\FileDialogInformations.cs" />
+    <Compile Include="UI\Screens\Navigation\IScreenFactory.cs" />
     <Compile Include="UI\Tasks\ITaskComponent.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.Generic.cs" />

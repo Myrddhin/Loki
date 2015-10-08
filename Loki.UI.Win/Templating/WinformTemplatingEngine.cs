@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DevExpress.XtraBars;
@@ -136,14 +132,14 @@ namespace Loki.UI.Win
             foreach (var match in conventionManager.ViewViewModel(assemblies))
             {
                 associations.Add(match.Key, match.Value);
-                internalContext.Register(Element.For(match.Value).Lifestyle.NoTracking);
+                internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
             }
         }
 
         public void RegisterAssociation(Type modelType, Type viewType)
         {
             typeAssociations[modelType] = viewType;
-            internalContext.Register(Element.For(viewType).Lifestyle.NoTracking);
+            internalContext.Register(Element.For(viewType).Lifestyle.Transient);
         }
 
         public void RegisterAssociation<TModel, TView>()

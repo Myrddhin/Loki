@@ -231,17 +231,17 @@ namespace Loki.Common
 
             if (array == null)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest, log);
+                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest);
             }
 
             if (arrayIndex < 0 || arrayIndex > array.Count)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange, log);
+                throw Toolkit.Common.ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange);
             }
 
             if ((array.Count - arrayIndex) < source.Count)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest, log);
+                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest);
             }
 
             foreach (T item in source)

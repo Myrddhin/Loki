@@ -73,6 +73,30 @@ namespace Loki.IoC.Registration
             private set;
         }
 
+        public bool IsDefault
+        {
+            get;
+            private set;
+        }
+
+        public ElementRegistration<TService> AsDefault()
+        {
+            IsDefault = true;
+            return this;
+        }
+
+        public bool IsFallback
+        {
+            get;
+            private set;
+        }
+
+        public ElementRegistration<TService> AsFallback()
+        {
+            IsFallback = true;
+            return this;
+        }
+
         /// <summary>
         /// Nameds the specified service.
         /// </summary>

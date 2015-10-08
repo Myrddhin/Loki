@@ -16,6 +16,7 @@ namespace Loki.Common
             context.Register(Element.For<ITaskComponent>().ImplementedBy<TaskComponent>());
 
             context.Register(Element.For<CommandManager>().Lifestyle.Transient);
+            context.Register(Element.For<IScreenFactory>().AsFactory());
         }
     }
 }
