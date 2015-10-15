@@ -2,21 +2,24 @@
 
 namespace Loki.Common
 {
-    internal class WeakEventManager<TEventClass, TEventArgs> : IWeakEventManager<TEventClass, TEventArgs>
+    internal class WeakEventManager<TEventClass, TEventArgs> : BaseObject, IWeakEventManager<TEventClass, TEventArgs>
         where TEventClass : class
         where TEventArgs : EventArgs
     {
-        private WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> sourceToBridgeTable;
+        private readonly WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> sourceToBridgeTable;
 
-        private Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> eventMapper;
+        private readonly Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> eventMapper;
 
-        private Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> eventUnmapper;
+        private readonly Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> eventUnmapper;
 
         public WeakEventManager(
+            ILoggerComponent loggerComponent,
+            IErrorComponent errorComponent,
             Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> mapper,
             Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> unmapper)
+            : base(loggerComponent, errorComponent)
         {
-            sourceToBridgeTable = new WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>>();
+            sourceToBridgeTable = new WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>>(loggerComponent, errorComponent);
             eventMapper = mapper;
             eventUnmapper = unmapper;
         }
@@ -45,12 +48,7 @@ namespace Loki.Common
             }
 
             // Can happen if the GC does it's magic
-            if (bridge == null)
-            {
-                bridge = AddNewPropertyBridgeToTable(source);
-            }
-
-            return bridge;
+            return bridge ?? this.AddNewPropertyBridgeToTable(source);
         }
 
         private WeakEventBridge<TEventClass, TEventArgs> AddNewPropertyBridgeToTable(
@@ -59,11 +57,6 @@ namespace Loki.Common
             WeakEventBridge<TEventClass, TEventArgs> bridge = new WeakEventBridge<TEventClass, TEventArgs>(this, source, eventMapper, eventUnmapper);
             sourceToBridgeTable[source] = bridge;
             return bridge;
-        }
-
-        private void OnAllListenersForSourceUnsubscribed(TEventClass source)
-        {
-            UnregisterSource(source);
         }
 
         /// <summary>
@@ -95,10 +88,20 @@ namespace Loki.Common
         /// <param name="source">The source.</param>
         public void UnregisterSource(TEventClass source)
         {
-            if (sourceToBridgeTable.ContainsKey(source))
+            WeakEventBridge<TEventClass, TEventArgs> bridge;
+
+            if (!sourceToBridgeTable.TryGetValue(source, out bridge))
+            {
+                return;
+            }
+
+            if (bridge == null)
             {
                 sourceToBridgeTable.Remove(source);
+                return;
             }
+
+            eventUnmapper(source, bridge);
         }
 
         /// <summary>

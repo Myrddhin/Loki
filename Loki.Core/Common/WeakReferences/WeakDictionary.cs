@@ -9,6 +9,12 @@ namespace Loki.Common
     /// A generic dictionary, which allows both its keys and values to be garbage collected if there
     /// are no other references to them than from the dictionary itself.
     /// </summary>
+    /// <typeparam name="TKey">
+    /// Key type.
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// Value type.
+    /// </typeparam>
     /// <remarks>
     /// If either the key or value of a particular entry in the dictionary has been collected, then
     /// both the key and value become effectively unreachable. However, left-over WeakReference
@@ -22,26 +28,27 @@ namespace Loki.Common
         where TKey : class
         where TValue : class
     {
-        private ConcurrentDictionary<WeakKeyReference<TKey>, WeakReference<TValue>> internalDictionary;
+        private readonly ConcurrentDictionary<WeakKeyReference<TKey>, WeakReference<TValue>> internalDictionary;
 
-        private WeakKeyComparer<TKey> internalComparer;
+        private readonly WeakKeyComparer<TKey> internalComparer;
 
-        public WeakDictionary()
-            : this(0, null)
+        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent)
+            : this(loggerComponent, errorComponent, 0, null)
         {
         }
 
-        public WeakDictionary(int capacity)
-            : this(capacity, null)
+        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, int capacity)
+            : this(loggerComponent, errorComponent, capacity, null)
         {
         }
 
-        public WeakDictionary(IEqualityComparer<TKey> comparer)
-            : this(0, comparer)
+        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, IEqualityComparer<TKey> comparer)
+            : this(loggerComponent, errorComponent, 0, comparer)
         {
         }
 
-        public WeakDictionary(int capacity, IEqualityComparer<TKey> comparer)
+        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, int capacity, IEqualityComparer<TKey> comparer) :
+            base(loggerComponent, errorComponent)
         {
             this.internalComparer = new WeakKeyComparer<TKey>(comparer);
             this.internalDictionary = new ConcurrentDictionary<WeakKeyReference<TKey>, WeakReference<TValue>>(Environment.ProcessorCount * 2, capacity, this.internalComparer);
@@ -61,7 +68,7 @@ namespace Loki.Common
         {
             if (key == null)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
+                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
             }
 
             WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
@@ -114,7 +121,7 @@ namespace Loki.Common
                 WeakKeyReference<TKey> weakKey = kvp.Key;
                 WeakReference<TValue> weakValue = kvp.Value;
                 TKey key = (TKey)weakKey.Target;
-                TValue value = null;
+                TValue value;
                 bool valueAlive = weakValue.TryGetTarget(out value);
                 if (weakKey.IsAlive && valueAlive)
                 {
@@ -136,27 +143,31 @@ namespace Loki.Common
                 WeakKeyReference<TKey> weakKey = kvp.Key;
                 WeakReference<TValue> weakValue = kvp.Value;
 
-                TValue value = null;
+                TValue value;
                 bool valueAlive = weakValue.TryGetTarget(out value);
 
-                if (!weakKey.IsAlive || !valueAlive)
+                if (weakKey.IsAlive && valueAlive)
                 {
-                    if (entriesToRemove == null)
-                    {
-                        entriesToRemove = new List<WeakKeyReference<TKey>>();
-                    }
-
-                    entriesToRemove.Add(weakKey);
+                    continue;
                 }
+
+                if (entriesToRemove == null)
+                {
+                    entriesToRemove = new List<WeakKeyReference<TKey>>();
+                }
+
+                entriesToRemove.Add(weakKey);
             }
 
-            if (entriesToRemove != null)
+            if (entriesToRemove == null)
+            {
+                return;
+            }
+
+            foreach (var key in entriesToRemove)
             {
                 WeakReference<TValue> weakValue;
-                foreach (var key in entriesToRemove)
-                {
-                    this.internalDictionary.TryRemove(key, out weakValue);
-                }
+                this.internalDictionary.TryRemove(key, out weakValue);
             }
         }
     }

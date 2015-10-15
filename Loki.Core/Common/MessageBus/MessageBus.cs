@@ -8,7 +8,7 @@ namespace Loki.Common
     /// <summary>
     /// Enables loosely-coupled publication of and subscription to events.
     /// </summary>
-    public class MessageBus : BaseObject, IMessageComponent
+    public class MessageBus : IMessageComponent
     {
         private readonly List<Handler> handlers = new List<Handler>();
 

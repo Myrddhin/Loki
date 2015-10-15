@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using Loki.Common;
+﻿using Loki.Common;
 
 namespace Loki.UI
 {
     public class NavigationGroupElement : NavigationElement, IParent, INavigationElement
     {
-        public NavigationGroupElement()
+        public NavigationGroupElement(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
         {
             Children = new BindableCollection<NavigationElement>();
         }

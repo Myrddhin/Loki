@@ -7,6 +7,11 @@ namespace Loki.UI
 {
     public class Screen : DisplayElement, IScreen, IChild, ICommandAware
     {
+        public Screen(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         /// <summary>
         /// Raised after activation occurs.
         /// </summary>

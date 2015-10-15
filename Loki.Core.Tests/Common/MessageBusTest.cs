@@ -1,7 +1,6 @@
 ﻿using Loki.Common;
-using Loki.IoC.Registration;
 
-using Moq;
+using Xunit;
 
 namespace Loki.Core.Tests.Common
 {
@@ -9,24 +8,65 @@ namespace Loki.Core.Tests.Common
     {
         public MessageBusTest()
         {
-            LogMock = new Mock<ILoggerComponent>();
-            Log = new Mock<ILog>();
-            LogMock.Setup(x => x.GetLog(It.IsAny<string>())).Returns(Log.Object);
-
-            Context.Register(Element.For<ILoggerComponent>().Instance(LogMock.Object).AsDefault());
-
-            ErrorMock = new Mock<IErrorComponent>();
-            Context.Register(Element.For<IErrorComponent>().Instance(ErrorMock.Object).AsDefault());
-
             Component = Context.Get<IMessageComponent>();
         }
 
         public IMessageComponent Component { get; private set; }
 
-        public Mock<ILoggerComponent> LogMock { get; private set; }
+        [Fact]
+        public void TestSimpleMessage()
+        {
+            var receiver = new SimpleMessageListener();
+            Component.Subscribe(receiver);
 
-        public Mock<IErrorComponent> ErrorMock { get; private set; }
+            Component.PublishOnCurrentThread(new SimpleMessage());
 
-        public Mock<ILog> Log { get; private set; }
+            Assert.True(receiver.Received);
+        }
+
+        [Fact]
+        public void TestBroadcastMessage()
+        {
+            var receiver = new SimpleMessageListener();
+            Component.Subscribe(receiver);
+
+            var receiver2 = new SimpleMessageListener();
+            Component.Subscribe(receiver2);
+
+            Component.PublishOnCurrentThread(new SimpleMessage());
+
+            Assert.True(receiver.Received);
+            Assert.True(receiver2.Received);
+        }
+
+        [Fact]
+        public void NoReceptionBeforeSubscribe()
+        {
+            var receiver = new SimpleMessageListener();
+
+            Component.PublishOnCurrentThread(new SimpleMessage());
+
+            Assert.False(receiver.Received);
+        }
+
+        [Fact]
+        public void NoReceptionAfterUnsubscribe()
+        {
+            var receiver = new SimpleMessageListener();
+            Component.Subscribe(receiver);
+            Component.Unsubscribe(receiver);
+
+            Component.PublishOnCurrentThread(new SimpleMessage());
+
+            Assert.False(receiver.Received);
+        }
+
+        [Fact]
+        public void HandlerCheck()
+        {
+            var receiver = new SimpleMessageListener();
+            Component.Subscribe(receiver);
+            Assert.True(Component.HandlerExistsFor(typeof(SimpleMessage)));
+        }
     }
 }

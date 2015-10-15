@@ -1,4 +1,5 @@
-﻿using Loki.IoC;
+﻿using Loki.Common;
+using Loki.IoC;
 
 namespace Loki.UI
 {
@@ -8,11 +9,23 @@ namespace Loki.UI
     public interface IPlatform
     {
         /// <summary>
-        /// Gets or sets the main object.
+        /// Gets the main object.
         /// </summary>
-        /// <value>
-        /// The main object.
-        /// </value>
-        object EntryPoint { get; set; }
+        object EntryPoint { get; }
+
+        /// <summary>
+        /// Gets the core services.
+        /// </summary>
+        ICoreServices Services { get; }
+
+        /// <summary>
+        /// Gets the IoC context.
+        /// </summary>
+        IObjectContext Context { get; }
+
+        /// <summary>
+        /// Gets the UI services.
+        /// </summary>
+        IUIServices UI { get; }
     }
 }

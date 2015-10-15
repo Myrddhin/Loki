@@ -5,17 +5,12 @@ using Loki.Common;
 
 namespace Loki.UI
 {
-    public abstract class TrackedObject : BaseObject, INotifyPropertyChangedEx, ICentralizedChangeTracking, INotifyPropertyChanging
+    public abstract class TrackedObject : BaseObject, INotifyPropertyChangedEx, ICentralizedChangeTracking
     {
         #region Constructor
 
-        protected TrackedObject(IChangeTracking clone)
-            : this()
-        {
-            changed = clone.IsChanged;
-        }
-
-        protected TrackedObject()
+        protected TrackedObject(ICoreServices services)
+            : base(services.Logger, services.Error)
         {
             Tracking = true;
         }

@@ -59,6 +59,8 @@
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />
+    <Compile Include="Common\ICoreServices.cs" />
+    <Compile Include="Common\Toolkit\CoreServices.cs" />
     <Compile Include="IoC\IoCContext.cs" />
     <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
@@ -169,6 +171,8 @@
     <Compile Include="UI\Tasks\TaskComponent.cs" />
     <Compile Include="UI\Tasks\TaskConfiguration.cs" />
     <Compile Include="UI\Tasks\TaskRun.cs" />
+    <Compile Include="UI\Toolkit\IUIServices.cs" />
+    <Compile Include="UI\Toolkit\UIServices.cs" />
     <Compile Include="UI\TrackedObject.cs" />
     <Compile Include="UI\Commands\CommandManager.cs" />
     <Compile Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />

@@ -7,6 +7,11 @@ namespace Loki.UI
 {
     public class CommandElement : NavigationElement, ICommandElement
     {
+        public CommandElement(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         #region Command
 
         private static PropertyChangedEventArgs argsCommandChanged = ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Command);

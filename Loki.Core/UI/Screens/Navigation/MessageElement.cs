@@ -5,6 +5,11 @@ namespace Loki.UI
 {
     public class MessageElement : NavigationElement, IMessageElement
     {
+        public MessageElement(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         #region Message
 
         private static PropertyChangedEventArgs argsMessageChanged = ObservableHelper.CreateChangedArgs<MessageElement>(x => x.Message);

@@ -13,11 +13,13 @@ namespace Loki.UI
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
-        private object splashView;
+        private readonly List<IContextInstaller> registeredInstallers = new List<IContextInstaller>();
+
+        private readonly object splashView;
+
+        private readonly IPlatform platform;
 
         private TSplashModel splashModel;
-
-        private IPlatform entryPoint;
 
         public CommonBootstrapper(IPlatform platform)
         {
@@ -26,12 +28,10 @@ namespace Loki.UI
                 this.splashView = platform.EntryPoint;
             }
 
-            entryPoint = platform;
+            this.platform = platform;
 
             ConventionManager = new DefaultConventionManager();
         }
-
-        private List<IContextInstaller> registeredInstallers = new List<IContextInstaller>();
 
         public IEnumerable<IContextInstaller> Installers
         {
@@ -49,7 +49,7 @@ namespace Loki.UI
         {
             get
             {
-                return new Assembly[] { Assembly.GetEntryAssembly(), Assembly.GetExecutingAssembly() }.Distinct();
+                return new[] { Assembly.GetEntryAssembly(), Assembly.GetExecutingAssembly() }.Distinct();
             }
         }
 
@@ -65,7 +65,7 @@ namespace Loki.UI
             {
                 foreach (var exception in taskException.InnerExceptions)
                 {
-                    Toolkit.UI.Signals.Error(exception, true);
+                    platform.UI.Signals.Error(exception, true);
                 }
             }
 
@@ -95,17 +95,17 @@ namespace Loki.UI
                 if (!Installers.Any())
                 {
                     // no specific configuration : configure default TMainViewModel
-                    Toolkit.IoC.DefaultContext.Register(Element.For<TMainModel>());
+                    platform.Context.Register(Element.For<TMainModel>());
                 }
                 else
                 {
-                    Toolkit.IoC.DefaultContext.Initialize(Installers.ToArray());
+                    platform.Context.Initialize(Installers.ToArray());
                 }
 
-                Toolkit.Common.MessageBus.Subscribe(this);
-                Toolkit.Common.MessageBus.Subscribe(Toolkit.UI.Signals);
+                platform.Services.Messages.Subscribe(this);
+                platform.Services.Messages.Subscribe(platform.UI.Signals);
 
-                Toolkit.UI.Templating.LoadByConvention(ConventionManager, SelectedAssemblies.ToArray());
+                platform.UI.Templates.LoadByConvention(ConventionManager, SelectedAssemblies.ToArray());
             });
 
             OnInitialized(EventArgs.Empty);
@@ -113,8 +113,8 @@ namespace Loki.UI
 
         public virtual void Exit(int returnCode)
         {
-            Toolkit.Common.MessageBus.Unsubscribe(this);
-            Toolkit.UI.Signals.ApplicationExit(returnCode);
+            platform.Services.Messages.Unsubscribe(this);
+            platform.UI.Signals.ApplicationExit(returnCode);
         }
 
         protected async virtual Task PreStart(string[] startParameters)
@@ -124,7 +124,7 @@ namespace Loki.UI
             {
                 splashModel = Toolkit.IoC.DefaultContext.Get<TSplashModel>();
 
-                Toolkit.UI.Templating.CreateBind(splashView, splashModel);
+                platform.UI.Templates.CreateBind(splashView, splashModel);
 
                 await splashModel.ApplicationInitialize();
             }
@@ -140,7 +140,7 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                Toolkit.UI.Threading.OnUIThread(() => handler(this, e));
+                platform.UI.Threading.OnUIThread(() => handler(this, e));
             }
         }
 
@@ -156,7 +156,7 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                Toolkit.UI.Threading.OnUIThread(() => handler(this, e));
+                platform.UI.Threading.OnUIThread(() => handler(this, e));
             }
         }
 
@@ -164,24 +164,24 @@ namespace Loki.UI
 
         public virtual void Start(string[] startParameters)
         {
-            Toolkit.Common.MessageBus.PublishOnUIThread(new StartMessage(startParameters));
+            platform.Services.Messages.PublishOnUIThread(new StartMessage(startParameters));
 
             splashModel.TryClose();
         }
 
         public void Handle(WarningMessage message)
         {
-            Toolkit.UI.Signals.Warning(message.Message);
+            platform.UI.Signals.Warning(message.Message);
         }
 
         public void Handle(ErrorMessage message)
         {
-            Toolkit.UI.Signals.Error(message.Error, false);
+            platform.UI.Signals.Error(message.Error, false);
         }
 
         public void Handle(InformationMessage message)
         {
-            Toolkit.UI.Signals.Message(message.Message);
+            platform.UI.Signals.Message(message.Message);
         }
     }
 }

@@ -14,6 +14,11 @@ namespace Loki.UI
     /// </summary>
     public class AsyncScreen : Screen
     {
+        public AsyncScreen(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         #region Status
 
         private static PropertyChangedEventArgs argsStatusChanged = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.Status);

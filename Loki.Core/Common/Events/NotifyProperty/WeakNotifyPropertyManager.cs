@@ -2,32 +2,33 @@
 
 namespace Loki.Common
 {
-    public class WeakNotifyPropertyManager<TEventInterface, TEventArgs> : IWeakEventPropertyManager<TEventInterface, TEventArgs>
+    public class WeakNotifyPropertyManager<TEventInterface, TEventArgs> : BaseObject, IWeakEventPropertyManager<TEventInterface, TEventArgs>
         where TEventInterface : class
         where TEventArgs : EventArgs
     {
-        private Func<TEventArgs, string> nameGetter;
-        private Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> subscribeCallback;
-        private Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> unsubscribeCallback;
+        private readonly Func<TEventArgs, string> nameGetter;
+        private readonly Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> subscribeCallback;
+        private readonly Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> unsubscribeCallback;
+        private readonly WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> sourceToBridgeTable;
 
         public WeakNotifyPropertyManager(
+            ILoggerComponent loggerComponent,
+            IErrorComponent errorComponent,
             Func<TEventArgs, string> propertyNameGetter,
             Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> subscribeMapper,
             Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> unsubscribeMapper)
+            : base(loggerComponent, errorComponent)
         {
             nameGetter = propertyNameGetter;
             unsubscribeCallback = unsubscribeMapper;
             subscribeCallback = subscribeMapper;
 
-            sourceToBridgeTable = new WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>>();
+            sourceToBridgeTable = new WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>>(loggerComponent, errorComponent);
         }
-
-        private WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> sourceToBridgeTable;
 
         public void Register<TListener>(TEventInterface source, string propertyName, TListener listener, Action<TListener, object, TEventArgs> propertyChangedCallback)
         {
-            WeakNotifyPropertyBridge<TEventInterface, TEventArgs> bridge;
-            bridge = GetBridgeForSource(source);
+            var bridge = this.GetBridgeForSource(source);
 
             bridge.AddListener(propertyName, listener, propertyChangedCallback);
         }
@@ -42,12 +43,7 @@ namespace Loki.Common
             }
 
             // Can happen if the GC does it's magic
-            if (bridge == null)
-            {
-                bridge = AddNewPropertyBridgeToTable(source);
-            }
-
-            return bridge;
+            return bridge ?? this.AddNewPropertyBridgeToTable(source);
         }
 
         private WeakNotifyPropertyBridge<TEventInterface, TEventArgs> AddNewPropertyBridgeToTable(

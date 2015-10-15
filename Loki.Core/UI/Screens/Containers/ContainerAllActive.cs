@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
+using Loki.Common;
+
 namespace Loki.UI
 {
     public class ContainerAllActive<T> : ContainerBase<T> where T : class
@@ -13,17 +15,14 @@ namespace Loki.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerAllActive&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="openPublicItems">If set to <c>true</c> opens public items that are properties of this class.</param>
-        public ContainerAllActive(bool openPublicItems)
-            : this()
-        {
-            this.openPublicItems = openPublicItems;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContainerAllActive&lt;T&gt;"/> class.
-        /// </summary>
-        public ContainerAllActive()
+        /// <param name="services">
+        /// The services.
+        /// </param>
+        /// <param name="uiServices">
+        /// The ui Services.
+        /// </param>
+        public ContainerAllActive(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
         {
             items.CollectionChanged += (s, e) =>
             {

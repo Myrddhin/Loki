@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Loki.Common;
+using Loki.IoC;
 
 namespace Loki.UI.Win
 {
@@ -9,7 +10,7 @@ namespace Loki.UI.Win
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
-        protected CommonBootstrapper<TMainModel, TSplashModel> bootStrapper;
+        private readonly CommonBootstrapper<TMainModel, TSplashModel> bootStrapper;
 
         public WinformSplashBootstrapper(Form splashView)
             : base(splashView)
@@ -25,10 +26,12 @@ namespace Loki.UI.Win
         {
             Toolkit.Initialize();
             Toolkit.IoC.RegisterInstaller(UIInstaller.Winform);
+            Context = Toolkit.IoC.DefaultContext;
+            Services = Context.Get<ICoreServices>();
+            UI = Context.Get<IUIServices>();
 
             // Force synchronisation context from main thread.
-
-            Toolkit.UI.Threading.OnUIThread(() => { });
+            UI.Threading.OnUIThread(() => { });
 
             Task.Factory.StartNew(() => bootStrapper.Run(args));
 
@@ -39,13 +42,14 @@ namespace Loki.UI.Win
         {
             if (sender != splashScreen)
             {
+                Context.Release(Services);
                 base.OnMainFormClosed(sender, e);
             }
             else
             {
                 // Creates main objects
-                var mainModel = Toolkit.IoC.DefaultContext.Get<TMainModel>();
-                EntryPoint = Toolkit.UI.Templating.GetTemplate(mainModel);
+                var mainModel = Context.Get<TMainModel>();
+                EntryPoint = UI.Templates.GetTemplate(mainModel);
                 MainForm.Show();
             }
         }
@@ -62,5 +66,11 @@ namespace Loki.UI.Win
                 MainForm = value as Form;
             }
         }
+
+        public ICoreServices Services { get; private set; }
+
+        public IObjectContext Context { get; private set; }
+
+        public IUIServices UI { get; private set; }
     }
 }

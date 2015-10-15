@@ -12,9 +12,9 @@ namespace Loki.Common
             }
         }
 
-        private WeakReference listenerReference;
+        private readonly WeakReference listenerReference;
 
-        private Action<TListener, object, TArgs> callback;
+        private readonly Action<TListener, object, TArgs> callback;
 
         public WeakEventCallback(
             object listener,

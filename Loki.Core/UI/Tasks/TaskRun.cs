@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Loki.UI.Tasks
 {
-    public class TaskRun : TrackedObject, IDisposable
+    public class TaskRun : IDisposable
     {
         private readonly CancellationTokenSource cancellationToken;
 
@@ -37,7 +34,7 @@ namespace Loki.UI.Tasks
                     stopWatch.Stop();
                     ElapsedTime = stopWatch.ElapsedMilliseconds;
 
-                    Refresh();
+                    //Refresh();
                     OnTaskCompleted();
                 }),
             new CancellationToken(),

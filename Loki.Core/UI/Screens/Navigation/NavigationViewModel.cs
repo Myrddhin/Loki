@@ -5,6 +5,11 @@ namespace Loki.UI
 {
     public class NavigationElement : DisplayElement, INavigationElement
     {
+        public NavigationElement(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         #region DisplayName
 
         private static PropertyChangedEventArgs argsDisplayNameChanged = ObservableHelper.CreateChangedArgs<NavigationElement>(x => x.DisplayName);

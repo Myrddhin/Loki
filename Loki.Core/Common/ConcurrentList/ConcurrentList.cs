@@ -5,10 +5,14 @@ using System.Collections.Generic;
 
 namespace Loki.Common
 {
-    internal class ConcurrentCollection<T> : BaseObject, IEnumerable<IListNode<T>>
+    internal class ConcurrentCollection<T> : IEnumerable<IListNode<T>>
     {
         private class NodeIterator : IEnumerator<IListNode<T>>
         {
+            private readonly ConcurrentCollection<T> parentList;
+
+            private readonly long currentVersion;
+
             private ConcurrentListNode<T> currentNode;
 
             public IListNode<T> Current
@@ -38,15 +42,7 @@ namespace Loki.Common
             {
                 lock (parentList.syncLock)
                 {
-                    ConcurrentListNode<T> node = null;
-                    if (currentNode == null)
-                    {
-                        node = parentList.firstNode;
-                    }
-                    else
-                    {
-                        node = currentNode.Next;
-                    }
+                    var node = this.currentNode == null ? this.parentList.firstNode : this.currentNode.Next;
 
                     while (node != null && (node.Version > currentVersion || node.Deleted))
                     {
@@ -74,10 +70,6 @@ namespace Loki.Common
                 throw new NotSupportedException();
             }
 
-            private ConcurrentCollection<T> parentList;
-
-            private long currentVersion;
-
             public NodeIterator(ConcurrentCollection<T> list, long version)
             {
                 this.currentVersion = version;
@@ -85,17 +77,17 @@ namespace Loki.Common
             }
         }
 
-        private long currentVersion;
+        private readonly object syncLock = new object();
 
-        private object syncLock = new object();
+        private readonly ConcurrentQueue<ConcurrentListNode<T>> itemsToRemove;
+
+        private long currentVersion;
 
         private ConcurrentListNode<T> firstNode;
 
         private ConcurrentListNode<T> lastNode;
 
         private int iteratorCount;
-
-        private ConcurrentQueue<ConcurrentListNode<T>> itemsToRemove;
 
         public bool IsEmpty
         {
@@ -135,28 +127,30 @@ namespace Loki.Common
 
         private void PurgeItems()
         {
-            ConcurrentListNode<T> nodeBuffer = null;
+            ConcurrentListNode<T> nodeBuffer;
             ConcurrentListNode<T> nodeToRemove = null;
 
-            if (itemsToRemove.TryPeek(out nodeBuffer))
+            if (!this.itemsToRemove.TryPeek(out nodeBuffer))
             {
-                while (itemsToRemove.Count > 0 && nodeBuffer != nodeToRemove)
-                {
-                    if (itemsToRemove.TryDequeue(out nodeToRemove))
-                    {
-                        if (nodeToRemove.Read)
-                        {
-                            // is read, try later
-                            itemsToRemove.Enqueue(nodeToRemove);
-                        }
-                        else
-                        {
-                            InternalRemove(nodeToRemove);
-                        }
-                    }
+                return;
+            }
 
-                    itemsToRemove.TryPeek(out nodeToRemove);
+            while (this.itemsToRemove.Count > 0 && nodeBuffer != nodeToRemove)
+            {
+                if (this.itemsToRemove.TryDequeue(out nodeToRemove))
+                {
+                    if (nodeToRemove.Read)
+                    {
+                        // is read, try later
+                        this.itemsToRemove.Enqueue(nodeToRemove);
+                    }
+                    else
+                    {
+                        this.InternalRemove(nodeToRemove);
+                    }
                 }
+
+                this.itemsToRemove.TryPeek(out nodeToRemove);
             }
         }
 
@@ -173,6 +167,11 @@ namespace Loki.Common
         public void Remove(IListNode<T> nodeToRemove)
         {
             ConcurrentListNode<T> buffer = nodeToRemove as ConcurrentListNode<T>;
+            if (buffer == null)
+            {
+                return;
+            }
+
             buffer.Deleted = true;
             if (iteratorCount == 0)
             {
@@ -228,7 +227,7 @@ namespace Loki.Common
         public IEnumerator<IListNode<T>> GetEnumerator()
         {
             iteratorCount++;
-            return new ConcurrentCollection<T>.NodeIterator(this, this.currentVersion);
+            return new NodeIterator(this, this.currentVersion);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

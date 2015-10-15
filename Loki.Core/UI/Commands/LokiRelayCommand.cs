@@ -1,12 +1,11 @@
 ﻿using System;
-using Loki.Common;
 
 namespace Loki.Commands
 {
     /// <summary>
     /// Loki bridge command type.
     /// </summary>
-    public class LokiRelayCommand : LoggableObject, ICommand
+    public class LokiRelayCommand : ICommand
     {
         public LokiRelayCommand(Func<bool> canExecuteCallBack, Action executeCallBack)
         {

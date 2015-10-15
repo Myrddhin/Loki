@@ -46,7 +46,7 @@ namespace Loki.UI.Wpf
             }
             else
             {
-                ErrorMessageBox.Show(BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
+                ErrorMessageBox.Show(ErrorManager.BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
             }
 
             if (imperative)

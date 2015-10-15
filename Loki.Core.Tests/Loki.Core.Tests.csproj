@@ -91,8 +91,15 @@
     </Compile>
     <Compile Include="Common\CommonTest.cs" />
     <Compile Include="Common\ErrorComponentTest.cs" />
+    <Compile Include="Common\EventComponentTest.cs" />
+    <Compile Include="Common\EventListener.cs" />
     <Compile Include="Common\LoggerComponentTest.cs" />
     <Compile Include="Common\MessageBusTest.cs" />
+    <Compile Include="Common\NotifyCanExecuteChangedRaiser.cs" />
+    <Compile Include="Common\NotifyPropertyChangedRaiser.cs" />
+    <Compile Include="Common\SimpleMessage.cs" />
+    <Compile Include="Common\SimpleMessageListener.cs" />
+    <Compile Include="Common\WeakDictionnaryTest.cs" />
     <Compile Include="IoC\CastleTests.cs" />
     <Compile Include="IoC\DummyClass.cs" />
     <Compile Include="IoC\DummyDependant.cs" />

@@ -5,7 +5,7 @@ namespace Loki.Common
     public sealed class WeakKeyComparer<T> : IEqualityComparer<object>
     where T : class
     {
-        private IEqualityComparer<T> internalComparer;
+        private readonly IEqualityComparer<T> internalComparer;
 
         internal WeakKeyComparer(IEqualityComparer<T> comparer)
         {
@@ -56,7 +56,7 @@ namespace Loki.Common
 
             if (firstIsDead)
             {
-                return secondIsDead ? x == y : false;
+                return secondIsDead && x == y;
             }
 
             if (secondIsDead)

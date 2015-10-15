@@ -7,46 +7,71 @@ namespace Loki.UI
 {
     public class DisplayElement : TrackedObject
     {
+        protected ICoreServices Services { get; private set; }
+
+        protected IUIServices UI { get; private set; }
+
+        public DisplayElement(ICoreServices services, IUIServices uiServices)
+            : base(services)
+        {
+            Services = services;
+            UI = uiServices;
+        }
+
         public IMessageComponent CommonBus
         {
-            get;
-            set;
+            get
+            {
+                return Services.Messages;
+            }
         }
 
         public ICommandComponent CommandService
         {
-            get;
-            set;
+            get
+            {
+                return UI.Commands;
+            }
         }
 
         public IEventComponent EventService
         {
-            get;
-            set;
+            get
+            {
+                return UI.Events;
+            }
         }
 
         public IWindowManager Windows
         {
-            get;
-            set;
+            get
+            {
+                return UI.Windows;
+            }
         }
 
         public ITaskComponent Tasks
         {
-            get;
-            set;
+            get
+            {
+                return UI.Tasks;
+            }
         }
 
         public IThreadingContext ThreadingContext
         {
-            get;
-            set;
+            get
+            {
+                return UI.Threading;
+            }
         }
 
         public ISignalManager Signals
         {
-            get;
-            set;
+            get
+            {
+                return UI.Signals;
+            }
         }
 
         public CommandManager Commands

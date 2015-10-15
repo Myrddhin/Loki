@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Loki.Common;
+using Loki.IoC;
 
 namespace Loki.UI.Wpf
 {
@@ -15,7 +16,6 @@ namespace Loki.UI.Wpf
             if (Application.Current != null && !DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
 
                 Application.Current.MainWindow = splashWindow;
                 mainObject = Application.Current.MainWindow;
@@ -23,7 +23,12 @@ namespace Loki.UI.Wpf
                 Application.Current.MainWindow.Show();
 
                 Toolkit.Initialize();
-                Toolkit.UI.Threading.OnUIThread(() => { });
+                Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
+                Context = Toolkit.IoC.DefaultContext;
+                Services = Context.Get<ICoreServices>();
+                UI = Context.Get<IUIServices>();
+
+                UI.Threading.OnUIThread(() => { });
 
                 Application.Current.Startup += Application_Startup;
             }
@@ -31,17 +36,19 @@ namespace Loki.UI.Wpf
             BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
         }
 
-        private bool? inDesignMode = null;
+        private bool? inDesignMode;
 
         public bool DesignMode
         {
             get
             {
-                if (inDesignMode == null)
+                if (this.inDesignMode != null)
                 {
-                    var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
-                    inDesignMode = (bool)descriptor.Metadata.DefaultValue;
+                    return this.inDesignMode.GetValueOrDefault(false);
                 }
+
+                var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
+                this.inDesignMode = (bool)descriptor.Metadata.DefaultValue;
 
                 return inDesignMode.GetValueOrDefault(false);
             }
@@ -56,10 +63,16 @@ namespace Loki.UI.Wpf
 
             set
             {
-                Application.Current.MainWindow = Toolkit.UI.Templating.GetTemplate(value) as Window;
+                Application.Current.MainWindow = UI.Templates.GetTemplate(value) as Window;
                 mainObject = value;
             }
         }
+
+        public ICoreServices Services { get; private set; }
+
+        public IObjectContext Context { get; private set; }
+
+        public IUIServices UI { get; private set; }
 
         protected CommonBootstrapper<TMainModel, TSplashModel> BootStrapper { get; private set; }
 
@@ -70,7 +83,7 @@ namespace Loki.UI.Wpf
             ApplicationStart();
         }
 
-        private async void Application_Startup(object sender, System.Windows.StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             await BootStrapper.Run(e.Args);
 
@@ -79,7 +92,7 @@ namespace Loki.UI.Wpf
 
         private void ApplicationStart()
         {
-            var mainModel = Toolkit.IoC.DefaultContext.Get<TMainModel>();
+            var mainModel = Context.Get<TMainModel>();
             EntryPoint = mainModel;
             Application.Current.MainWindow.Show();
             Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;

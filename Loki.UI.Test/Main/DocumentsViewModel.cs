@@ -1,5 +1,6 @@
 ﻿using System;
 using Loki.Commands;
+using Loki.Common;
 
 namespace Loki.UI.Test
 {
@@ -7,7 +8,8 @@ namespace Loki.UI.Test
     {
         public IScreenFactory ScreenFactory { get; set; }
 
-        public DocumentsViewModel()
+        public DocumentsViewModel(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
         {
             /*  var document1 = new Screen() { DisplayName = "Document 1 Test" };
               var document2 = new Screen() { DisplayName = "Document 2 Test" };
@@ -40,10 +42,10 @@ namespace Loki.UI.Test
 
         private void Search_Execute(object sender, EventArgs e)
         {
-            var document3 = new Screen() { DisplayName = "Created at " + DateTime.Now.ToString() };
+            //var document3 = new Screen() { DisplayName = "Created at " + DateTime.Now.ToString() };
 
-            Items.Add(document3);
-            ActivateItem(document3);
+            //Items.Add(document3);
+            //ActivateItem(document3);
         }
 
         public override void ActivateItem(Screen item)

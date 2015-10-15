@@ -5,6 +5,11 @@ namespace Loki.UI
 {
     public abstract class ContainerBaseWithActiveItem<T> : ContainerBase<T>, IConductActiveItem where T : class
     {
+        protected ContainerBaseWithActiveItem(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         private static PropertyChangedEventArgs argsActiveItemChanged = ObservableHelper.CreateChangedArgs<ContainerBaseWithActiveItem<T>>(x => x.ActiveItem);
 
         private T activeItem;

@@ -6,13 +6,13 @@ namespace Loki.Common
         where TEventInterface : class
         where TEventArgs : EventArgs
     {
-        private TEventInterface eventSource;
+        private readonly TEventInterface eventSource;
 
-        private IWeakEventManager<TEventInterface, TEventArgs> eventManager;
+        private readonly IWeakEventManager<TEventInterface, TEventArgs> eventManager;
 
-        private ConcurrentCollection<IWeakEventCallback<TEventArgs>> eventCallbacks;
+        private readonly ConcurrentCollection<IWeakEventCallback<TEventArgs>> eventCallbacks;
 
-        private Action<TEventInterface, WeakEventBridge<TEventInterface, TEventArgs>> unsubscribeCallback;
+        private readonly Action<TEventInterface, WeakEventBridge<TEventInterface, TEventArgs>> unsubscribeCallback;
 
         /// <summary>
         /// Gets a value indicating whether the event source has active listeners.

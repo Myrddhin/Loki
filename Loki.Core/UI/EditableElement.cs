@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Loki.Common;
 
 namespace Loki.UI
 {
     public class EditableElement : DisplayElement, ICentralizedChangeTracking, IEditableObject
     {
+        public EditableElement(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
+        {
+        }
+
         private static ConcurrentDictionary<Type, List<PropertyParam>> propertyInfos = new ConcurrentDictionary<Type, List<PropertyParam>>();
 
         private static void PrepareEditableProperties(Type type)

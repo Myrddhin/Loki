@@ -1,10 +1,13 @@
 ﻿using System.Linq;
 
+using Loki.Common;
+
 namespace Loki.UI.Test
 {
     public class MainViewModel : ContainerAllActive<Screen>
     {
-        public MainViewModel()
+        public MainViewModel(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
         {
             DisplayName = "Loki test application";
         }

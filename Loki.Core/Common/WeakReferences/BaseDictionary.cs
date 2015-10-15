@@ -12,13 +12,24 @@ namespace Loki.Common
     /// <summary>
     /// Represents a dictionary mapping keys to values.
     /// </summary>
+    /// <typeparam name="TKey">
+    /// Key type.
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// Value type.
+    /// </typeparam>
     /// <remarks>
     /// Provides the plumbing for the portions of IDictionary&lt;TKey, TValue&gt; which can reasonably be implemented without any dependency on the underlying representation of the dictionary.
     /// </remarks>
     [DebuggerDisplay(DebugDisplay)]
     [DebuggerTypeProxy(Prefix + DebugProxy + Suffix)]
-    public abstract class BaseDictionary<TKey, TValue> : LoggableObject, IDictionary<TKey, TValue>
+    public abstract class BaseDictionary<TKey, TValue> : BaseObject, IDictionary<TKey, TValue>
     {
+        protected BaseDictionary(ILoggerComponent logger, IErrorComponent errorComponent)
+            : base(logger, errorComponent)
+        {
+        }
+
         private const string DebugDisplay = "Count = {Count}";
 
         private const string DebugProxy = "DictionaryDebugView`2";
@@ -137,11 +148,11 @@ namespace Loki.Common
             return GetEnumerator();
         }
 
-        private abstract class Collection<T> : BaseObject, ICollection<T>
+        private abstract class Collection<T> : ICollection<T>
         {
-            protected readonly IDictionary<TKey, TValue> ReferenceDict;
+            protected readonly BaseDictionary<TKey, TValue> ReferenceDict;
 
-            protected Collection(IDictionary<TKey, TValue> dictionary)
+            protected Collection(BaseDictionary<TKey, TValue> dictionary)
             {
                 ReferenceDict = dictionary;
             }
@@ -158,7 +169,7 @@ namespace Loki.Common
 
             public void CopyTo(T[] array, int arrayIndex)
             {
-                Copy(this, array, arrayIndex);
+                ReferenceDict.Copy(this, array, arrayIndex);
             }
 
             public virtual bool Contains(T item)
@@ -196,7 +207,7 @@ namespace Loki.Common
 
         private class KeyCollection : Collection<TKey>
         {
-            public KeyCollection(IDictionary<TKey, TValue> dictionary)
+            public KeyCollection(BaseDictionary<TKey, TValue> dictionary)
                 : base(dictionary)
             {
             }
@@ -214,7 +225,7 @@ namespace Loki.Common
 
         private class ValueCollection : Collection<TValue>
         {
-            public ValueCollection(IDictionary<TKey, TValue> dictionary)
+            public ValueCollection(BaseDictionary<TKey, TValue> dictionary)
                 : base(dictionary)
             {
             }
@@ -225,23 +236,21 @@ namespace Loki.Common
             }
         }
 
-        private static void Copy<T>(ICollection<T> source, IList<T> array, int arrayIndex)
+        private void Copy<T>(ICollection<T> source, IList<T> array, int arrayIndex)
         {
-            ILog log = Toolkit.Common.Logger.GetLog(typeof(BaseDictionary<TKey, TValue>).Name);
-
             if (array == null)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest);
+                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest);
             }
 
             if (arrayIndex < 0 || arrayIndex > array.Count)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange);
+                throw ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange);
             }
 
             if ((array.Count - arrayIndex) < source.Count)
             {
-                throw Toolkit.Common.ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest);
+                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest);
             }
 
             foreach (T item in source)

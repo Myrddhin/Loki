@@ -1,8 +1,11 @@
-﻿namespace Loki.UI.Test
+﻿using Loki.Common;
+
+namespace Loki.UI.Test
 {
     public class NavigationMenuViewModel : ContainerAllActive<NavigationElement>
     {
-        public NavigationMenuViewModel()
+        public NavigationMenuViewModel(ICoreServices services, IUIServices uiServices)
+            : base(services, uiServices)
         {
             DisplayName = "Navigation";
         }
@@ -12,11 +15,11 @@
             var navMessage = new NavigationMessage<Screen>();
 
             base.OnInitialize();
-            var portfolioGroup = new NavigationGroupElement() { DisplayName = "Portfolio" };
-            portfolioGroup.Children.Add(new MessageElement() { DisplayName = "Dashboard", Message = navMessage });
+            var portfolioGroup = new NavigationGroupElement(Services, UI) { DisplayName = "Portfolio" };
+            portfolioGroup.Children.Add(new MessageElement(Services, UI) { DisplayName = "Dashboard", Message = navMessage });
             Items.Add(portfolioGroup);
 
-            Items.Add(new NavigationGroupElement() { DisplayName = "Analysis" });
+            Items.Add(new NavigationGroupElement(Services, UI) { DisplayName = "Analysis" });
         }
     }
 }

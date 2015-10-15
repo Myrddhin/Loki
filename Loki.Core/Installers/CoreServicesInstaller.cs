@@ -1,5 +1,6 @@
 ﻿using Loki.IoC;
 using Loki.IoC.Registration;
+using Loki.UI;
 
 namespace Loki.Common
 {
@@ -13,6 +14,10 @@ namespace Loki.Common
              context.Register(Element.Service<ISettingsComponent, LokiSettingsService>());*/
             context.Register(Element.Service<IMessageComponent, MessageBus>());
             context.Register(Element.Service<ILoggerComponent, Log4NetLogger>().AsFallback());
+
+            // Services groups
+            context.Register(Element.For<ICoreServices>().ImplementedBy<CoreServices>());
+            context.Register(Element.For<IUIServices>().ImplementedBy<UIServices>());
         }
     }
 }
