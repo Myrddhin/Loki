@@ -7,16 +7,18 @@ namespace Loki.UI
 {
     public class CommandElement : NavigationElement, ICommandElement
     {
-        public CommandElement(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public CommandElement(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 
         #region Command
 
-        private static PropertyChangedEventArgs argsCommandChanged = ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Command);
+        private static readonly PropertyChangedEventArgs argsCommandChanged =
+            ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Command);
 
-        private static PropertyChangingEventArgs argsCommandChanging = ObservableHelper.CreateChangingArgs<CommandElement>(x => x.Command);
+        private static readonly PropertyChangingEventArgs argsCommandChanging =
+            ObservableHelper.CreateChangingArgs<CommandElement>(x => x.Command);
 
         private ICommand command;
 
@@ -42,9 +44,11 @@ namespace Loki.UI
 
         #region Parameter
 
-        private static PropertyChangedEventArgs argsParameterChanged = ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Parameter);
+        private static readonly PropertyChangedEventArgs argsParameterChanged =
+            ObservableHelper.CreateChangedArgs<CommandElement>(x => x.Parameter);
 
-        private static PropertyChangingEventArgs argsParameterChanging = ObservableHelper.CreateChangingArgs<CommandElement>(x => x.Parameter);
+        private static readonly PropertyChangingEventArgs argsParameterChanging =
+            ObservableHelper.CreateChangingArgs<CommandElement>(x => x.Parameter);
 
         private object parameter;
 

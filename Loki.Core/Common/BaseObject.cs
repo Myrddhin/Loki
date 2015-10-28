@@ -6,13 +6,6 @@
     public class BaseObject : LoggableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseObject"/> class. Use the static callback for error manager.
-        /// </summary>
-        public BaseObject()
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BaseObject"/> class. Use dependency injection.
         /// </summary>
         /// <param name="logManager">
@@ -24,17 +17,9 @@
         public BaseObject(ILoggerComponent logManager, IErrorComponent errorManager)
             : base(logManager)
         {
-            errorComponent = errorManager;
+            ErrorManager = errorManager;
         }
 
-        private readonly IErrorComponent errorComponent;
-
-        protected virtual IErrorComponent ErrorManager
-        {
-            get
-            {
-                return this.errorComponent ?? Toolkit.Common.ErrorManager;
-            }
-        }
+        protected virtual IErrorComponent ErrorManager { get; private set; }
     }
 }

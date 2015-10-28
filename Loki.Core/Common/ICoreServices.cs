@@ -7,5 +7,7 @@
         IErrorComponent Error { get; }
 
         IMessageComponent Messages { get; }
+
+        IEventComponent Events { get; }
     }
 }

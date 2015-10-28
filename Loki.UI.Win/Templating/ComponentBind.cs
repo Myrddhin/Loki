@@ -8,7 +8,7 @@ using Loki.Common;
 
 namespace Loki.UI.Win
 {
-    public class ComponentBind<TComponent> : BaseObject
+    public class ComponentBind<TComponent> : LoggableObject
            where TComponent : Component
     {
         private Binder binder = new Binder();

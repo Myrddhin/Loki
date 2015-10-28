@@ -27,7 +27,7 @@ namespace Loki.UI.Win
             Toolkit.Initialize();
             Toolkit.IoC.RegisterInstaller(UIInstaller.Winform);
             Context = Toolkit.IoC.DefaultContext;
-            Services = Context.Get<ICoreServices>();
+            this.Core = Context.Get<ICoreServices>();
             UI = Context.Get<IUIServices>();
 
             // Force synchronisation context from main thread.
@@ -42,7 +42,7 @@ namespace Loki.UI.Win
         {
             if (sender != splashScreen)
             {
-                Context.Release(Services);
+                Context.Release(this.Core);
                 base.OnMainFormClosed(sender, e);
             }
             else
@@ -67,7 +67,7 @@ namespace Loki.UI.Win
             }
         }
 
-        public ICoreServices Services { get; private set; }
+        public ICoreServices Core { get; private set; }
 
         public IObjectContext Context { get; private set; }
 

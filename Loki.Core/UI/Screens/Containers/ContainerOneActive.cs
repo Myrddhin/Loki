@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
-using Loki.Common;
-
 namespace Loki.UI
 {
     public class ContainerOneActive<T> : ContainerBaseWithActiveItem<T> where T : class
@@ -19,8 +17,8 @@ namespace Loki.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerOneActive&lt;T&gt;"/> class.
         /// </summary>
-        public ContainerOneActive(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public ContainerOneActive(IDisplayServices coreServices)
+            : base(coreServices)
         {
             items.CollectionChanged += (s, e) =>
             {

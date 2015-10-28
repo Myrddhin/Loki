@@ -15,7 +15,7 @@ namespace Loki.Common
             context.Register(Element.Service<IMessageComponent, MessageBus>());
             context.Register(Element.Service<ILoggerComponent, Log4NetLogger>().AsFallback());
 
-            // Services groups
+            // Core groups
             context.Register(Element.For<ICoreServices>().ImplementedBy<CoreServices>());
             context.Register(Element.For<IUIServices>().ImplementedBy<UIServices>());
         }

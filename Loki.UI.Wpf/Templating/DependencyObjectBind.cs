@@ -3,7 +3,7 @@ using Loki.Common;
 
 namespace Loki.UI.Wpf.Binds
 {
-    public class DependencyObjectBind<TComponent> : BaseObject where TComponent : DependencyObject
+    public class DependencyObjectBind<TComponent> : LoggableObject where TComponent : DependencyObject
     {
         protected TComponent Component { get; private set; }
 

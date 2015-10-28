@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+
 using Loki.Common;
 
 namespace Loki.UI
 {
     public class EditableElement : DisplayElement, ICentralizedChangeTracking, IEditableObject
     {
-        public EditableElement(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public EditableElement(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 
-        private static ConcurrentDictionary<Type, List<PropertyParam>> propertyInfos = new ConcurrentDictionary<Type, List<PropertyParam>>();
+        private static readonly ConcurrentDictionary<Type, List<PropertyParam>> propertyInfos = new ConcurrentDictionary<Type, List<PropertyParam>>();
 
         private static void PrepareEditableProperties(Type type)
         {
@@ -50,7 +51,7 @@ namespace Loki.UI
             public MethodInfo Setter { get; set; }
         }
 
-        private Dictionary<string, object> oldValues = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> oldValues = new Dictionary<string, object>();
 
         public void BeginEdit()
         {
@@ -83,7 +84,7 @@ namespace Loki.UI
             {
                 if (oldValues.ContainsKey(propParam.Name))
                 {
-                    propParam.Setter.Invoke(this, new object[] { oldValues[propParam.Name] });
+                    propParam.Setter.Invoke(this, new[] { oldValues[propParam.Name] });
                 }
             }
         }

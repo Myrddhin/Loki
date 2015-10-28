@@ -1,11 +1,9 @@
-﻿using Loki.Common;
-
-namespace Loki.UI
+﻿namespace Loki.UI
 {
-    public class NavigationGroupElement : NavigationElement, IParent, INavigationElement
+    public class NavigationGroupElement : NavigationElement, IParent
     {
-        public NavigationGroupElement(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public NavigationGroupElement(IDisplayServices coreServices)
+            : base(coreServices)
         {
             Children = new BindableCollection<NavigationElement>();
         }

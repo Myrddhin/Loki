@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Loki.Common;
-
 namespace Loki.UI
 {
     public abstract class ContainerBase<T> : Screen, IConductor, IParent<T> where T : class
     {
-        protected ContainerBase(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        protected ContainerBase(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 

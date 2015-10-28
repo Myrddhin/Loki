@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
-using Loki.Common;
+﻿using Loki.Common;
+using System.ComponentModel;
 
 namespace Loki.UI
 {
     public class NavigationElement : DisplayElement, INavigationElement
     {
-        public NavigationElement(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public NavigationElement(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 

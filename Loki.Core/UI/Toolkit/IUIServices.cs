@@ -1,5 +1,4 @@
 ﻿using Loki.Commands;
-using Loki.Common;
 using Loki.UI.Tasks;
 
 namespace Loki.UI
@@ -13,8 +12,6 @@ namespace Loki.UI
         ISignalManager Signals { get; }
 
         ICommandComponent Commands { get; }
-
-        IEventComponent Events { get; }
 
         IThreadingContext Threading { get; }
 

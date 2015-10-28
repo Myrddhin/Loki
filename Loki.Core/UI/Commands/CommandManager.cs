@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+
 using Loki.Common;
 
 namespace Loki.Commands
@@ -9,14 +10,18 @@ namespace Loki.Commands
     /// <summary>
     /// Command manager class.
     /// </summary>
-    public class CommandManager : BaseObject, IDisposable
+    public class CommandManager : IDisposable
     {
         /// <summary>
         /// The Always functor (for can execute test).
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="Loki.UI.CanExecuteCommandEventArgs"/> instance containing
-        /// the event data.</param>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="Loki.Commands.CanExecuteCommandEventArgs"/> instance containing
+        /// the event data.
+        /// </param>
         public static void Always(object sender, CanExecuteCommandEventArgs e)
         {
             e.CanExecute = true;
@@ -86,6 +91,8 @@ namespace Loki.Commands
         /// <summary>
         /// Creates the specified command.
         /// </summary>
+        /// <returns>
+        /// </returns>
         public ICommand Create()
         {
             return Create(Guid.NewGuid().ToString());
@@ -94,7 +101,11 @@ namespace Loki.Commands
         /// <summary>
         /// Creates the command with the specified name.
         /// </summary>
-        /// <param name="commandName">Name of the command.</param>
+        /// <param name="commandName">
+        /// Name of the command.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public ICommand Create(string commandName)
         {
             if (Toolkit.UI.Windows.DesignMode)
@@ -150,7 +161,7 @@ namespace Loki.Commands
             }
         }
 
-        private ConcurrentDictionary<ICommand, List<ICommandHandler>> handlers;
+        private readonly ConcurrentDictionary<ICommand, List<ICommandHandler>> handlers;
 
         private void ClearHandlers()
         {
@@ -189,10 +200,12 @@ namespace Loki.Commands
 
         /// <summary>
         /// Releases the unmanaged resources used by an instance of the
-        /// <see cref="CommandManager" /> class and optionally releases the managed resources.
+        /// <see cref="CommandManager"/> class and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing">Set <strong>true</strong> to release both managed and
-        /// unmanaged resources; <strong>false</strong> to release only unmanaged resources.</param>
+        /// <param name="disposing">
+        /// Set <strong>true</strong> to release both managed and
+        /// unmanaged resources; <strong>false</strong> to release only unmanaged resources.
+        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

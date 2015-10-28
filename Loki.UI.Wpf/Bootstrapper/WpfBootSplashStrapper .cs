@@ -5,7 +5,7 @@ using Loki.IoC;
 
 namespace Loki.UI.Wpf
 {
-    public class WpfSplashBootStrapper<TMainModel, TSplashModel> : BaseObject, IPlatform
+    public class WpfSplashBootStrapper<TMainModel, TSplashModel> : LoggableObject, IPlatform
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
@@ -25,7 +25,7 @@ namespace Loki.UI.Wpf
                 Toolkit.Initialize();
                 Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
                 Context = Toolkit.IoC.DefaultContext;
-                Services = Context.Get<ICoreServices>();
+                this.Core = Context.Get<ICoreServices>();
                 UI = Context.Get<IUIServices>();
 
                 UI.Threading.OnUIThread(() => { });
@@ -68,7 +68,7 @@ namespace Loki.UI.Wpf
             }
         }
 
-        public ICoreServices Services { get; private set; }
+        public ICoreServices Core { get; private set; }
 
         public IObjectContext Context { get; private set; }
 

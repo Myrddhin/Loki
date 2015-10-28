@@ -1,6 +1,5 @@
-﻿using System;
-using Loki.Commands;
-using Loki.Common;
+﻿using Loki.Commands;
+using System;
 
 namespace Loki.UI.Test
 {
@@ -8,8 +7,8 @@ namespace Loki.UI.Test
     {
         public IScreenFactory ScreenFactory { get; set; }
 
-        public DocumentsViewModel(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public DocumentsViewModel(IDisplayServices coreServices)
+            : base(coreServices)
         {
             /*  var document1 = new Screen() { DisplayName = "Document 1 Test" };
               var document2 = new Screen() { DisplayName = "Document 2 Test" };

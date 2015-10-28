@@ -7,7 +7,7 @@ using Loki.Common;
 
 namespace Loki.UI.Win
 {
-    public class WinformWindowManager : BaseObject, IWindowManager
+    public class WinformWindowManager : LoggableObject, IWindowManager
     {
         public virtual CultureInfo Culture
         {

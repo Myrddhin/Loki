@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel;
-using Loki.Commands;
+﻿using Loki.Commands;
 using Loki.Common;
+using System;
+using System.ComponentModel;
 
 namespace Loki.UI
 {
     public class Screen : DisplayElement, IScreen, IChild, ICommandAware
     {
-        public Screen(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public Screen(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 
@@ -268,9 +268,9 @@ namespace Loki.UI
                 AttemptingDesactivation(
                     this,
                     new DesactivationEventArgs
-                {
-                    WasClosed = close
-                });
+                    {
+                        WasClosed = close
+                    });
 
                 IsActive = false;
                 Log.DebugFormat("Deactivating {0}.", this.displayName);

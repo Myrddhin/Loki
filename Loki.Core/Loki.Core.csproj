@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Quality|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -171,6 +172,7 @@
     <Compile Include="UI\Tasks\TaskComponent.cs" />
     <Compile Include="UI\Tasks\TaskConfiguration.cs" />
     <Compile Include="UI\Tasks\TaskRun.cs" />
+    <Compile Include="UI\Toolkit\IDisplayServices.cs" />
     <Compile Include="UI\Toolkit\IUIServices.cs" />
     <Compile Include="UI\Toolkit\UIServices.cs" />
     <Compile Include="UI\TrackedObject.cs" />

@@ -7,7 +7,7 @@ namespace Loki.UI.Wpf
 {
     public class WpfSignalManager : BaseObject, ISignalManager
     {
-        public WpfSignalManager()
+        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager) : base(logManager, errorManager)
         {
             //if (Application.Current != null)
             //{

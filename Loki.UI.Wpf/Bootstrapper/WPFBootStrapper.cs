@@ -5,7 +5,7 @@ using Loki.IoC;
 
 namespace Loki.UI.Wpf
 {
-    public class WpfBootStrapper<TMainViewModelType> : BaseObject, IPlatform
+    public class WpfBootStrapper<TMainViewModelType> :  IPlatform
         where TMainViewModelType : class, IScreen
     {
         private object mainObject;
@@ -25,7 +25,7 @@ namespace Loki.UI.Wpf
                 Toolkit.Initialize();
                 Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
                 Context = Toolkit.IoC.DefaultContext;
-                Services = Context.Get<ICoreServices>();
+                this.Core = Context.Get<ICoreServices>();
                 UI = Context.Get<IUIServices>();
 
                 Application.Current.Startup += Application_Startup;
@@ -64,7 +64,7 @@ namespace Loki.UI.Wpf
             }
         }
 
-        public ICoreServices Services { get; private set; }
+        public ICoreServices Core { get; private set; }
 
         public IObjectContext Context { get; private set; }
 

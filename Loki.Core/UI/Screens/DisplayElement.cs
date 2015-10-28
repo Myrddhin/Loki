@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Loki.Commands;
 using Loki.Common;
 using Loki.UI.Tasks;
@@ -7,22 +8,19 @@ namespace Loki.UI
 {
     public class DisplayElement : TrackedObject
     {
-        protected ICoreServices Services { get; private set; }
+        protected IDisplayServices Services { get; private set; }
 
-        protected IUIServices UI { get; private set; }
-
-        public DisplayElement(ICoreServices services, IUIServices uiServices)
-            : base(services)
+        public DisplayElement(IDisplayServices coreServices)
+            : base(coreServices.Core)
         {
-            Services = services;
-            UI = uiServices;
+            this.Services = coreServices;
         }
 
         public IMessageComponent CommonBus
         {
             get
             {
-                return Services.Messages;
+                return Services.Core.Messages;
             }
         }
 
@@ -30,7 +28,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Commands;
+                return Services.UI.Commands;
             }
         }
 
@@ -38,7 +36,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Events;
+                return Services.Core.Events;
             }
         }
 
@@ -46,7 +44,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Windows;
+                return Services.UI.Windows;
             }
         }
 
@@ -54,7 +52,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Tasks;
+                return Services.UI.Tasks;
             }
         }
 
@@ -62,7 +60,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Threading;
+                return Services.UI.Threading;
             }
         }
 
@@ -70,7 +68,7 @@ namespace Loki.UI
         {
             get
             {
-                return UI.Signals;
+                return Services.UI.Signals;
             }
         }
 

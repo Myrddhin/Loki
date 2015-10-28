@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
-using Loki.Common;
-
 namespace Loki.UI
 {
     public class ContainerAllActive<T> : ContainerBase<T> where T : class
@@ -19,10 +17,10 @@ namespace Loki.UI
         /// The services.
         /// </param>
         /// <param name="uiServices">
-        /// The ui Services.
+        /// The ui Core.
         /// </param>
-        public ContainerAllActive(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public ContainerAllActive(IDisplayServices coreServices)
+            : base(coreServices)
         {
             items.CollectionChanged += (s, e) =>
             {

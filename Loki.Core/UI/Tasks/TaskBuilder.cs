@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Loki.Common;
 
 namespace Loki.UI.Tasks
 {
-    internal class TaskBuilder : BaseObject
+    internal class TaskBuilder : LoggableObject
     {
-        private TaskComponent service;
+        private readonly TaskComponent service;
 
         public TaskBuilder(TaskComponent service)
         {

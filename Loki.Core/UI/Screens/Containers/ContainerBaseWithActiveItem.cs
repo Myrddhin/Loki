@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+
 using Loki.Common;
 
 namespace Loki.UI
 {
     public abstract class ContainerBaseWithActiveItem<T> : ContainerBase<T>, IConductActiveItem where T : class
     {
-        protected ContainerBaseWithActiveItem(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        protected ContainerBaseWithActiveItem(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 
-        private static PropertyChangedEventArgs argsActiveItemChanged = ObservableHelper.CreateChangedArgs<ContainerBaseWithActiveItem<T>>(x => x.ActiveItem);
+        private static readonly PropertyChangedEventArgs argsActiveItemChanged = ObservableHelper.CreateChangedArgs<ContainerBaseWithActiveItem<T>>(x => x.ActiveItem);
 
         private T activeItem;
 
@@ -36,8 +37,12 @@ namespace Loki.UI
         /// <summary>
         /// Changes the active item.
         /// </summary>
-        /// <param name="newItem">The new item to activate.</param>
-        /// <param name="closePrevious">Indicates whether or not to close the previous active item.</param>
+        /// <param name="newItem">
+        /// The new item to activate.
+        /// </param>
+        /// <param name="closePrevious">
+        /// Indicates whether or not to close the previous active item.
+        /// </param>
         protected virtual void ChangeActiveItem(T newItem, bool closePrevious)
         {
             ViewModelExtenstions.TryDeactivate(activeItem, closePrevious);

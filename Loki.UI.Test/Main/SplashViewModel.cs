@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
+﻿using Loki.Common;
+using System.ComponentModel;
 using System.Threading.Tasks;
-using Loki.Common;
 
 namespace Loki.UI.Test
 {
     public class SplashViewModel : Screen, ISplashViewModel
     {
-        public SplashViewModel(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public SplashViewModel(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 

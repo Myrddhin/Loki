@@ -1,13 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-using Loki.Common;
-
 namespace Loki.UI.Wpf
 {
     public class DefaultSplashModel : Screen, ISplashViewModel
     {
-        public DefaultSplashModel(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public DefaultSplashModel(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 

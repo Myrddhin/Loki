@@ -12,7 +12,7 @@ using Loki.Common;
 
 namespace Loki.UI.Win
 {
-    public class Binder : BaseObject
+    public class Binder : LoggableObject
     {
         public IValueConverter GlyphConverter { get; set; }
 

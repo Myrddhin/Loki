@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Loki.Common;
 using Loki.UI.Tasks;
 
@@ -14,16 +15,16 @@ namespace Loki.UI
     /// </summary>
     public class AsyncScreen : Screen
     {
-        public AsyncScreen(ICoreServices services, IUIServices uiServices)
-            : base(services, uiServices)
+        public AsyncScreen(IDisplayServices coreServices)
+            : base(coreServices)
         {
         }
 
         #region Status
 
-        private static PropertyChangedEventArgs argsStatusChanged = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.Status);
+        private static readonly PropertyChangedEventArgs argsStatusChanged = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.Status);
 
-        private static PropertyChangingEventArgs argsStatusChanging = ObservableHelper.CreateChangingArgs<AsyncScreen>(x => x.Status);
+        private static readonly PropertyChangingEventArgs argsStatusChanging = ObservableHelper.CreateChangingArgs<AsyncScreen>(x => x.Status);
 
         private string status;
 
@@ -90,15 +91,11 @@ namespace Loki.UI
 
             public Func<TArg, Task<TResult>> DoWorkAsync
             {
-                get;
-                private set;
-            }
+                get; }
 
             public string Title
             {
-                get;
-                private set;
-            }
+                get; }
 
             public void Cancel()
             {
@@ -113,7 +110,7 @@ namespace Loki.UI
             }
         }
 
-        private HashSet<string> titles = new HashSet<string>();
+        private readonly HashSet<string> titles = new HashSet<string>();
 
         protected virtual void BeginBackgroudWork(string title)
         {
