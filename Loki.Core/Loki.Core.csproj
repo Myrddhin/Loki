@@ -182,7 +182,7 @@
     <Compile Include="UI\Commands\Interfaces\ICommand.cs" />
     <Compile Include="UI\Commands\Interfaces\ICommandAware.cs" />
     <Compile Include="UI\Commands\Interfaces\ICommandHandler.cs" />
-    <Compile Include="UI\Commands\Interfaces\ICommandService.cs" />
+    <Compile Include="UI\Commands\Interfaces\ICommandComponent.cs" />
     <Compile Include="UI\Commands\Interfaces\INotifyCanExecuteChanged.cs" />
     <Compile Include="UI\Commands\LokiCommandHandler.cs" />
     <Compile Include="UI\Commands\LokiCommandService.cs" />

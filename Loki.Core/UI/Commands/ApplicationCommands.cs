@@ -40,7 +40,7 @@ namespace Loki.Commands
             if (context != null)
             {
                 var commands = context.Get<ICommandComponent>();
-                builder = name => commands.CreateCommand(name);
+                builder = name => commands.GetCommand(name);
             }
 
             Export = builder(Names.EXPORT);

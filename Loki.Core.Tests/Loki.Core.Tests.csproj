@@ -112,12 +112,12 @@
     <Compile Include="IoC\DummyInstaller.cs" />
     <Compile Include="IoC\IoCTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\CommandComponentTest.cs" />
+    <Compile Include="UI\UIObject.cs" />
+    <Compile Include="UI\UITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

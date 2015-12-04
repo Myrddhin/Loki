@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Loki.Common;
 using Loki.UI;
 
@@ -11,10 +12,25 @@ namespace Loki.Commands
     internal class LokiRoutedCommand : LoggableObject, ICommand
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LokiRoutedCommand" /> class.
+        /// Initializes a new instance of the <see cref="LokiRoutedCommand"/> class.
         /// </summary>
-        public LokiRoutedCommand()
+        /// <param name="name">
+        /// Command Name.
+        /// </param>
+        /// <param name="logger">
+        /// Logger component.
+        /// </param>
+        /// <param name="commands">
+        /// Command service component.
+        /// </param>
+        /// <param name="messageComponent">
+        /// Messaging component.
+        /// </param>
+        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageComponent messageComponent) : base(logger)
         {
+            commandService = commands;
+            messageBus = messageComponent;
+            Name = name;
             lastCanExecute = null;
         }
 
@@ -24,7 +40,7 @@ namespace Loki.Commands
         /// <value>
         /// The command service.
         /// </value>
-        public ICommandComponent CommandService { get; set; }
+        private readonly ICommandComponent commandService;
 
         /// <summary>
         /// Gets or sets the message bus.
@@ -32,23 +48,27 @@ namespace Loki.Commands
         /// <value>
         /// The message bus.
         /// </value>
-        public IMessageComponent MessageBus { get; set; }
+        private readonly IMessageComponent messageBus;
 
         /// <summary>
-        /// Gets or sets the command name.
+        /// Gets the command name.
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Définit la méthode qui détermine si la commande peut s'exécuter dans son état actuel.
         /// </summary>
-        /// <param name="parameter">Données utilisées par la commande.Si la commande ne requiert
-        /// pas que les données soient passées, cet objet peut avoir la valeur null.</param>
-        /// <returns>true si cette commande peut être exécutée ; sinon false.</returns>
+        /// <param name="parameter">
+        /// Données utilisées par la commande.Si la commande ne requiert
+        /// pas que les données soient passées, cet objet peut avoir la valeur null.
+        /// </param>
+        /// <returns>
+        /// True si cette commande peut être exécutée ; sinon false.
+        /// </returns>
         public bool CanExecute(object parameter)
         {
             // gets command handlers
-            IEnumerable<ICommandHandler> handlers = CommandService.GetHandlers(this);
+            IEnumerable<ICommandHandler> handlers = commandService.GetHandlers(this);
 
             // check handlers presence
             if (handlers == null)
@@ -62,20 +82,6 @@ namespace Loki.Commands
 
             foreach (ICommandHandler handler in handlers)
             {
-                // continue if initializable target is not initialized.
-                var initializableTarget = handler.Target as IInitializable;
-                if (initializableTarget != null && !initializableTarget.IsInitialized)
-                {
-                    continue;
-                }
-
-                // continue if activable target is not active.
-                var activableTarget = handler.Target as IActivable;
-                if (activableTarget != null && !activableTarget.IsActive)
-                {
-                    continue;
-                }
-
                 // check execution
                 handler.CanExecute(this, args);
 
@@ -130,12 +136,14 @@ namespace Loki.Commands
         /// <summary>
         /// Définit la méthode à appeler lorsque la commande est appelée.
         /// </summary>
-        /// <param name="parameter">Données utilisées par la commande. Si la commande ne requiert
-        /// pas que les données soient passées, cet objet peut avoir la valeur null.</param>
+        /// <param name="parameter">
+        /// Données utilisées par la commande. Si la commande ne requiert
+        /// pas que les données soient passées, cet objet peut avoir la valeur null.
+        /// </param>
         public void Execute(object parameter)
         {
             // gets command handlers
-            IEnumerable<ICommandHandler> handlers = CommandService.GetHandlers(this);
+            IEnumerable<ICommandHandler> handlers = commandService.GetHandlers(this);
 
             // check handlers presence
             if (handlers == null)
@@ -150,20 +158,6 @@ namespace Loki.Commands
             {
                 args.CanExecute = false;
 
-                // continue if initializable target is not initialized.
-                var initializableTarget = handler.Target as IInitializable;
-                if (initializableTarget != null && !initializableTarget.IsInitialized)
-                {
-                    continue;
-                }
-
-                // continue if activable target is not active.
-                var activableTarget = handler.Target as IActivable;
-                if (activableTarget != null && !activableTarget.IsActive)
-                {
-                    continue;
-                }
-
                 // check execution
                 handler.CanExecute(this, args);
 
@@ -173,16 +167,18 @@ namespace Loki.Commands
                 }
 
                 // run if found
-                if (args.CanExecute)
+                if (!args.CanExecute)
                 {
-                    try
-                    {
-                        handler.Execute(this, args);
-                    }
-                    catch (LokiException exception)
-                    {
-                        MessageBus.PublishOnUIThread(new ErrorMessage(exception));
-                    }
+                    continue;
+                }
+
+                try
+                {
+                    handler.Execute(this, args);
+                }
+                catch (LokiException exception)
+                {
+                    messageBus.PublishOnUIThread(new ErrorMessage(exception));
                 }
             }
         }

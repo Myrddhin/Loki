@@ -92,10 +92,11 @@ namespace Loki.Commands
         /// Creates the specified command.
         /// </summary>
         /// <returns>
+        /// The command.
         /// </returns>
         public ICommand Create()
         {
-            return Create(Guid.NewGuid().ToString());
+            return Get(Guid.NewGuid().ToString());
         }
 
         /// <summary>
@@ -105,8 +106,9 @@ namespace Loki.Commands
         /// Name of the command.
         /// </param>
         /// <returns>
+        /// The command.
         /// </returns>
-        public ICommand Create(string commandName)
+        public ICommand Get(string commandName)
         {
             if (Toolkit.UI.Windows.DesignMode)
             {
@@ -114,7 +116,7 @@ namespace Loki.Commands
             }
             else
             {
-                return Commands.CreateCommand(commandName);
+                return Commands.GetCommand(commandName);
             }
         }
 
