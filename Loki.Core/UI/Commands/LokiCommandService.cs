@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 using Loki.Common;
@@ -148,7 +149,7 @@ namespace Loki.Commands
         /// You must hold a reference on the returned command handler as long as the
         /// listener observes the command.
         /// </returns>
-        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state, Func<CommandEventArgs, bool> confirmDelegate)
+        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state, Func<CommandEventArgs, bool> confirmDelegate)
         {
             LokiCommandHandler returnHandler;
             LokiCommandHandler creationHandler = null;
@@ -189,7 +190,7 @@ namespace Loki.Commands
         /// You must hold a reference on the returned command handler as long as the
         /// listener observes the command.
         /// </returns>
-        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state)
+        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state)
         {
             return CreateHandler(command, canExecuteFunction, executeFunction, state, null);
         }
@@ -283,7 +284,8 @@ namespace Loki.Commands
         /// <param name="services">
         /// Core services.
         /// </param>
-        public LokiCommandService(ICoreServices services) : base(services.Logger, services.Error)
+        public LokiCommandService(ICoreServices services)
+            : base(services.Logger, services.Error)
         {
             commandHandlers = new ConcurrentDictionary<string, ConcurrentCollection<WeakReference<ICommandHandler>>>();
             commands = new ConcurrentDictionary<string, ICommand>();

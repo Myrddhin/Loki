@@ -1,9 +1,9 @@
-﻿using Loki.Common;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
+using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
@@ -143,7 +143,7 @@ namespace Loki.UI.Wpf
         private static void SetContentProperty(object targetLocation, object view)
         {
             var fe = view as FrameworkElement;
-            if (fe?.Parent != null)
+            if (fe != null && fe.Parent != null)
             {
                 SetContentPropertyCore(fe.Parent, null);
             }

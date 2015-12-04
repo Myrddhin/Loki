@@ -1,21 +1,12 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 using Loki.Commands;
-using Loki.UI;
 
 namespace Loki.Core.Tests.UI
 {
-    public class UIObject : INotifyPropertyChanged, IInitializable, IActivable
+    public class UIObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public bool IsInitialized { get; private set; }
-
-        public void Initialize()
-        {
-            IsInitialized = true;
-        }
 
         public void NotifyPropertyChanged()
         {
@@ -25,15 +16,6 @@ namespace Loki.Core.Tests.UI
             {
                 handler(this, propertyChanger);
             }
-        }
-
-        public event EventHandler<ActivationEventArgs> Activated;
-
-        public bool IsActive { get; private set; }
-
-        public void Activate()
-        {
-            IsActive = true;
         }
 
         public int CanExecuteCount { get; private set; }

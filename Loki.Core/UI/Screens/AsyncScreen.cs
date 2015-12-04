@@ -91,11 +91,15 @@ namespace Loki.UI
 
             public Func<TArg, Task<TResult>> DoWorkAsync
             {
-                get; }
+                get;
+                private set;
+            }
 
             public string Title
             {
-                get; }
+                get;
+                private set;
+            }
 
             public void Cancel()
             {

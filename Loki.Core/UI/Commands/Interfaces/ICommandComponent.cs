@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Loki.Commands
 {
@@ -43,7 +44,7 @@ namespace Loki.Commands
         /// <returns>
         /// You must hold a reference on the returned command handler as long as the listener observes the command.
         /// </returns>
-        ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state);
+        ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state);
 
         /// <summary>
         /// Creates and register a command handler fo the specified command.
@@ -66,7 +67,7 @@ namespace Loki.Commands
         /// <returns>
         /// You must hold a reference on the returned command handler as long as the listener observes the command.
         /// </returns>
-        ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state, Func<CommandEventArgs, bool> confirmDelegate);
+        ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state, Func<CommandEventArgs, bool> confirmDelegate);
 
         /// <summary>
         /// Removes the specified <see cref="ICommandHandler"/> for the specified command.

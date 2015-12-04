@@ -36,8 +36,47 @@ namespace Loki.Core.Tests.UI
         }
 
         [Fact]
+        public void IgnoreNotInitialized()
+        {
+            var command1 = Component.GetCommand("Name1");
+            var state = new UIInitializableObject();
+            Component.CreateHandler(command1, state.CanExecute, state.Execute, state);
+            var handlers = Component.GetHandlers(command1).ToArray();
+            Assert.Empty(handlers);
+
+            state.Initialize();
+
+            handlers = Component.GetHandlers(command1).ToArray();
+            Assert.NotEmpty(handlers);
+        }
+
+        [Fact]
+        public void IgnoreNotActivated()
+        {
+            var command1 = Component.GetCommand("Name1");
+            var state = new UIActivableObject();
+            Component.CreateHandler(command1, state.CanExecute, state.Execute, state);
+            var handlers = Component.GetHandlers(command1).ToArray();
+            Assert.Empty(handlers);
+
+            state.Activate();
+
+            handlers = Component.GetHandlers(command1).ToArray();
+            Assert.NotEmpty(handlers);
+        }
+
+        [Fact]
         public void RemoveHandler()
         {
+            var command1 = Component.GetCommand("Name1");
+            var state = new UIObject();
+            var handler = Component.CreateHandler(command1, state.CanExecute, state.Execute, state);
+            var handlers = Component.GetHandlers(command1).ToArray();
+            Assert.NotEmpty(handlers);
+
+            Component.RemoveHandler(command1, handler);
+            handlers = Component.GetHandlers(command1).ToArray();
+            Assert.Empty(handlers);
         }
 
         [Fact]
