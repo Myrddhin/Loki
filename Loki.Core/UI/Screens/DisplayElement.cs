@@ -1,7 +1,7 @@
 ﻿using System;
 
-using Loki.Commands;
 using Loki.Common;
+using Loki.UI.Commands;
 using Loki.UI.Tasks;
 
 namespace Loki.UI
@@ -70,12 +70,6 @@ namespace Loki.UI
             {
                 return Services.UI.Signals;
             }
-        }
-
-        public CommandManager Commands
-        {
-            get;
-            set;
         }
 
         protected void Information(string message)

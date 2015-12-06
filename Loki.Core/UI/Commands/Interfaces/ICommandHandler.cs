@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Interface for loki command handlers.

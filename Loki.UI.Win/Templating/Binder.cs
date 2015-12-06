@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Loki.Commands;
+
 using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
@@ -54,7 +51,7 @@ namespace Loki.UI.Win
             }
         }
 
-        protected internal IConductor GetContainer<TModel>(System.Windows.Forms.Control control, Expression<Func<TModel, object>> propertyGetter) where TModel : class
+        protected internal IConductor GetContainer<TModel>(Control control, Expression<Func<TModel, object>> propertyGetter) where TModel : class
         {
             TModel model = View.GetViewModel<TModel>(control);
 
@@ -78,7 +75,7 @@ namespace Loki.UI.Win
             }
         }
 
-        protected internal TBinded GetBindedObject<TModel, TBinded>(System.Windows.Forms.Control control, Expression<Func<TModel, TBinded>> propertyGetter)
+        protected internal TBinded GetBindedObject<TModel, TBinded>(Control control, Expression<Func<TModel, TBinded>> propertyGetter)
             where TModel : class
             where TBinded : class
         {
@@ -172,7 +169,7 @@ namespace Loki.UI.Win
             var valueGetter = PropertyGetter(sourceProperty);
             var valueSetter = PropertySetter(propertyToSetDescriptor);
 
-            Func<object, Action> eventFunctor = delegate(object c)
+            Func<object, Action> eventFunctor = delegate (object c)
             {
                 return () =>
                 {
@@ -271,7 +268,7 @@ namespace Loki.UI.Win
                     wrapper,
                     destinationProperty.Name,
                     source,
-                    delegate(object c, object s, PropertyChangedEventArgs e)
+                    delegate (object c, object s, PropertyChangedEventArgs e)
                     {
                         if (converter == null)
                         {

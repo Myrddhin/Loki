@@ -5,9 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 
 using Loki.Common;
-using Loki.UI;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki default command service.
@@ -123,8 +122,18 @@ namespace Loki.Commands
         private void AddHandler(ICommand command, ICommandHandler handler)
         {
             var currentHandlerList = commandHandlers.GetOrAdd(command.Name, new ConcurrentCollection<WeakReference<ICommandHandler>>());
+            var state = handler.Target as INotifyPropertyChanged;
+            if (state != null)
+            {
+                services.Events.Changed.Register(state, command, RefreshCommandState);
+            }
 
             currentHandlerList.Add(new WeakReference<ICommandHandler>(handler));
+        }
+
+        private static void RefreshCommandState(ICommand command, object sender, PropertyChangedEventArgs e)
+        {
+            command.RefreshState();
         }
 
         /// <summary>
@@ -242,6 +251,12 @@ namespace Loki.Commands
                     if (target != handler)
                     {
                         continue;
+                    }
+
+                    var state = target.Target as INotifyPropertyChanged;
+                    if (state != null)
+                    {
+                        services.Events.Changed.Unregister(state, command);
                     }
 
                     reference = handlerReference;

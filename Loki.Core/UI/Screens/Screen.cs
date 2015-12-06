@@ -3,6 +3,7 @@ using System.ComponentModel;
 
 using Loki.Commands;
 using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {
@@ -11,6 +12,13 @@ namespace Loki.UI
         public Screen(IDisplayServices coreServices)
             : base(coreServices)
         {
+            Commands = new CommandBind(this, coreServices);
+        }
+
+        public CommandBind Commands
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -297,7 +305,6 @@ namespace Loki.UI
 
                 // configure commands.
                 State = this;
-                Commands.SetTarget(this);
 
                 OnInitialize();
 
@@ -370,6 +377,7 @@ namespace Loki.UI
         /// </summary>
         protected virtual void OnClose()
         {
+            Commands.Unbind();
         }
 
         /// <summary>

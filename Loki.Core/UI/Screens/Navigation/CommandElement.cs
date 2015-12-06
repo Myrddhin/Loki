@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
-using Loki.Commands;
 using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {

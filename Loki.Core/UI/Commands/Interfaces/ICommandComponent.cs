@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Common interface for command manager service.

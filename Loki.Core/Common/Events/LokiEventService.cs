@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-using Loki.Commands;
+using Loki.UI.Commands;
 
 namespace Loki.Common
 {
@@ -11,7 +11,7 @@ namespace Loki.Common
     /// </summary>
     public class LokiEventService : BaseObject, IEventComponent
     {
-        private readonly WeakEventManager<INotifyCanExecuteChanged, EventArgs> canExecuteChangedManager;
+        private readonly WeakEventManager<ICommand, EventArgs> canExecuteChangedManager;
 
         private readonly WeakEventManager<ICentralizedChangeTracking, EventArgs> centralizedChangeManager;
 
@@ -58,7 +58,7 @@ namespace Loki.Common
                     errorComponent,
                     (s, b) => s.CollectionChanged += b.OnEvent,
                     (s, b) => s.CollectionChanged -= b.OnEvent);
-            canExecuteChangedManager = new WeakEventManager<INotifyCanExecuteChanged, EventArgs>(
+            canExecuteChangedManager = new WeakEventManager<ICommand, EventArgs>(
                 loggerComponent,
                 errorComponent,
                 (s, b) => s.CanExecuteChanged += b.OnEvent,
@@ -80,7 +80,7 @@ namespace Loki.Common
                     (s, b) => s.PropertyChanging -= b.OnProperty);
         }
 
-        public IWeakEventManager<INotifyCanExecuteChanged, EventArgs> CanExecuteChanged
+        public IWeakEventManager<ICommand, EventArgs> CanExecuteChanged
         {
             get
             {

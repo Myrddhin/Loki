@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki bridge command type.
@@ -25,13 +25,28 @@ namespace Loki.Commands
         /// <summary>
         /// Définit la méthode qui détermine si la commande peut s'exécuter dans son état actuel.
         /// </summary>
-        /// <param name="parameter">Données utilisées par la commande.Si la commande ne requiert
-        /// pas que les données soient passées, cet objet peut avoir la valeur null.</param>
-        /// <returns>true si cette commande peut être exécutée ; sinon false.</returns>
+        /// <param name="parameter">
+        /// Données utilisées par la commande.Si la commande ne requiert
+        /// pas que les données soient passées, cet objet peut avoir la valeur null.
+        /// </param>
+        /// <returns>
+        /// True si cette commande peut être exécutée ; sinon false.
+        /// </returns>
         public bool CanExecute(object parameter)
         {
-            return canExecute();
+            bool result = canExecute();
+            if (lastCanExecute.HasValue && this.lastCanExecute.Value == result)
+            {
+                return lastCanExecute.Value;
+            }
+
+            this.OnCanExecuteChanged(EventArgs.Empty);
+            this.lastCanExecute = result;
+
+            return lastCanExecute.Value;
         }
+
+        private bool? lastCanExecute;
 
         #region CanExecuteChanged
 
@@ -52,27 +67,34 @@ namespace Loki.Commands
         /// <summary>
         /// Définit la méthode à appeler lorsque la commande est appelée.
         /// </summary>
-        /// <param name="parameter">Données utilisées par la commande. Si la commande ne requiert
-        /// pas que les données soient passées, cet objet peut avoir la valeur null.</param>
+        /// <param name="parameter">
+        /// Données utilisées par la commande. Si la commande ne requiert
+        /// pas que les données soient passées, cet objet peut avoir la valeur null.
+        /// </param>
         public void Execute(object parameter)
         {
-            execute();
+            if (CanExecute(parameter))
+            {
+                execute();
+            }
         }
 
         /// <summary>
-        /// Gets or sets the command name.
+        /// Gets the command name.
         /// </summary>
         public string Name
         {
-            get;
-            set;
+            get { return name; }
         }
+
+        private readonly string name = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Refreshes the state.
         /// </summary>
         public void RefreshState()
         {
+            OnCanExecuteChanged(EventArgs.Empty);
         }
     }
 }

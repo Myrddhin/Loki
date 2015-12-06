@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Data;
+
 using DevExpress.Xpf.Docking;
-using Loki.Commands;
+
 using Loki.Common;
+using Loki.UI.Commands;
 using Loki.UI.Wpf.Converters;
 
 namespace Loki.UI.Wpf.Binds

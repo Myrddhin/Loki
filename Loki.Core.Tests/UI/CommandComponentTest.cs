@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-using Loki.Commands;
+using Loki.UI.Commands;
 
 using Xunit;
 
@@ -82,6 +84,20 @@ namespace Loki.Core.Tests.UI
         [Fact]
         public void HandlerWeakReference()
         {
+            var command1 = Component.GetCommand("Name1");
+            var runner = Task.Run(
+               () =>
+               {
+                   var state = new UIObject();
+                   Component.CreateHandler(command1, state.CanExecute, state.Execute, state);
+                   var handlers = Component.GetHandlers(command1);
+                   Assert.NotEmpty(handlers);
+               });
+
+            runner.Wait();
+            GC.Collect();
+
+            Assert.Empty(Component.GetHandlers(command1));
         }
     }
 }

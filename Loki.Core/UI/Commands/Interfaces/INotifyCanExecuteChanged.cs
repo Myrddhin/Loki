@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     public interface INotifyCanExecuteChanged
     {

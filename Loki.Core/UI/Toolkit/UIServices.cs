@@ -1,5 +1,5 @@
-﻿using Loki.Commands;
-using Loki.Common;
+﻿using Loki.Common;
+using Loki.UI.Commands;
 using Loki.UI.Tasks;
 
 namespace Loki.UI

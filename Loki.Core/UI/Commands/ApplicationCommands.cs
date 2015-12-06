@@ -1,7 +1,8 @@
 ﻿using System;
+
 using Loki.Common;
 using Loki.IoC;
-using Loki.UI;
+using Loki.UI.Commands;
 
 namespace Loki.Commands
 {

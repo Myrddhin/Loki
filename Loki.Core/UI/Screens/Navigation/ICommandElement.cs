@@ -1,4 +1,4 @@
-﻿using Loki.Commands;
+﻿using Loki.UI.Commands;
 
 namespace Loki.UI
 {

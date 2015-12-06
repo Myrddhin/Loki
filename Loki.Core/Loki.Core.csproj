@@ -63,6 +63,7 @@
     <Compile Include="Common\ICoreServices.cs" />
     <Compile Include="Common\Toolkit\CoreServices.cs" />
     <Compile Include="IoC\IoCContext.cs" />
+    <Compile Include="UI\Commands\CommandBind.cs" />
     <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\EnumerableExtensions.cs" />
@@ -176,7 +177,7 @@
     <Compile Include="UI\Toolkit\IUIServices.cs" />
     <Compile Include="UI\Toolkit\UIServices.cs" />
     <Compile Include="UI\TrackedObject.cs" />
-    <Compile Include="UI\Commands\CommandManager.cs" />
+    <None Include="UI\Commands\CommandManager.cs" />
     <Compile Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />
     <Compile Include="UI\Commands\Event args\CommandEventArgs.cs" />
     <Compile Include="UI\Commands\Interfaces\ICommand.cs" />

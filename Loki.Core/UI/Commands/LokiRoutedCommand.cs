@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 
 using Loki.Common;
-using Loki.UI;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki default command type.
     /// </summary>
-    internal class LokiRoutedCommand : LoggableObject, ICommand
+    public class LokiRoutedCommand : LoggableObject, ICommand
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LokiRoutedCommand"/> class.

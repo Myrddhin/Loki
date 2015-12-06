@@ -1,7 +1,7 @@
-﻿using Loki.Commands;
-using Loki.IoC;
+﻿using Loki.IoC;
 using Loki.IoC.Registration;
 using Loki.UI;
+using Loki.UI.Commands;
 using Loki.UI.Tasks;
 
 namespace Loki.Common
@@ -15,7 +15,6 @@ namespace Loki.Common
             context.Register(Element.For<ICommandComponent>().ImplementedBy<LokiCommandService>());
             context.Register(Element.For<ITaskComponent>().ImplementedBy<TaskComponent>());
 
-            context.Register(Element.For<CommandManager>().Lifestyle.Transient);
             context.Register(Element.For<IScreenFactory>().AsFactory());
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,8 +15,8 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraPrinting;
 
-using Loki.Commands;
 using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
@@ -177,7 +178,7 @@ namespace Loki.UI.Win
                     options.ExportMode = XlsxExportMode.SingleFile;
                     options.ExportType = ExportType.DataAware;
                     grid.ExportToXlsx(tempfile, options);
-                    System.Diagnostics.ProcessStartInfo infos = new System.Diagnostics.ProcessStartInfo();
+                    ProcessStartInfo infos = new System.Diagnostics.ProcessStartInfo();
                     infos.UseShellExecute = false;
                     infos.CreateNoWindow = true;
                     infos.FileName = "excel.exe";
