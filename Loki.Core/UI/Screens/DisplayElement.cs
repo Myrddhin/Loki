@@ -14,21 +14,29 @@ namespace Loki.UI
             : base(coreServices.Core)
         {
             this.Services = coreServices;
+            applicationCommands = new Lazy<ApplicationCommands>(GetApplicationCommands);
         }
 
-        public IMessageComponent CommonBus
+        protected virtual ApplicationCommands GetApplicationCommands()
+        {
+            return new ApplicationCommands(this.Services.UI.Commands);
+        }
+
+        private readonly Lazy<ApplicationCommands> applicationCommands;
+
+        public ApplicationCommands ApplicationCommands
+        {
+            get
+            {
+                return applicationCommands.Value;
+            }
+        }
+
+        public IMessageComponent Bus
         {
             get
             {
                 return Services.Core.Messages;
-            }
-        }
-
-        public ICommandComponent CommandService
-        {
-            get
-            {
-                return Services.UI.Commands;
             }
         }
 

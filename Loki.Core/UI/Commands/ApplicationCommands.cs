@@ -1,26 +1,15 @@
-﻿using System;
-
-using Loki.Common;
-using Loki.IoC;
-using Loki.UI.Commands;
-
-namespace Loki.Commands
+﻿namespace Loki.UI.Commands
 {
-    public static class ApplicationCommands
+    public class ApplicationCommands
     {
-        static ApplicationCommands()
+        private readonly ICommandComponent commandService;
+
+        public ApplicationCommands(ICommandComponent commandService)
         {
-            if (!Toolkit.UI.Windows.DesignMode)
-            {
-                CreateCommands(Toolkit.IoC.DefaultContext);
-            }
-            else
-            {
-                CreateCommands(null);
-            }
+            this.commandService = commandService;
         }
 
-        private static class Names
+        public static class Names
         {
             public const string ERROR = "Application.Error";
             public const string EXIT = "Application.Exit";
@@ -35,33 +24,52 @@ namespace Loki.Commands
             public const string WARNING = "Application.Warning";
         }
 
-        public static void CreateCommands(IObjectContext context)
+        public ICommand Export
         {
-            Func<string, ICommand> builder = s => new LokiRelayCommand(() => { });
-            if (context != null)
+            get
             {
-                var commands = context.Get<ICommandComponent>();
-                builder = name => commands.GetCommand(name);
+                return commandService.GetCommand(Names.EXPORT);
             }
-
-            Export = builder(Names.EXPORT);
-            Open = builder(Names.OPEN);
-            Refresh = builder(Names.REFRESH);
-            Save = builder(Names.SAVE);
-            UpdateStatus = builder(Names.UPDATESTATUS);
-            Search = builder(Names.SEARCH);
         }
 
-        public static ICommand Export { get; private set; }
+        public ICommand Open
+        {
+            get
+            {
+                return commandService.GetCommand(Names.OPEN);
+            }
+        }
 
-        public static ICommand Open { get; private set; }
+        public ICommand Refresh
+        {
+            get
+            {
+                return commandService.GetCommand(Names.REFRESH);
+            }
+        }
 
-        public static ICommand Refresh { get; private set; }
+        public ICommand Save
+        {
+            get
+            {
+                return commandService.GetCommand(Names.SAVE);
+            }
+        }
 
-        public static ICommand Save { get; private set; }
+        public ICommand Search
+        {
+            get
+            {
+                return commandService.GetCommand(Names.SEARCH);
+            }
+        }
 
-        public static ICommand Search { get; private set; }
-
-        public static ICommand UpdateStatus { get; private set; }
+        public ICommand UpdateStatus
+        {
+            get
+            {
+                return commandService.GetCommand(Names.UPDATESTATUS);
+            }
+        }
     }
 }

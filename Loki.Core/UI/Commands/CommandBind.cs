@@ -3,8 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-using Loki.Commands;
-
 namespace Loki.UI.Commands
 {
     public class CommandBind
@@ -113,7 +111,7 @@ namespace Loki.UI.Commands
         /// The sender.
         /// </param>
         /// <param name="e">
-        /// The <see cref="Loki.Commands.CanExecuteCommandEventArgs"/> instance containing
+        /// The <see cref="CanExecuteCommandEventArgs"/> instance containing
         /// the event data.
         /// </param>
         public static void Always(object sender, CanExecuteCommandEventArgs e)

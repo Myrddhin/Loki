@@ -15,6 +15,13 @@ namespace Loki.Core.Tests.UI
 
         public UIObject State { get; private set; }
 
+        public ICommandHandler Handler { get; protected set; }
+
+        [Fact]
+        public void NoHandlerCanExecuteFalse()
+        {
+        }
+
         [Fact]
         public void CheckName()
         {

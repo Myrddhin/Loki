@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+
 using Loki.Common;
 
 namespace Loki.UI
 {
-    public abstract class TrackedObject : BaseObject, INotifyPropertyChangedEx, ICentralizedChangeTracking
+    public class TrackedObject : BaseObject, INotifyPropertyChangedEx, ICentralizedChangeTracking
     {
         #region Constructor
 
-        protected TrackedObject(ICoreServices services)
+        public TrackedObject(ICoreServices services)
             : base(services.Logger, services.Error)
         {
             Tracking = true;
@@ -21,11 +22,11 @@ namespace Loki.UI
 
         public static readonly PropertyChangedEventArgs RefreshAllArgs = new PropertyChangedEventArgs(string.Empty);
 
-        private static PropertyChangedEventArgs changedChangedArgs = ObservableHelper.CreateChangedArgs<TrackedObject>(x => x.IsChanged);
+        private static readonly PropertyChangedEventArgs ChangedChangedArgs = ObservableHelper.CreateChangedArgs<TrackedObject>(x => x.IsChanged);
 
-        private static PropertyChangingEventArgs changedChangingArgs = ObservableHelper.CreateChangingArgs<TrackedObject>(x => x.IsChanged);
+        private static readonly PropertyChangingEventArgs ChangedChangingArgs = ObservableHelper.CreateChangingArgs<TrackedObject>(x => x.IsChanged);
 
-        private bool changed = false;
+        private bool changed;
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is dirty.
@@ -42,10 +43,10 @@ namespace Loki.UI
             {
                 if (value != changed)
                 {
-                    NotifyChanging(changedChangingArgs);
+                    NotifyChanging(ChangedChangingArgs);
                     changed = value;
                     NotifyStateChanged(EventArgs.Empty);
-                    NotifyChanged(changedChangedArgs);
+                    NotifyChanged(ChangedChangedArgs);
                 }
             }
         }
@@ -63,7 +64,9 @@ namespace Loki.UI
         /// <summary>
         /// Notifies the change.
         /// </summary>
-        /// <param name="e">Property changed event args.</param>
+        /// <param name="e">
+        /// Property changed event args.
+        /// </param>
         public void NotifyChanged(PropertyChangedEventArgs e)
         {
             if (Tracking)
@@ -126,10 +129,12 @@ namespace Loki.UI
         public event EventHandler StateChanged;
 
         /// <summary>
-        /// Raises the <see cref="StateChanged" /> event.
+        /// Raises the <see cref="StateChanged"/> event.
         /// </summary>
-        /// <param name="e">The<see cref="EventArgs" /> object that provides the arguments for the
-        /// event.</param>
+        /// <param name="e">
+        /// The<see cref="EventArgs"/> object that provides the arguments for the
+        /// event.
+        /// </param>
         protected virtual void OnStateChanged(EventArgs e)
         {
             EventHandler handler = StateChanged;
@@ -150,10 +155,12 @@ namespace Loki.UI
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Raises the <see cref="PropertyChanged" /> event.
+        /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
-        /// <param name="e"><see cref="PropertyChangedEventArgs" /> object that provides the
-        /// arguments for the event.</param>
+        /// <param name="e">
+        /// <see cref="PropertyChangedEventArgs"/> object that provides the
+        /// arguments for the event.
+        /// </param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -174,10 +181,12 @@ namespace Loki.UI
         public event PropertyChangingEventHandler PropertyChanging;
 
         /// <summary>
-        /// Raises the <see cref="PropertyChanging" /> event.
+        /// Raises the <see cref="PropertyChanging"/> event.
         /// </summary>
-        /// <param name="e"><see cref="PropertyChangedEventArgs" /> object that provides the
-        /// arguments for the event.</param>
+        /// <param name="e">
+        /// <see cref="PropertyChangedEventArgs"/> object that provides the
+        /// arguments for the event.
+        /// </param>
         protected virtual void OnPropertyChanging(PropertyChangingEventArgs e)
         {
             PropertyChangingEventHandler handler = PropertyChanging;
@@ -211,8 +220,10 @@ namespace Loki.UI
         /// <summary>
         /// Signale à l'objet que l'initialisation est terminée.
         /// </summary>
-        /// <param name="stable">If set to <c>true</c>, mark the entity as clean (accept
-        /// changes) .</param>
+        /// <param name="stable">
+        /// If set to <c>true</c>, mark the entity as clean (accept
+        /// changes) .
+        /// </param>
         public virtual void EndInit(bool stable)
         {
             Tracking = true;
@@ -248,7 +259,7 @@ namespace Loki.UI
 
         protected T CreateTrackedObject<T>(Func<T> adder) where T : ICentralizedChangeTracking
         {
-            Func<T> realAdder = adder == null ? ExpressionHelper.New<T>().Compile() : adder;
+            Func<T> realAdder = adder ?? ExpressionHelper.New<T>().Compile();
 
             T buffer = realAdder();
 

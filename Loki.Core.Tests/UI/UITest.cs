@@ -26,8 +26,6 @@ namespace Loki.Core.Tests.UI
 
             Messages = new Mock<IMessageComponent>();
             Context.Register(Element.For<IMessageComponent>().Instance(Messages.Object).AsDefault());
-
-            Component = Context.Get<T>();
         }
 
         public void Dispose()
@@ -50,7 +48,20 @@ namespace Loki.Core.Tests.UI
             disposed = true;
         }
 
-        public T Component { get; private set; }
+        private T component;
+
+        public T Component
+        {
+            get
+            {
+                if (component == default(T))
+                {
+                    component = Context.Get<T>();
+                }
+
+                return component;
+            }
+        }
 
         public Mock<ILoggerComponent> Logger { get; private set; }
 

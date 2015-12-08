@@ -18,7 +18,7 @@ namespace Loki.UI
         public CommandBind Commands
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Loki.UI
                 Log.DebugFormat("Initializing {0}.", this);
 
                 // subsribe to messagebus
-                CommonBus.Subscribe(this);
+                this.Bus.Subscribe(this);
 
                 // configure commands.
                 State = this;
@@ -348,7 +348,7 @@ namespace Loki.UI
                 ((IDesactivable)this).Desactivate(true);
 
                 // unsubscribe to message bus
-                CommonBus.Unsubscribe(this);
+                this.Bus.Unsubscribe(this);
 
                 OnClose();
 

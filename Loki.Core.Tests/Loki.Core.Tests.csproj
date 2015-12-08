@@ -116,11 +116,12 @@
     <Compile Include="IoC\DummyInstaller.cs" />
     <Compile Include="IoC\IoCTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\ApplicationCommandsTest.cs" />
     <Compile Include="UI\CommandComponentTest.cs" />
-    <Compile Include="UI\CommandListener.cs" />
     <Compile Include="UI\CommandTest.cs" />
     <Compile Include="UI\RelayCommandTest.cs" />
     <Compile Include="UI\RoutedCommandTest.cs" />
+    <Compile Include="UI\TrackedObjectTest.cs" />
     <Compile Include="UI\UIActivableObject.cs" />
     <Compile Include="UI\UIInitializableObject.cs" />
     <Compile Include="UI\UIObject.cs" />

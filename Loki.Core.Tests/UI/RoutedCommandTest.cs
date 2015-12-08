@@ -18,9 +18,9 @@ namespace Loki.Core.Tests.UI
             var commands = new Mock<ICommandComponent>();
 
             Command = new LokiRoutedCommand("Test", logger.Object, commands.Object, messages.Object);
-            var handler = LokiCommandHandler.Create(State.CanExecute, State.Execute, State);
+            Handler = LokiCommandHandler.Create(State.CanExecute, State.Execute, State);
 
-            commands.Setup(x => x.GetHandlers(Command)).Returns(new[] { handler });
+            commands.Setup(x => x.GetHandlers(Command)).Returns(new[] { Handler });
         }
     }
 }
