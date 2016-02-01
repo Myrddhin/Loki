@@ -9,6 +9,8 @@ namespace Loki.UI
             Selector = v => v is TViewModel;
         }
 
+        public string FunctionName { get; set; }
+
         public Predicate<TViewModel> Selector { get; set; }
 
         public Action<TViewModel> Initializer { get; set; }
@@ -24,10 +26,8 @@ namespace Loki.UI
             {
                 return false;
             }
-            else
-            {
-                return Selector(vm);
-            }
+
+            return this.Selector(vm);
         }
 
         public void Initialize(TViewModel vm)

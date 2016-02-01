@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 using Loki.Core.Resources;
 using Loki.IoC;
 using Loki.UI;
@@ -10,6 +11,7 @@ namespace Loki.Common
     /// <summary>
     /// Loki services helper class.
     /// </summary>
+    [Obsolete]
     public static class Toolkit
     {
         #region Extensibility

@@ -1,5 +1,4 @@
 ﻿using Loki.UI.Commands;
-using Loki.UI.Tasks;
 
 namespace Loki.UI
 {
@@ -15,6 +14,6 @@ namespace Loki.UI
 
         IThreadingContext Threading { get; }
 
-        ITaskComponent Tasks { get; }
+        // ITaskComponent Tasks { get; }
     }
 }

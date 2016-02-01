@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+
 using DevExpress.Xpf.Docking;
+
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
@@ -14,50 +17,54 @@ namespace Loki.UI.Wpf
     public class WpfTemplatingEngine : ITemplatingEngine
     {
         private const string ContextName = "UITemplates";
-        private Dictionary<string, Type> associations;
-        private IObjectContext internalContext;
-        private Dictionary<Type, Type> typeAssociations;
+        private readonly Dictionary<string, Type> associations;
+        private readonly IObjectContext internalContext;
+        private readonly Dictionary<Type, Type> typeAssociations;
 
-        public WpfTemplatingEngine()
+        private readonly ICoreServices services;
+
+        private readonly IThreadingContext threadingContext;
+
+        public WpfTemplatingEngine(IObjectContext context, ICoreServices coreServices, IThreadingContext threading)
         {
+            this.services = coreServices;
+            this.threadingContext = threading;
             associations = new Dictionary<string, Type>();
             typeAssociations = new Dictionary<Type, Type>();
-            internalContext = Toolkit.IoC.CreateContext(ContextName);
+            internalContext = context;
         }
 
         public object GetTemplate(object model)
         {
-            if (model != null)
+            if (model == null)
             {
-                var type = model.GetType();
-                Type viewType = null;
-                if (typeAssociations.ContainsKey(type))
-                {
-                    viewType = typeAssociations[type];
-                }
-                else if (associations.ContainsKey(type.Name))
-                {
-                    viewType = associations[type.Name];
-                }
-
-                if (viewType != null)
-                {
-                    var view = internalContext.Get(viewType);
-
-                    CreateBind(view, model);
-
-                    return view;
-                }
-                else
-                {
-                    return new TextBlock { Text = string.Format("Cannot find view for {0}.", type) };
-                }
+                return null;
             }
 
-            return null;
+            var type = model.GetType();
+            Type viewType = null;
+            if (this.typeAssociations.ContainsKey(type))
+            {
+                viewType = this.typeAssociations[type];
+            }
+            else if (this.associations.ContainsKey(type.Name))
+            {
+                viewType = this.associations[type.Name];
+            }
+
+            if (viewType != null)
+            {
+                var view = this.internalContext.Get(viewType);
+
+                this.CreateBind(view, model);
+
+                return view;
+            }
+
+            return new TextBlock { Text = string.Format("Cannot find view for {0}.", type) };
         }
 
-        public void LoadByConvention(IConventionManager conventionManager, params System.Reflection.Assembly[] assemblies)
+        public void LoadByConvention(IConventionManager conventionManager, params Assembly[] assemblies)
         {
             foreach (var match in conventionManager.ViewViewModel(assemblies))
             {
@@ -80,7 +87,7 @@ namespace Loki.UI.Wpf
         public object CreateBind(object view, object viewModel)
         {
             object buffer = null;
-            Toolkit.UI.Threading.OnUIThread(() => buffer = InternalCreateBind(view, viewModel));
+            threadingContext.OnUIThread(() => buffer = InternalCreateBind(view, viewModel));
             return buffer;
         }
 
@@ -96,37 +103,37 @@ namespace Loki.UI.Wpf
             var control = view as Window;
             if (control != null)
             {
-                return new WindowBind(control, viewModel);
+                return new WindowBind(services, threadingContext, control, viewModel);
             }
 
             var documentManager = view as DocumentGroup;
             if (documentManager != null)
             {
-                return new DocumentGroupBind(documentManager, viewModel);
+                return new DocumentGroupBind(services, threadingContext, documentManager, viewModel);
             }
 
             var document = view as DocumentPanel;
             if (document != null)
             {
-                return new DocumentPanelBind(document, viewModel);
+                return new DocumentPanelBind(services, threadingContext, document, viewModel);
             }
 
             var navBarItem = view as DevExpress.Xpf.NavBar.NavBarItem;
             if (navBarItem != null)
             {
-                return new NavBarItemBind(navBarItem, viewModel);
+                return new NavBarItemBind(services, threadingContext, navBarItem, viewModel);
             }
 
             var gridControl = view as DevExpress.Xpf.Grid.GridControl;
             if (gridControl != null)
             {
-                return new GridControlBind(gridControl, viewModel);
+                return new GridControlBind(services, threadingContext, gridControl, viewModel);
             }
 
             var fe = view as FrameworkElement;
             if (fe != null)
             {
-                return new FrameworkElementBind<FrameworkElement>(fe, viewModel);
+                return new FrameworkElementBind<FrameworkElement>(services, threadingContext, fe, viewModel);
             }
 
             return null;

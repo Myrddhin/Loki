@@ -1,13 +1,15 @@
 ﻿using System.Windows.Data;
+
 using DevExpress.Xpf.NavBar;
+
 using Loki.Common;
 
 namespace Loki.UI.Wpf.Binds
 {
     internal class NavBarItemBind : DependencyObjectBind<NavBarItem>
     {
-        public NavBarItemBind(NavBarItem view, object viewModel)
-            : base(view, viewModel)
+        public NavBarItemBind(ICoreServices services, IThreadingContext threading, NavBarItem view, object viewModel)
+            : base(services, threading, view, viewModel)
         {
             IHaveDisplayName withDisplay = viewModel as IHaveDisplayName;
             if (withDisplay != null)
@@ -23,7 +25,7 @@ namespace Loki.UI.Wpf.Binds
             var navMessage = viewModel as IMessageElement;
             if (navMessage != null)
             {
-                view.Click += (s, o) => Toolkit.Common.MessageBus.BeginPublishOnUIThread(navMessage.Message);
+                view.Click += (s, o) => services.Messages.PublishOnUIThread(threading, navMessage.Message);
             }
 
             var navCommand = viewModel as ICommandElement;

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
 
 namespace Loki.UI
 {
-    public class CommonBootstrapper<TMainModel, TSplashModel> :  IHandle<WarningMessage>, IHandle<ErrorMessage>, IHandle<InformationMessage>
+    public class CommonBootstrapper<TMainModel, TSplashModel> : IHandle<WarningMessage>, IHandle<ErrorMessage>, IHandle<InformationMessage>
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
@@ -45,11 +46,23 @@ namespace Loki.UI
 
         protected IConventionManager ConventionManager { get; set; }
 
-        protected IEnumerable<Assembly> SelectedAssemblies
+        public void AddTemplates(Assembly assembly)
+        {
+            SelectedAssemblies.Add(assembly);
+        }
+
+        private IList<Assembly> assemblies;
+
+        protected IList<Assembly> SelectedAssemblies
         {
             get
             {
-                return new[] { Assembly.GetEntryAssembly(), Assembly.GetExecutingAssembly() }.Distinct();
+                if (assemblies == null)
+                {
+                    assemblies = new List<Assembly>(new[] { Assembly.GetEntryAssembly(), Assembly.GetExecutingAssembly() }.Where(x => x != null).Distinct());
+                }
+
+                return assemblies;
             }
         }
 
@@ -122,7 +135,7 @@ namespace Loki.UI
             // Creates main objects
             if (splashView != null)
             {
-                splashModel = Toolkit.IoC.DefaultContext.Get<TSplashModel>();
+                splashModel = platform.Context.Get<TSplashModel>();
 
                 platform.UI.Templates.CreateBind(splashView, splashModel);
 
@@ -164,7 +177,7 @@ namespace Loki.UI
 
         public virtual void Start(string[] startParameters)
         {
-            platform.Core.Messages.PublishOnUIThread(new StartMessage(startParameters));
+            platform.Core.Messages.PublishOnUIThread(platform.UI.Threading, new StartMessage(startParameters));
 
             splashModel.TryClose();
         }

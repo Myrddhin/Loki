@@ -7,21 +7,21 @@ namespace Loki.UI
 {
     public class ContainerAllActive<T> : ContainerBase<T> where T : class
     {
-        private readonly BindableCollection<T> items = new BindableCollection<T>();
+        private readonly BindableCollection<T> items;
+
         private readonly bool openPublicItems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerAllActive&lt;T&gt;"/> class.
         /// </summary>
-        /// <param name="services">
-        /// The services.
-        /// </param>
-        /// <param name="uiServices">
-        /// The ui Core.
+        /// <param name="coreServices">
+        /// All services.
         /// </param>
         public ContainerAllActive(IDisplayServices coreServices)
             : base(coreServices)
         {
+            items = new BindableCollection<T>(coreServices);
+
             items.CollectionChanged += (s, e) =>
             {
                 switch (e.Action)
@@ -66,7 +66,9 @@ namespace Loki.UI
         /// <summary>
         /// Activates the specified item.
         /// </summary>
-        /// <param name="item">The item to activate.</param>
+        /// <param name="item">
+        /// The item to activate.
+        /// </param>
         public override void ActivateItem(T item)
         {
             if (item == null)
@@ -87,7 +89,9 @@ namespace Loki.UI
         /// <summary>
         /// Called to check whether or not this instance can close.
         /// </summary>
-        /// <param name="callback">The implementor calls this action with the result of the close check.</param>
+        /// <param name="callback">
+        /// The implementor calls this action with the result of the close check.
+        /// </param>
         public override void CanClose(Action<bool> callback)
         {
             CloseStrategy.Execute(
@@ -107,8 +111,12 @@ namespace Loki.UI
         /// <summary>
         /// Deactivates the specified item.
         /// </summary>
-        /// <param name="item">The item to close.</param>
-        /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
+        /// <param name="item">
+        /// The item to close.
+        /// </param>
+        /// <param name="close">
+        /// Indicates whether or not to close the item after deactivating it.
+        /// </param>
         public override void DeactivateItem(T item, bool close)
         {
             if (item == null)
@@ -137,8 +145,12 @@ namespace Loki.UI
         /// <summary>
         /// Ensures that an item is ready to be activated.
         /// </summary>
-        /// <param name="newItem">The new item to associate.</param>
-        /// <returns>The item to be activated.</returns>
+        /// <param name="newItem">
+        /// The new item to associate.
+        /// </param>
+        /// <returns>
+        /// The item to be activated.
+        /// </returns>
         protected override T EnsureItem(T newItem)
         {
             var index = items.IndexOf(newItem);
@@ -166,7 +178,9 @@ namespace Loki.UI
         /// <summary>
         /// Called when deactivating.
         /// </summary>
-        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        /// <param name="close">
+        /// Inidicates whether this instance will be closed.
+        /// </param>
         protected override void OnDesactivate(bool close)
         {
             items.OfType<IDesactivable>().Apply(x => x.Desactivate(close));

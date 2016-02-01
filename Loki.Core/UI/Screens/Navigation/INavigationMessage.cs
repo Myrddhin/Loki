@@ -9,5 +9,7 @@ namespace Loki.UI
         bool Match(object existingViewModel);
 
         void Initialize(object newViewModel);
+
+        string FunctionName { get; set; }
     }
 }

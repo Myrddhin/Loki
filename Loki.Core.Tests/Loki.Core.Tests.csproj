@@ -114,6 +114,7 @@
     <Compile Include="IoC\DummyDisposable.cs" />
     <Compile Include="IoC\DummyInitializable.cs" />
     <Compile Include="IoC\DummyInstaller.cs" />
+    <Compile Include="IoC\IDummyFacility.cs" />
     <Compile Include="IoC\IoCTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\ApplicationCommandsTest.cs" />

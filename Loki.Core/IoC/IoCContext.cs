@@ -31,6 +31,9 @@ namespace Loki.IoC
         public IoCContext(string name)
         {
             internalContext = Engine.CreateContext(name);
+
+            // For type requiring context.
+            internalContext.Register(Element.For<IObjectCreator, IObjectContext>().Instance(this));
         }
 
         public T Get<T>(string objectName) where T : class

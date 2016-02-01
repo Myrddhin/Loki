@@ -2,18 +2,14 @@
 
 using Loki.Common;
 using Loki.UI.Commands;
-using Loki.UI.Tasks;
 
 namespace Loki.UI
 {
     public class DisplayElement : TrackedObject
     {
-        protected IDisplayServices Services { get; private set; }
-
         public DisplayElement(IDisplayServices coreServices)
-            : base(coreServices.Core)
+            : base(coreServices)
         {
-            this.Services = coreServices;
             applicationCommands = new Lazy<ApplicationCommands>(GetApplicationCommands);
         }
 
@@ -56,13 +52,13 @@ namespace Loki.UI
             }
         }
 
-        public ITaskComponent Tasks
-        {
-            get
-            {
-                return Services.UI.Tasks;
-            }
-        }
+        //public ITaskComponent Tasks
+        //{
+        //    get
+        //    {
+        //        return Services.UI.Tasks;
+        //    }
+        //}
 
         public IThreadingContext ThreadingContext
         {

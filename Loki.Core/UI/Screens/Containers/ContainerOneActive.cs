@@ -7,7 +7,7 @@ namespace Loki.UI
 {
     public class ContainerOneActive<T> : ContainerBaseWithActiveItem<T> where T : class
     {
-        private readonly BindableCollection<T> items = new BindableCollection<T>();
+        private readonly BindableCollection<T> items;
 
         /// <summary>
         /// Occurs when an activation request is processed.
@@ -17,9 +17,13 @@ namespace Loki.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerOneActive&lt;T&gt;"/> class.
         /// </summary>
+        /// <param name="coreServices">
+        /// Core services.
+        /// </param>
         public ContainerOneActive(IDisplayServices coreServices)
             : base(coreServices)
         {
+            items = new BindableCollection<T>(coreServices);
             items.CollectionChanged += (s, e) =>
             {
                 switch (e.Action)
@@ -66,7 +70,9 @@ namespace Loki.UI
         /// <summary>
         /// Activates the specified item.
         /// </summary>
-        /// <param name="item">The item to activate.</param>
+        /// <param name="item">
+        /// The item to activate.
+        /// </param>
         public override void ActivateItem(T item)
         {
             if (item != null && item.Equals(ActiveItem))
@@ -86,7 +92,9 @@ namespace Loki.UI
         /// <summary>
         /// Called to check whether or not this instance can close.
         /// </summary>
-        /// <param name="callback">The implementor calls this action with the result of the close check.</param>
+        /// <param name="callback">
+        /// The implementor calls this action with the result of the close check.
+        /// </param>
         public override void CanClose(Action<bool> callback)
         {
             CloseStrategy.Execute(
@@ -127,8 +135,12 @@ namespace Loki.UI
         /// <summary>
         /// Deactivates the specified item.
         /// </summary>
-        /// <param name="item">The item to close.</param>
-        /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
+        /// <param name="item">
+        /// The item to close.
+        /// </param>
+        /// <param name="close">
+        /// Indicates whether or not to close the item after deactivating it.
+        /// </param>
         public override void DeactivateItem(T item, bool close)
         {
             if (item == null)
@@ -157,10 +169,18 @@ namespace Loki.UI
         /// <summary>
         /// Determines the next item to activate based on the last active index.
         /// </summary>
-        /// <param name="list">The list of possible active items.</param>
-        /// <param name="lastIndex">The index of the last active item.</param>
-        /// <returns>The next item to activate.</returns>
-        /// <remarks>Called after an active item is closed.</remarks>
+        /// <param name="list">
+        /// The list of possible active items.
+        /// </param>
+        /// <param name="lastIndex">
+        /// The index of the last active item.
+        /// </param>
+        /// <returns>
+        /// The next item to activate.
+        /// </returns>
+        /// <remarks>
+        /// Called after an active item is closed.
+        /// </remarks>
         protected virtual T DetermineNextItemToActivate(IList<T> list, int lastIndex)
         {
             var toRemoveAt = lastIndex - 1;
@@ -181,8 +201,12 @@ namespace Loki.UI
         /// <summary>
         /// Ensures that an item is ready to be activated.
         /// </summary>
-        /// <param name="newItem">New item.</param>
-        /// <returns>The item to be activated.</returns>
+        /// <param name="newItem">
+        /// New item.
+        /// </param>
+        /// <returns>
+        /// The item to be activated.
+        /// </returns>
         protected override T EnsureItem(T newItem)
         {
             if (newItem == null)
@@ -217,7 +241,9 @@ namespace Loki.UI
         /// <summary>
         /// Called when deactivating.
         /// </summary>
-        /// <param name="close">Inidicates whether this instance will be closed.</param>
+        /// <param name="close">
+        /// Inidicates whether this instance will be closed.
+        /// </param>
         protected override void OnDesactivate(bool close)
         {
             if (close)

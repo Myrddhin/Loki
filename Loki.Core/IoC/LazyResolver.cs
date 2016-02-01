@@ -1,5 +1,4 @@
 ﻿using System;
-using Loki.Common;
 
 namespace Loki.IoC
 {
@@ -7,11 +6,6 @@ namespace Loki.IoC
     {
         public LazyResolver(IObjectCreator context)
             : base(context.Get<T>)
-        {
-        }
-
-        public LazyResolver()
-            : this(Toolkit.IoC.DefaultContext)
         {
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+
 using Loki.Common;
 using Loki.UI.Wpf.Resources;
 
@@ -7,12 +8,16 @@ namespace Loki.UI.Wpf
 {
     public class WpfSignalManager : BaseObject, ISignalManager
     {
-        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager) : base(logManager, errorManager)
+        private readonly IThreadingContext threading;
+
+        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager, IThreadingContext threading) : base(logManager, errorManager)
         {
-            //if (Application.Current != null)
-            //{
-            //    Application.Current.DispatcherUnhandledException += (s, e) => OnLastChanceError(new ExceptionEventArgs(e.Exception));
-            //}
+            this.threading = threading;
+
+            // if (Application.Current != null)
+            // {
+            // Application.Current.DispatcherUnhandledException += (s, e) => OnLastChanceError(new ExceptionEventArgs(e.Exception));
+            // }
         }
 
         public void ApplicationExit(int errorCode)
@@ -42,11 +47,11 @@ namespace Loki.UI.Wpf
             LokiException ex = exception as LokiException;
             if (ex != null)
             {
-                ErrorMessageBox.Show(ex, imperative);
+                ErrorMessageBox.Show(threading, ex, imperative);
             }
             else
             {
-                ErrorMessageBox.Show(ErrorManager.BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
+                ErrorMessageBox.Show(threading, ErrorManager.BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
             }
 
             if (imperative)

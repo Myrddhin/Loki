@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Loki.UI;
 
 namespace Loki.Common
 {
@@ -12,8 +12,12 @@ namespace Loki.Common
         /// <summary>
         /// Publishes a message on the current thread (synchronized).
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name = "message">The message instance.</param>
+        /// <param name="eventAggregator">
+        /// The event aggregator.
+        /// </param>
+        /// <param name="message">
+        /// The message instance.
+        /// </param>
         public static void PublishOnCurrentThread(this IMessageComponent eventAggregator, object message)
         {
             eventAggregator.Publish(message, action => action());
@@ -22,8 +26,12 @@ namespace Loki.Common
         /// <summary>
         /// Publishes a message on a background thread (async).
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name = "message">The message instance.</param>
+        /// <param name="eventAggregator">
+        /// The event aggregator.
+        /// </param>
+        /// <param name="message">
+        /// The message instance.
+        /// </param>
         public static void PublishOnBackgroundThread(this IMessageComponent eventAggregator, object message)
         {
             eventAggregator.Publish(message, action => Task.Factory.StartNew(action));
@@ -32,32 +40,39 @@ namespace Loki.Common
         /// <summary>
         /// Publishes a message on the UI thread.
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name = "message">The message instance.</param>
-        public static void PublishOnUIThread(this IMessageComponent eventAggregator, object message)
+        /// <param name="eventAggregator">
+        /// The event aggregator.
+        /// </param>
+        /// <param name="thread">
+        /// The threading component.
+        /// </param>
+        /// <param name="message">
+        /// The message instance.
+        /// </param>
+        public static void PublishOnUIThread(this IMessageComponent eventAggregator, IThreadingContext thread, object message)
         {
-            eventAggregator.Publish(message, DelegateExtensions.OnUIThread);
+            eventAggregator.Publish(message, thread.OnUIThread);
         }
 
         /// <summary>
         /// Publishes a message on the UI thread async.
         /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name = "message">The message instance.</param>
-        public static void BeginPublishOnUIThread(this IMessageComponent eventAggregator, object message)
-        {
-            eventAggregator.Publish(message, DelegateExtensions.BeginOnUIThread);
-        }
-
-        /// <summary>
-        /// Publishes a message on the UI thread async.
-        /// </summary>
-        /// <param name="eventAggregator">The event aggregator.</param>
-        /// <param name="message">The message instance.</param>
-        public static Task PublishOnUIThreadAsync(this IMessageComponent eventAggregator, object message)
+        /// <param name="eventAggregator">
+        /// The event aggregator.
+        /// </param>
+        /// <param name="thread">
+        /// The threading context.
+        /// </param>
+        /// <param name="message">
+        /// The message instance.
+        /// </param>
+        /// <returns>
+        /// The created task.
+        /// </returns>
+        public static Task PublishOnUIThreadAsync(this IMessageComponent eventAggregator, IThreadingContext thread, object message)
         {
             Task task = null;
-            eventAggregator.Publish(message, action => task = action.OnUIThreadAsync());
+            eventAggregator.Publish(message, action => task = thread.OnUIThreadAsync(action));
             return task;
         }
     }

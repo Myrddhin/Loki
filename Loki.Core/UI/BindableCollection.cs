@@ -7,15 +7,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+
 using Loki.Common;
 
 namespace Loki.UI
 {
-    public class BindableCollection<T> : ObservableCollection<T>, IObservableEnumerable, IObservableCollection<T>, ISupportInitialize, IBindingList, IRaiseItemChangedEvents
+    public class BindableCollection<T> : ObservableCollection<T>, IObservableCollection<T>, ISupportInitialize, IBindingList, IRaiseItemChangedEvents
     {
+        private readonly Func<T> addingFunctor;
+
+        private readonly IDisplayServices services;
+
+        private readonly List<T> removedItems = new List<T>();
+
         #region Log
 
-        private ILog log = null;
+        private ILog log;
 
         /// <summary>
         /// Gets the logger.
@@ -27,7 +34,7 @@ namespace Loki.UI
             {
                 if (log == null)
                 {
-                    Interlocked.CompareExchange(ref log, Toolkit.Common.Logger.GetLog(LoggerName), null);
+                    Interlocked.CompareExchange(ref log, services.Core.Logger.GetLog(LoggerName), null);
                 }
 
                 return log;
@@ -57,25 +64,21 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                Toolkit.UI.Threading.OnUIThread(() => handler(this, e));
+                services.UI.Threading.OnUIThread(() => handler(this, e));
             }
         }
 
         #endregion ItemChanged
 
-        private Func<T> addingFunctor;
-
         private int addNewPos = -1;
 
         [NonSerialized]
-        private PropertyDescriptorCollection itemTypeProperties = null;
+        private PropertyDescriptorCollection itemTypeProperties;
 
         [NonSerialized]
         private int lastChangeIndex = -1;
 
-        private bool raiseItemChangedEvents = false;
-
-        private List<T> removedItems = new List<T>();
+        private bool raiseItemChangedEvents;
 
         public bool IsNotifying { get; set; }
 
@@ -91,7 +94,8 @@ namespace Loki.UI
             bool oldRaiseEvents = IsNotifying;
             int oldCount = this.Count;
             IsNotifying = false;
-            foreach (T item in items)
+            var enumerable = items as List<T> ?? items.ToList();
+            foreach (T item in enumerable)
             {
                 Add(item);
             }
@@ -101,7 +105,7 @@ namespace Loki.UI
             if (oldRaiseEvents)
             {
                 FireListChanged(ListChangedType.Reset, -1);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), oldCount));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, enumerable, oldCount));
             }
         }
 
@@ -121,7 +125,8 @@ namespace Loki.UI
         {
             bool oldRaiseEvents = IsNotifying;
             IsNotifying = false;
-            foreach (T item in items)
+            var enumerable = items as List<T> ?? items.ToList();
+            foreach (T item in enumerable)
             {
                 Remove(item);
             }
@@ -131,7 +136,7 @@ namespace Loki.UI
             if (oldRaiseEvents)
             {
                 FireListChanged(ListChangedType.Reset, -1);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, null, items.ToList()));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new List<T>(), enumerable));
             }
         }
 
@@ -139,7 +144,7 @@ namespace Loki.UI
         {
             if (IsNotifying)
             {
-                Toolkit.UI.Threading.OnUIThread(() => base.OnCollectionChanged(e));
+                services.UI.Threading.OnUIThread(() => base.OnCollectionChanged(e));
             }
 
             if (IsTrackingRemovedItems && e.OldItems != null)
@@ -152,15 +157,7 @@ namespace Loki.UI
         {
             if (IsNotifying)
             {
-                Toolkit.UI.Threading.OnUIThread(() => base.OnPropertyChanged(e));
-            }
-        }
-
-        private void Item_Changed(object sender, ItemChangedEventArgs<T> e)
-        {
-            if (!IsNotifying)
-            {
-                OnItemChanged(e);
+                services.UI.Threading.OnUIThread(() => base.OnPropertyChanged(e));
             }
         }
 
@@ -174,7 +171,7 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                Toolkit.UI.Threading.OnUIThread(() => handler(this, e));
+                services.UI.Threading.OnUIThread(() => handler(this, e));
             }
         }
 
@@ -182,17 +179,18 @@ namespace Loki.UI
 
         #region Constructors
 
-        public BindableCollection(Func<T> addingFunctor = null)
-            : base()
+        public BindableCollection(IDisplayServices services, Func<T> addingFunctor = null)
         {
             this.addingFunctor = addingFunctor;
+            this.services = services;
             Initialize();
         }
 
-        public BindableCollection(IEnumerable<T> list, Func<T> addingFunctor = null)
+        public BindableCollection(IDisplayServices services, IEnumerable<T> list, Func<T> addingFunctor = null)
             : base(list)
         {
             this.addingFunctor = addingFunctor;
+            this.services = services;
             Initialize();
         }
 
@@ -370,69 +368,71 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                Toolkit.Common.Events.Changed.Register<BindableCollection<T>>(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
+                services.Core.Events.Changed.Register(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
             }
         }
 
         private void Child_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!IsNotifying)
+            if (!this.IsNotifying)
             {
-                if (sender == null || e == null || string.IsNullOrEmpty(e.PropertyName))
+                return;
+            }
+
+            if (sender == null || e == null || string.IsNullOrEmpty(e.PropertyName))
+            {
+                // Fire reset event (per INotifyPropertyChanged spec)
+                this.ResetBindings();
+            }
+            else
+            {
+                T item;
+
+                try
                 {
-                    // Fire reset event (per INotifyPropertyChanged spec)
-                    ResetBindings();
+                    item = (T)sender;
+                }
+                catch (InvalidCastException)
+                {
+                    this.ResetBindings();
+                    return;
+                }
+
+                // Find the position of the item. This should never be -1. If it is, somehow the
+                // item has been removed from our list without our knowledge.
+                int pos = this.lastChangeIndex;
+
+                if (pos < 0 || pos >= this.Count || !this[pos].Equals(item))
+                {
+                    pos = this.IndexOf(item);
+                    this.lastChangeIndex = pos;
+                }
+
+                if (pos == -1)
+                {
+                    this.Log.Error("Item is no longer in our list but we are still getting change notifications.");
+                    this.UnbindItem(item);
+                    this.ResetBindings();
                 }
                 else
                 {
-                    T item;
-
-                    try
+                    // Get the property descriptor
+                    if (null == this.itemTypeProperties)
                     {
-                        item = (T)sender;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        ResetBindings();
-                        return;
+                        // Get Shape
+                        this.itemTypeProperties = TypeDescriptor.GetProperties(typeof(T));
+                        Debug.Assert(this.itemTypeProperties != null, "Null item type properties is not an expected behavior");
                     }
 
-                    // Find the position of the item. This should never be -1. If it is, somehow the
-                    // item has been removed from our list without our knowledge.
-                    int pos = lastChangeIndex;
+                    PropertyDescriptor pd = this.itemTypeProperties.Find(e.PropertyName, true);
 
-                    if (pos < 0 || pos >= Count || !this[pos].Equals(item))
-                    {
-                        pos = this.IndexOf(item);
-                        lastChangeIndex = pos;
-                    }
+                    // Create event args. If there was no matching property descriptor, we raise
+                    // the list changed anyway.
+                    ListChangedEventArgs args = new ListChangedEventArgs(ListChangedType.ItemChanged, pos, pd);
+                    this.OnItemChanged(new ItemChangedEventArgs<T>(item));
 
-                    if (pos == -1)
-                    {
-                        Log.Error("Item is no longer in our list but we are still getting change notifications.");
-                        UnbindItem(item);
-                        ResetBindings();
-                    }
-                    else
-                    {
-                        // Get the property descriptor
-                        if (null == this.itemTypeProperties)
-                        {
-                            // Get Shape
-                            itemTypeProperties = TypeDescriptor.GetProperties(typeof(T));
-                            Debug.Assert(itemTypeProperties != null, "Null item type properties is not an expected behavior");
-                        }
-
-                        PropertyDescriptor pd = itemTypeProperties.Find(e.PropertyName, true);
-
-                        // Create event args. If there was no matching property descriptor, we raise
-                        // the list changed anyway.
-                        ListChangedEventArgs args = new ListChangedEventArgs(ListChangedType.ItemChanged, pos, pd);
-                        OnItemChanged(new ItemChangedEventArgs<T>(item));
-
-                        // Fire the ItemChanged event
-                        OnListChanged(args);
-                    }
+                    // Fire the ItemChanged event
+                    this.OnListChanged(args);
                 }
             }
         }
@@ -444,7 +444,7 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                Toolkit.Common.Events.Changed.Unregister(inpc, this);
+                services.Core.Events.Changed.Unregister(inpc, this);
             }
         }
 
@@ -556,9 +556,7 @@ namespace Loki.UI
         protected virtual object AddNewCore()
         {
             // Allow event handler to supply the new item for us
-            object newItem = null;
-
-            newItem = CreateItem();
+            object newItem = this.CreateItem();
 
             // Add item to end of list. Note: If event handler returned an item not of type T, the
             // cast below will trigger an InvalidCastException. This is by design.
@@ -580,7 +578,11 @@ namespace Loki.UI
             {
                 // If event hander did not supply new item, create one ourselves
                 Type type = typeof(T);
-                newItem = type.GetConstructor(Type.EmptyTypes).Invoke(null);
+                var constructorInfo = type.GetConstructor(Type.EmptyTypes);
+                if (constructorInfo != null)
+                {
+                    newItem = constructorInfo.Invoke(null);
+                }
             }
 
             return (T)newItem;

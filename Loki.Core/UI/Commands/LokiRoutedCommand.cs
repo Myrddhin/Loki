@@ -25,10 +25,14 @@ namespace Loki.UI.Commands
         /// <param name="messageComponent">
         /// Messaging component.
         /// </param>
-        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageComponent messageComponent) : base(logger)
+        /// <param name="thread">
+        /// Threading context.
+        /// </param>
+        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageComponent messageComponent, IThreadingContext thread) : base(logger)
         {
             commandService = commands;
             messageBus = messageComponent;
+            this.threading = thread;
             Name = name;
             lastCanExecute = null;
         }
@@ -48,6 +52,8 @@ namespace Loki.UI.Commands
         /// The message bus.
         /// </value>
         private readonly IMessageComponent messageBus;
+
+        private readonly IThreadingContext threading;
 
         /// <summary>
         /// Gets the command name.
@@ -177,7 +183,7 @@ namespace Loki.UI.Commands
                 }
                 catch (LokiException exception)
                 {
-                    messageBus.PublishOnUIThread(new ErrorMessage(exception));
+                    messageBus.PublishOnUIThread(threading, new ErrorMessage(exception));
                 }
             }
         }

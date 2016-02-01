@@ -21,6 +21,8 @@ namespace Loki.UI.Commands
 
         private readonly ICoreServices services;
 
+        private readonly IThreadingContext threading;
+
         #endregion Private storage
 
         #region Handlers management
@@ -287,7 +289,7 @@ namespace Loki.UI.Commands
         /// </returns>
         public ICommand GetCommand(string commandName)
         {
-            var newCommand = new LokiRoutedCommand(commandName, this.services.Logger, this, this.services.Messages);
+            var newCommand = new LokiRoutedCommand(commandName, this.services.Logger, this, this.services.Messages, this.threading);
             return commands.GetOrAdd(commandName, newCommand);
         }
 
@@ -299,12 +301,15 @@ namespace Loki.UI.Commands
         /// <param name="services">
         /// Core services.
         /// </param>
-        public LokiCommandService(ICoreServices services)
+        /// <param name="threading">
+        /// </param>
+        public LokiCommandService(ICoreServices services, IThreadingContext threading)
             : base(services.Logger, services.Error)
         {
             commandHandlers = new ConcurrentDictionary<string, ConcurrentCollection<WeakReference<ICommandHandler>>>();
             commands = new ConcurrentDictionary<string, ICommand>();
             this.services = services;
+            this.threading = threading;
         }
     }
 }

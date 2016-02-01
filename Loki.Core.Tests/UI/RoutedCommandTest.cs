@@ -1,4 +1,5 @@
 ﻿using Loki.Common;
+using Loki.UI;
 using Loki.UI.Commands;
 
 using Moq;
@@ -17,7 +18,9 @@ namespace Loki.Core.Tests.UI
 
             var commands = new Mock<ICommandComponent>();
 
-            Command = new LokiRoutedCommand("Test", logger.Object, commands.Object, messages.Object);
+            var threading = new Mock<IThreadingContext>();
+
+            Command = new LokiRoutedCommand("Test", logger.Object, commands.Object, messages.Object, threading.Object);
             Handler = LokiCommandHandler.Create(State.CanExecute, State.Execute, State);
 
             commands.Setup(x => x.GetHandlers(Command)).Returns(new[] { Handler });

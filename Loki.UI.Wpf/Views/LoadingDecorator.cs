@@ -6,7 +6,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Core;
-using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
@@ -60,7 +59,7 @@ namespace Loki.UI.Wpf
                 }
 
                 loadingChild = value;
-                if (Toolkit.UI.Windows.DesignMode)
+                if (View.DesignMode)
                 {
                     Child = loadingChild;
                     return;
@@ -187,7 +186,7 @@ namespace Loki.UI.Wpf
 
             if (loadingChild != null)
             {
-                loadingChild.Visibility = System.Windows.Visibility.Visible;
+                loadingChild.Visibility = Visibility.Visible;
             }
         }
 
@@ -206,7 +205,7 @@ namespace Loki.UI.Wpf
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Loaded -= OnLoaded;
-            if (Toolkit.UI.Windows.DesignMode)
+            if (View.DesignMode)
             {
                 return;
             }

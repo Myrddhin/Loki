@@ -10,7 +10,7 @@ namespace Loki.UI.Tasks
     {
         private readonly TaskComponent service;
 
-        public TaskBuilder(TaskComponent service)
+        public TaskBuilder(TaskComponent service) : base(null)
         {
             this.service = service;
         }

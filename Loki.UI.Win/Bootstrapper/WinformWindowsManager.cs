@@ -9,6 +9,10 @@ namespace Loki.UI.Win
 {
     public class WinformWindowManager : LoggableObject, IWindowManager
     {
+        public WinformWindowManager(ILoggerComponent logger) : base(logger)
+        {
+        }
+
         public virtual CultureInfo Culture
         {
             get { return Application.CurrentCulture; }

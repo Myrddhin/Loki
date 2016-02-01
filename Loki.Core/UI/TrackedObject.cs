@@ -10,9 +10,12 @@ namespace Loki.UI
     {
         #region Constructor
 
-        public TrackedObject(ICoreServices services)
-            : base(services.Logger, services.Error)
+        protected IDisplayServices Services { get; private set; }
+
+        public TrackedObject(IDisplayServices services)
+            : base(services.Core.Logger, services.Core.Error)
         {
+            Services = services;
             Tracking = true;
         }
 
@@ -80,7 +83,7 @@ namespace Loki.UI
             NotifyChanged(RefreshAllArgs);
         }
 
-        protected void NotifyChangedAndDirty(PropertyChangedEventArgs e)
+        public void NotifyChangedAndDirty(PropertyChangedEventArgs e)
         {
             if (Tracking)
             {
@@ -92,7 +95,7 @@ namespace Loki.UI
             }
         }
 
-        protected void NotifyChanging(PropertyChangingEventArgs e)
+        public void NotifyChanging(PropertyChangingEventArgs e)
         {
             if (Tracking)
             {
@@ -110,12 +113,9 @@ namespace Loki.UI
 
         protected void ObservedChanged()
         {
-            if (Tracking)
+            if (Tracking && !IsChanged)
             {
-                if (!IsChanged)
-                {
-                    IsChanged = true;
-                }
+                IsChanged = true;
             }
         }
 
@@ -244,7 +244,7 @@ namespace Loki.UI
 
         protected virtual BindableCollection<T> CreateTrackedCollection<T>(Func<T> adder) where T : ICentralizedChangeTracking
         {
-            BindableCollection<T> collection = new BindableCollection<T>(adder);
+            BindableCollection<T> collection = new BindableCollection<T>(Services, adder);
 
             collection.ItemChanged += SubCollection_ItemChanged;
             collection.CollectionChanged += SubCollection_CollectionChanged;
@@ -283,10 +283,10 @@ namespace Loki.UI
 
         protected void TrackChanges(ICentralizedChangeTracking observed)
         {
-            this.WatchStateChanged(observed, o => o.Tracked_Changed);
+            Services.Core.Events.StateChanged.Register(observed, this, (o, s, e) => o.Tracked_Changed(s));
         }
 
-        private void Tracked_Changed(object sender, EventArgs e)
+        private void Tracked_Changed(object sender)
         {
             ICentralizedChangeTracking convertedSender = sender as ICentralizedChangeTracking;
             if (convertedSender != null && convertedSender.IsChanged)

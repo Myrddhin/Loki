@@ -48,17 +48,20 @@ namespace Loki.Castle
         /// <param name="context">The context.</param>
         public void DropContext(IObjectContext context)
         {
-            var internalContext = Contexts.FirstOrDefault(x => x.Value == context);
-
-            if (internalContext.Value == DefaultContext)
+            lock (contextes)
             {
-                throw new NotSupportedException();
-            }
+                var internalContext = Contexts.FirstOrDefault(x => x.Value == context);
 
-            if (internalContext.Value != null)
-            {
-                internalContext.Value.Dispose();
-                contextes.Remove(internalContext.Key);
+                if (internalContext.Value == DefaultContext)
+                {
+                    throw new NotSupportedException();
+                }
+
+                if (internalContext.Value != null)
+                {
+                    internalContext.Value.Dispose();
+                    contextes.Remove(internalContext.Key);
+                }
             }
         }
 

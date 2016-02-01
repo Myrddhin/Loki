@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
-using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
@@ -24,13 +24,17 @@ namespace Loki.UI.Wpf
                 "DblClickCommand",
                 typeof(object),
                 typeof(GridBinder),
-                new PropertyMetadata(null, RowCommandsChanged));
+                new PropertyMetadata(null, DblClickCommandChanged));
 
         /// <summary>
         /// Sets the model.
         /// </summary>
-        /// <param name="d">The element to attach the model to.</param>
-        /// <param name="value">The model.</param>
+        /// <param name="d">
+        /// The element to attach the model to.
+        /// </param>
+        /// <param name="value">
+        /// The model.
+        /// </param>
         public static void SetRowCommands(DependencyObject d, object value)
         {
             d.SetValue(RowCommandsProperty, value);
@@ -39,8 +43,12 @@ namespace Loki.UI.Wpf
         /// <summary>
         /// Gets the model.
         /// </summary>
-        /// <param name="d">The element the model is attached to.</param>
-        /// <returns>The model.</returns>
+        /// <param name="d">
+        /// The element the model is attached to.
+        /// </param>
+        /// <returns>
+        /// The model.
+        /// </returns>
         public static object GetRowCommands(DependencyObject d)
         {
             return d.GetValue(RowCommandsProperty);
@@ -49,8 +57,12 @@ namespace Loki.UI.Wpf
         /// <summary>
         /// Sets the model.
         /// </summary>
-        /// <param name="d">The element to attach the model to.</param>
-        /// <param name="value">The model.</param>
+        /// <param name="d">
+        /// The element to attach the model to.
+        /// </param>
+        /// <param name="value">
+        /// The model.
+        /// </param>
         public static void SetDblClickCommand(DependencyObject d, object value)
         {
             d.SetValue(DblClickCommandProperty, value);
@@ -59,8 +71,12 @@ namespace Loki.UI.Wpf
         /// <summary>
         /// Gets the model.
         /// </summary>
-        /// <param name="d">The element the model is attached to.</param>
-        /// <returns>The model.</returns>
+        /// <param name="d">
+        /// The element the model is attached to.
+        /// </param>
+        /// <returns>
+        /// The model.
+        /// </returns>
         public static object GetDblClickCommand(DependencyObject d)
         {
             return d.GetValue(DblClickCommandProperty);
@@ -68,7 +84,7 @@ namespace Loki.UI.Wpf
 
         private static void RowCommandsChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
         {
-            if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
+            if (args.OldValue == args.NewValue || View.DesignMode)
             {
                 return;
             }
@@ -76,46 +92,51 @@ namespace Loki.UI.Wpf
             var commands = args.NewValue as IEnumerable<CommandElement>;
             var grid = targetLocation as GridControl;
 
-            if (commands != null && grid != null)
+            if (commands == null || grid == null)
             {
-                List<BarButtonItem> items = new List<BarButtonItem>();
+                return;
+            }
 
-                DataViewBase view = grid.View as DataViewBase;
-                foreach (var comm in commands)
+            List<BarButtonItem> items = new List<BarButtonItem>();
+
+            DataViewBase view = grid.View;
+            foreach (var comm in commands)
+            {
+                BarButtonItem item = new BarButtonItem();
+
+                // item.Name = "row_" + comm.Command.Name;
+                item.Content = comm.DisplayName;
+                item.CommandParameter = grid.SelectedItems;
+                if (grid.SelectionMode == MultiSelectMode.None)
                 {
-                    BarButtonItem item = new BarButtonItem();
-                    // item.Name = "row_" + comm.Command.Name;
-                    item.Content = comm.DisplayName;
-                    item.CommandParameter = grid.SelectedItems;
-                    if (grid.SelectionMode == MultiSelectMode.None)
-                    {
-                        grid.SelectionMode = MultiSelectMode.MultipleRow;
-                    }
-
-                    item.IsEnabled = comm.Command.CanExecute(item.CommandParameter);
-                    item.Command = comm.Command;
-                    grid.SelectionChanged += (s, e) =>
-                        {
-                            item.CommandParameter = grid.SelectedItems;
-                            item.IsEnabled = comm.Command.CanExecute(item.CommandParameter);
-                        };
-                    items.Add(item);
+                    grid.SelectionMode = MultiSelectMode.MultipleRow;
                 }
 
-                view.ShowGridMenu += (s, e) =>
+                item.IsEnabled = comm.Command.CanExecute(item.CommandParameter);
+                item.Command = comm.Command;
+                var comm1 = comm;
+
+                grid.SelectionChanged += (s, e) =>
                     {
-                        foreach (var item in items)
-                        {
-                            e.Customizations.Add(item);
-                        }
+                        item.CommandParameter = grid.SelectedItems;
+                        item.IsEnabled = comm1.Command.CanExecute(item.CommandParameter);
                     };
+                items.Add(item);
             }
+
+            view.ShowGridMenu += (s, e) =>
+                {
+                    foreach (var item in items)
+                    {
+                        e.Customizations.Add(item);
+                    }
+                };
         }
 
         private static void DblClickCommandChanged(DependencyObject targetLocation,
             DependencyPropertyChangedEventArgs args)
         {
-            if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
+            if (args.OldValue == args.NewValue || View.DesignMode)
             {
                 return;
             }

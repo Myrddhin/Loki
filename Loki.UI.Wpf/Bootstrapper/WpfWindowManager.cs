@@ -1,38 +1,36 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using System.Windows;
+
 using DevExpress.Xpf.Core;
-using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
     public class WpfWindowManager : IWindowManager
     {
+        private readonly ITemplatingEngine engine;
+
+        public WpfWindowManager(ITemplatingEngine engine)
+        {
+            this.engine = engine;
+        }
+
         public CultureInfo Culture
         {
             get { return Thread.CurrentThread.CurrentUICulture; }
         }
 
-        private bool? inDesignMode = null;
-
         public bool DesignMode
         {
             get
             {
-                if (inDesignMode == null)
-                {
-                    var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
-                    inDesignMode = (bool)descriptor.Metadata.DefaultValue;
-                }
-
-                return inDesignMode.GetValueOrDefault(false);
+                return View.DesignMode;
             }
         }
 
         public bool Confirm(string message)
         {
-            //return WinUIMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            // return WinUIMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
             return DXMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
 
@@ -48,10 +46,8 @@ namespace Loki.UI.Wpf
             {
                 return fileDialog.FileName;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public string GetSaveFileName(FileDialogInformations informations)
@@ -67,15 +63,13 @@ namespace Loki.UI.Wpf
             {
                 return fileDialog.FileName;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public bool? ShowAsPopup(object viewModel)
         {
-            var template = Toolkit.UI.Templating.GetTemplate(viewModel);
+            var template = engine.GetTemplate(viewModel);
 
             DXWindow templateAsWindow = template as DXWindow;
             if (templateAsWindow == null)
@@ -100,15 +94,20 @@ namespace Loki.UI.Wpf
                     templateAsWindow.Width = dobject.Width;
                     templateAsWindow.Height = dobject.Height;
                 }*/
-
                 View.SetModel(templateAsWindow, viewModel);
-                Toolkit.UI.Templating.CreateBind(templateAsWindow, viewModel);
+                engine.CreateBind(templateAsWindow, viewModel);
             }
 
             var screen = viewModel as IScreen;
             if (screen != null)
             {
-                screen.DialogResultSetter = (r) => { if (templateAsWindow.DialogResult != r) { templateAsWindow.DialogResult = r; } };
+                screen.DialogResultSetter = r =>
+                    {
+                        if (templateAsWindow.DialogResult != r)
+                        {
+                            templateAsWindow.DialogResult = r;
+                        }
+                    };
             }
 
             return templateAsWindow.ShowDialog();

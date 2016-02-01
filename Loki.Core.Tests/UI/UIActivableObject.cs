@@ -13,6 +13,11 @@ namespace Loki.Core.Tests.UI
         public void Activate()
         {
             IsActive = true;
+            var handler = Activated;
+            if (handler != null)
+            {
+                handler(this, new ActivationEventArgs());
+            }
         }
     }
 }

@@ -71,7 +71,7 @@ namespace Loki.UI
                     {
                         try
                         {
-                            await Toolkit.UI.Threading.OnUIThreadAsync(() => parent.BeginBackgroudWork(title));
+                            await parent.ThreadingContext.OnUIThreadAsync(() => parent.BeginBackgroudWork(title));
                             running = true;
                             return await worker(args);
                         }
@@ -82,7 +82,7 @@ namespace Loki.UI
                         finally
                         {
                             running = false;
-                            Toolkit.UI.Threading.OnUIThread(() => parent.EndBackgroudWork(title));
+                            parent.ThreadingContext.OnUIThread(() => parent.EndBackgroudWork(title));
                         }
 
                         return await Task.FromResult(default(TResult));

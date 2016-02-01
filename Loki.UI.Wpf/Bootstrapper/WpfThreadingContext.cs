@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+
 using Loki.UI.Wpf.Resources;
 
 namespace Loki.UI.Wpf
@@ -40,7 +38,7 @@ namespace Loki.UI.Wpf
         public void OnUIThread(Action action)
         {
             Exception exception = null;
-            System.Action method = () =>
+            Action method = () =>
             {
                 try
                 {

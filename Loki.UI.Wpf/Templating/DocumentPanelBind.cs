@@ -11,8 +11,8 @@ namespace Loki.UI.Wpf.Binds
 {
     internal class DocumentPanelBind : FrameworkElementBind<DocumentPanel>
     {
-        public DocumentPanelBind(DocumentPanel view, object viewModel)
-            : base(view, viewModel)
+        public DocumentPanelBind(ICoreServices services, IThreadingContext threading, DocumentPanel view, object viewModel)
+            : base(services, threading, view, viewModel)
         {
             IScreen screen = viewModel as IScreen;
             if (screen != null)
@@ -49,7 +49,7 @@ namespace Loki.UI.Wpf.Binds
                 binding.Mode = BindingMode.OneWay;
                 binding.NotifyOnSourceUpdated = true;
                 binding.NotifyOnTargetUpdated = false;
-                view.SetBinding(DocumentPanel.CaptionProperty, binding);
+                view.SetBinding(BaseLayoutItem.CaptionProperty, binding);
             }
             else
             {
@@ -62,7 +62,7 @@ namespace Loki.UI.Wpf.Binds
                     binding.Mode = BindingMode.OneWay;
                     binding.NotifyOnSourceUpdated = true;
                     binding.NotifyOnTargetUpdated = false;
-                    view.SetBinding(DocumentPanel.CaptionProperty, binding);
+                    view.SetBinding(BaseLayoutItem.CaptionProperty, binding);
 
                     Log.DebugFormat("Binding {0} and {1}", view, withDisplay.DisplayName);
                 }

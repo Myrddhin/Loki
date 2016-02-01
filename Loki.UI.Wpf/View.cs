@@ -1,8 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
+
 using Loki.Common;
 
 namespace Loki.UI.Wpf
@@ -12,6 +14,18 @@ namespace Loki.UI.Wpf
     /// </summary>
     public static class View
     {
+        private static readonly ContentPropertyAttribute DefaultContentProperty = new ContentPropertyAttribute("Content");
+
+        private static ITemplatingEngine engine;
+
+        private static ILog log;
+
+        public static void InitializeViewHelper(ITemplatingEngine templateEngine, ILog logger)
+        {
+            log = logger;
+            engine = templateEngine;
+        }
+
         /// <summary>
         /// A dependency property for attaching a model to the UI.
         /// </summary>
@@ -25,8 +39,12 @@ namespace Loki.UI.Wpf
         /// <summary>
         /// Sets the model.
         /// </summary>
-        /// <param name="d">The element to attach the model to.</param>
-        /// <param name="value">The model.</param>
+        /// <param name="d">
+        /// The element to attach the model to.
+        /// </param>
+        /// <param name="value">
+        /// The model.
+        /// </param>
         public static void SetModel(DependencyObject d, object value)
         {
             d.SetValue(ModelProperty, value);
@@ -35,21 +53,29 @@ namespace Loki.UI.Wpf
         /// <summary>
         /// Gets the model.
         /// </summary>
-        /// <param name="d">The element the model is attached to.</param>
-        /// <returns>The model.</returns>
+        /// <param name="d">
+        /// The element the model is attached to.
+        /// </param>
+        /// <returns>
+        /// The model.
+        /// </returns>
         public static object GetModel(DependencyObject d)
         {
             return d.GetValue(ModelProperty);
         }
 
-        private static readonly ContentPropertyAttribute DefaultContentProperty = new ContentPropertyAttribute("Content");
-
         /// <summary>
         /// Executes the handler immediately if the element is loaded, otherwise wires it to the Loaded event.
         /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="handler">The handler.</param>
-        /// <returns>true if the handler was executed immediately; false otherwise</returns>
+        /// <param name="element">
+        /// The element.
+        /// </param>
+        /// <param name="handler">
+        /// The handler.
+        /// </param>
+        /// <returns>
+        /// True if the handler was executed immediately; false otherwise.
+        /// </returns>
         public static bool ExecuteOnLoad(FrameworkElement element, EventHandler handler)
         {
             if (element.IsLoaded)
@@ -72,22 +98,29 @@ namespace Loki.UI.Wpf
                 handler(s, e);
             };
 
-            if (element is Window)
+            var window = element as Window;
+
+            if (window != null)
             {
-                ((Window)element).ContentRendered += contentLoader;
+                window.ContentRendered += contentLoader;
             }
             else
             {
                 element.Loaded += loaded;
             }
+
             return false;
         }
 
         /// <summary>
         /// Executes the handler when the element is unloaded.
         /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="handler">The handler.</param>
+        /// <param name="element">
+        /// The element.
+        /// </param>
+        /// <param name="handler">
+        /// The handler.
+        /// </param>
         public static void ExecuteOnUnload(FrameworkElement element, RoutedEventHandler handler)
         {
             RoutedEventHandler unloaded = null;
@@ -96,14 +129,19 @@ namespace Loki.UI.Wpf
                 element.Unloaded -= unloaded;
                 handler(s, e);
             };
+
             element.Unloaded += unloaded;
         }
 
         /// <summary>
         /// Executes the handler the next time the elements's LayoutUpdated event fires.
         /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="handler">The handler.</param>
+        /// <param name="element">
+        /// The element.
+        /// </param>
+        /// <param name="handler">
+        /// The handler.
+        /// </param>
         public static void ExecuteOnLayoutUpdated(FrameworkElement element, EventHandler handler)
         {
             EventHandler onLayoutUpdate = null;
@@ -118,7 +156,7 @@ namespace Loki.UI.Wpf
 
         private static void OnModelChanged(DependencyObject targetLocation, DependencyPropertyChangedEventArgs args)
         {
-            if (args.OldValue == args.NewValue || Toolkit.UI.Windows.DesignMode)
+            if (args.OldValue == args.NewValue || DesignMode)
             {
                 return;
             }
@@ -126,13 +164,13 @@ namespace Loki.UI.Wpf
             if (args.NewValue != null)
             {
                 // get template
-                var view = Toolkit.UI.Templating.GetTemplate(args.NewValue);
+                var view = engine.GetTemplate(args.NewValue);
 
                 // replace content property
                 SetContentProperty(targetLocation, view);
 
                 // create bind
-                Toolkit.UI.Templating.CreateBind(view, args.NewValue);
+                engine.CreateBind(view, args.NewValue);
             }
             else
             {
@@ -164,7 +202,25 @@ namespace Loki.UI.Wpf
             }
             catch (Exception e)
             {
-                Toolkit.Common.Logger.GetLog("View").Error(e.Message, e);
+                log.Error(e.Message, e);
+            }
+        }
+
+        private static bool? inDesignMode;
+
+        public static bool DesignMode
+        {
+            get
+            {
+                if (inDesignMode != null)
+                {
+                    return inDesignMode.GetValueOrDefault(false);
+                }
+
+                var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
+                inDesignMode = (bool)descriptor.Metadata.DefaultValue;
+
+                return inDesignMode.GetValueOrDefault(false);
             }
         }
     }

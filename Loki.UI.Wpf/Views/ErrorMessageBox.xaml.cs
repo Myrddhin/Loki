@@ -1,52 +1,49 @@
 ﻿using System;
 using System.Windows;
-using DevExpress.Xpf.Core;
-using Loki.Common;
-using Loki.UI.Wpf.Resources;
 
 namespace Loki.UI.Wpf
 {
     /// <summary>
     /// Interaction logic for ErrorMessageBox.xaml.
     /// </summary>
-    public partial class ErrorMessageBox : DXWindow
+    public partial class ErrorMessageBox
     {
         public ErrorMessageBox()
         {
             InitializeComponent();
         }
 
-        public static void Show(Exception P_Exception, bool P_Imperative)
+        public static void Show(IThreadingContext threading, Exception excep, bool imperative)
         {
-            ErrorMessageBox L_Dialog = new ErrorMessageBox();
+            ErrorMessageBox dialog = new ErrorMessageBox();
 
-            L_Dialog.Title = "Erreur";
-            L_Dialog.LBL_Message.Text = P_Exception.Message;
-            if (string.IsNullOrEmpty(P_Exception.StackTrace) && P_Exception.InnerException != null)
+            dialog.Title = "Erreur";
+            dialog.LBL_Message.Text = excep.Message;
+            if (string.IsNullOrEmpty(excep.StackTrace) && excep.InnerException != null)
             {
-                L_Dialog.RTX_Message.Text = P_Exception.InnerException.ToString();
+                dialog.RTX_Message.Text = excep.InnerException.ToString();
             }
             else
             {
-                L_Dialog.RTX_Message.Text = P_Exception.ToString();
+                dialog.RTX_Message.Text = excep.ToString();
             }
 
-            if (!P_Imperative)
+            if (!imperative)
             {
-                Toolkit.UI.Threading.BeginOnUIThread(() => { L_Dialog.ShowDialog(); });
+                threading.BeginOnUIThread(() => { dialog.ShowDialog(); });
             }
             else
             {
-                Toolkit.UI.Threading.OnUIThread(() => { L_Dialog.ShowDialog(); });
+                threading.OnUIThread(() => { dialog.ShowDialog(); });
             }
         }
 
-        private void BTN_Copy_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BTN_Copy_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(RTX_Message.Text);
         }
 
-        private void BTN_OK_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BTN_OK_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }

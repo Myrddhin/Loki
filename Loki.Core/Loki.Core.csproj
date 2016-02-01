@@ -84,7 +84,7 @@
     <Compile Include="Common\MessageBus\MessageBus.cs" />
     <Compile Include="Common\ObservableHelper.cs" />
     <Compile Include="Common\Randomizer.cs" />
-    <Compile Include="UI\Extensions\DelegateExtensions.cs" />
+    <None Include="UI\Extensions\DelegateExtensions.cs" />
     <Compile Include="UI\IObservableEnumerable.cs" />
     <Compile Include="UI\Screens\AsyncScreen.cs" />
     <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Common\Toolkit\CoreServiceContainer.cs" />
     <Compile Include="Common\Toolkit\IExtensionType.cs" />
     <Compile Include="Common\Toolkit\ExtensionManager.cs" />
-    <Compile Include="Common\Toolkit\Toolkit.cs" />
+    <None Include="Common\Toolkit\Toolkit.cs" />
     <Compile Include="Common\WeakReferences\BaseDictionary.cs" />
     <Compile Include="Common\WeakReferences\WeakDictionary.cs" />
     <Compile Include="Common\WeakReferences\WeakEventCallback.cs" />
@@ -173,6 +173,7 @@
     <Compile Include="UI\Tasks\TaskComponent.cs" />
     <Compile Include="UI\Tasks\TaskConfiguration.cs" />
     <Compile Include="UI\Tasks\TaskRun.cs" />
+    <Compile Include="UI\Toolkit\DisplayServices.cs" />
     <Compile Include="UI\Toolkit\IDisplayServices.cs" />
     <Compile Include="UI\Toolkit\IUIServices.cs" />
     <Compile Include="UI\Toolkit\UIServices.cs" />
