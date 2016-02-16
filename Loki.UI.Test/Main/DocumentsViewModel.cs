@@ -1,5 +1,4 @@
-﻿using Loki.Commands;
-using System;
+﻿using System;
 
 namespace Loki.UI.Test
 {
@@ -7,8 +6,8 @@ namespace Loki.UI.Test
     {
         public IScreenFactory ScreenFactory { get; set; }
 
-        public DocumentsViewModel(IDisplayServices coreServices)
-            : base(coreServices)
+        public DocumentsViewModel(IDisplayServices coreServices, UI.IScreenFactory factory)
+            : base(coreServices, factory)
         {
             /*  var document1 = new Screen() { DisplayName = "Document 1 Test" };
               var document2 = new Screen() { DisplayName = "Document 2 Test" };
@@ -41,10 +40,10 @@ namespace Loki.UI.Test
 
         private void Search_Execute(object sender, EventArgs e)
         {
-            //var document3 = new Screen() { DisplayName = "Created at " + DateTime.Now.ToString() };
+            // var document3 = new Screen() { DisplayName = "Created at " + DateTime.Now.ToString() };
 
-            //Items.Add(document3);
-            //ActivateItem(document3);
+            // Items.Add(document3);
+            // ActivateItem(document3);
         }
 
         public override void ActivateItem(Screen item)
@@ -59,11 +58,12 @@ namespace Loki.UI.Test
 
         public void Handle(NavigationMessage<Screen> message)
         {
-            var viewModel = ScreenFactory.Create<Screen>() as Screen;
-            //var viewModel = Toolkit.IoC.DefaultContext.Get(message.NavigateTo) as Screen;
+            var viewModel = this.ScreenFactory.Create<Screen>();
+
+            // var viewModel = Toolkit.IoC.DefaultContext.Get(message.NavigateTo) as Screen;
             if (viewModel != null)
             {
-                viewModel.DisplayName = "Created by navigation at " + DateTime.Now.ToString();
+                viewModel.DisplayName = "Created by navigation at " + DateTime.Now;
                 Items.Add(viewModel);
                 ActivateItem(viewModel);
             }

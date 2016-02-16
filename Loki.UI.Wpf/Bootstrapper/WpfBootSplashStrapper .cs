@@ -31,7 +31,7 @@ namespace Loki.UI.Wpf
                 UI.Threading.OnUIThread(() => { });
 
                 // Initialize helper classes.
-                View.InitializeViewHelper(UI.Templates, Core.Logger.GetLog("View"));
+                View.InitializeViewHelper(UI.Templates, Core.Logger.GetLog("View"), Core.Messages);
                 Bind.InitializeEngine(UI.Templates);
 
                 Application.Current.Startup += Application_Startup;

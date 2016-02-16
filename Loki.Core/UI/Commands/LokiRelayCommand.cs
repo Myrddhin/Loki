@@ -40,8 +40,8 @@ namespace Loki.UI.Commands
                 return lastCanExecute.Value;
             }
 
-            this.OnCanExecuteChanged(EventArgs.Empty);
             this.lastCanExecute = result;
+            this.OnCanExecuteChanged(EventArgs.Empty);
 
             return lastCanExecute.Value;
         }

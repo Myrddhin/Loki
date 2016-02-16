@@ -9,6 +9,8 @@ namespace Loki.UI
     {
         private readonly BindableCollection<T> items;
 
+        public IScreenFactory Factory { get; private set; }
+
         /// <summary>
         /// Occurs when an activation request is processed.
         /// </summary>
@@ -20,9 +22,13 @@ namespace Loki.UI
         /// <param name="coreServices">
         /// Core services.
         /// </param>
-        public ContainerOneActive(IDisplayServices coreServices)
+        /// <param name="factory">
+        /// Screen factory.
+        /// </param>
+        public ContainerOneActive(IDisplayServices coreServices, IScreenFactory factory)
             : base(coreServices)
         {
+            Factory = factory;
             items = new BindableCollection<T>(coreServices);
             items.CollectionChanged += (s, e) =>
             {
@@ -272,7 +278,7 @@ namespace Loki.UI
             }
 
             items.Remove(item);
-            ClosingProcessed(this, new ClosingProcessedEventArgs<T>() { Item = item, Success = true });
+            ClosingProcessed(this, new ClosingProcessedEventArgs<T> { Item = item, Success = true });
         }
     }
 }

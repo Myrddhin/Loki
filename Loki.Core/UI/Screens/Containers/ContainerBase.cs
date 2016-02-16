@@ -12,8 +12,6 @@ namespace Loki.UI
 
         private ICloseStrategy<T> closeStrategy;
 
-        public IScreenFactory Factory { get; set; }
-
         /// <summary>
         /// Occurs when an activation request is processed.
         /// </summary>

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Docking;
 
 using Loki.Common;
@@ -93,7 +94,7 @@ namespace Loki.UI.Wpf
 
         private object InternalCreateBind(object view, object viewModel)
         {
-            var args = new BindingEventArgs() { Bind = null, View = view, ViewModel = viewModel };
+            var args = new BindingEventArgs { Bind = null, View = view, ViewModel = viewModel };
             OnBindingRequired(args);
             if (args.Bind != null)
             {
@@ -116,6 +117,18 @@ namespace Loki.UI.Wpf
             if (document != null)
             {
                 return new DocumentPanelBind(services, threadingContext, document, viewModel);
+            }
+
+            var tabControl = view as DXTabControl;
+            if (tabControl != null)
+            {
+                return new TabControlBind(services, threadingContext, tabControl, viewModel);
+            }
+
+            var tabItem = view as DXTabItem;
+            if (tabItem != null)
+            {
+                return new TabItemBind(services, threadingContext, tabItem, viewModel);
             }
 
             var navBarItem = view as DevExpress.Xpf.NavBar.NavBarItem;

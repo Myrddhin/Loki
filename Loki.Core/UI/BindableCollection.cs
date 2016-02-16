@@ -379,7 +379,7 @@ namespace Loki.UI
                 return;
             }
 
-            if (sender == null || e == null || string.IsNullOrEmpty(e.PropertyName))
+            if (sender == null || e == null)
             {
                 // Fire reset event (per INotifyPropertyChanged spec)
                 this.ResetBindings();

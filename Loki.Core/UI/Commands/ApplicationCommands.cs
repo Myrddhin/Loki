@@ -4,6 +4,11 @@
     {
         private readonly ICommandComponent commandService;
 
+        protected ICommand GetCommand(string name)
+        {
+            return commandService.GetCommand(name);
+        }
+
         public ApplicationCommands(ICommandComponent commandService)
         {
             this.commandService = commandService;
@@ -28,7 +33,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.EXPORT);
+                return GetCommand(Names.EXPORT);
             }
         }
 
@@ -36,7 +41,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.OPEN);
+                return GetCommand(Names.OPEN);
             }
         }
 
@@ -44,7 +49,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.REFRESH);
+                return GetCommand(Names.REFRESH);
             }
         }
 
@@ -52,7 +57,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.SAVE);
+                return GetCommand(Names.SAVE);
             }
         }
 
@@ -60,7 +65,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.SEARCH);
+                return GetCommand(Names.SEARCH);
             }
         }
 
@@ -68,7 +73,7 @@
         {
             get
             {
-                return commandService.GetCommand(Names.UPDATESTATUS);
+                return GetCommand(Names.UPDATESTATUS);
             }
         }
     }

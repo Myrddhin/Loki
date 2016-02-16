@@ -17,7 +17,10 @@ namespace Loki.UI.Wpf.Binds
         public FrameworkElementBind(ICoreServices services, IThreadingContext threading, TComponent component, object viewModel)
             : base(services, threading, component, viewModel)
         {
-            Component.Dispatcher.Invoke(() => Component.SetValue(FrameworkElement.DataContextProperty, viewModel));
+            if (Component.DataContext == null)
+            {
+                Component.Dispatcher.Invoke(() => Component.SetValue(FrameworkElement.DataContextProperty, viewModel));
+            }
 
             var loadable = viewModel as ILoadable;
 
