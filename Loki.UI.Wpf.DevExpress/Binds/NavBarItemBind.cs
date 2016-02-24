@@ -3,8 +3,9 @@
 using DevExpress.Xpf.NavBar;
 
 using Loki.Common;
+using Loki.UI.Wpf.Binds;
 
-namespace Loki.UI.Wpf.Binds
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     internal class NavBarItemBind : DependencyObjectBind<NavBarItem>
     {

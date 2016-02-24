@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
+
 using DevExpress.Mvvm.UI;
 using DevExpress.Xpf.Core;
 
@@ -22,10 +23,10 @@ namespace Loki.UI.Wpf
 
         private bool contentLoaded;
 
-        private FrameworkElement loadingChild = null;
+        private FrameworkElement loadingChild;
 
-        private Cursor oldCursor = null;
-        private DXSplashScreen.SplashScreenContainer splashContainer = null;
+        private Cursor oldCursor;
+        private DXSplashScreen.SplashScreenContainer splashContainer;
 
         public LoadingDecorator()
         {
@@ -106,18 +107,16 @@ namespace Loki.UI.Wpf
             string displayText = (string)parameters[1];
             if (splashScreenTemplate == null)
             {
-                return new WaitIndicator()
+                return new WaitIndicator
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     DeferedVisibility = true,
-                    Content = displayText == null ? "Chargement..." : displayText
+                    Content = displayText ?? "Chargement..."
                 };
             }
-            else
-            {
-                return splashScreenTemplate.LoadContent();
-            }
+
+            return splashScreenTemplate.LoadContent();
         }
 
         private static Window CreateSplashScreenWindow(object parameter)
@@ -128,7 +127,7 @@ namespace Loki.UI.Wpf
             double width = (double)parameters[2];
             double height = (double)parameters[3];
             string themeName = (string)parameters[4];
-            Window w = new Window()
+            Window w = new Window
             {
                 WindowStyle = WindowStyle.None,
                 AllowsTransparency = true,
@@ -141,7 +140,7 @@ namespace Loki.UI.Wpf
                 Width = width,
                 Height = height,
                 Topmost = true,
-                ShowActivated = true,
+                ShowActivated = true
             };
             WindowFadeAnimationBehavior.SetEnableAnimation(w, true);
             ThemeManager.SetThemeName(w, themeName);
@@ -192,7 +191,7 @@ namespace Loki.UI.Wpf
 
         private void OnIsLoadingChanged(object oldValue, object newValue)
         {
-            if (object.Equals(newValue, true))
+            if (Equals(newValue, true))
             {
                 Dispatcher.BeginInvoke(new System.Action(ShowSplashScreen), DispatcherPriority.Render);
             }

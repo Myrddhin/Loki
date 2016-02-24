@@ -4,10 +4,10 @@ using System.Windows.Interactivity;
 using DevExpress.Xpf.Grid;
 
 using Loki.Common;
-using Loki.UI.Wpf.Behaviors;
 using Loki.UI.Wpf.Binds;
+using Loki.UI.Wpf.DevExpress.Behaviors;
 
-namespace Loki.UI.Wpf.Templating
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     internal class GridControlBind : DependencyObjectBind<GridControl>
     {

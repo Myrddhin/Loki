@@ -1,6 +1,6 @@
 ﻿using DevExpress.Xpf.Docking;
 
-namespace Loki.UI.Wpf
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     public class DocumentItemLayoutAdapter : ILayoutAdapter
     {

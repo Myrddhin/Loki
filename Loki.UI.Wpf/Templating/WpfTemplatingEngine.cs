@@ -4,32 +4,27 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
-using DevExpress.Xpf.Core;
-using DevExpress.Xpf.Docking;
-
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
 using Loki.UI.Wpf.Binds;
-using Loki.UI.Wpf.Templating;
 
 namespace Loki.UI.Wpf
 {
     public class WpfTemplatingEngine : ITemplatingEngine
     {
-        private const string ContextName = "UITemplates";
         private readonly Dictionary<string, Type> associations;
         private readonly IObjectContext internalContext;
         private readonly Dictionary<Type, Type> typeAssociations;
 
-        private readonly ICoreServices services;
+        protected ICoreServices Services { get; private set; }
 
-        private readonly IThreadingContext threadingContext;
+        protected IThreadingContext ThreadingContext { get; private set; }
 
         public WpfTemplatingEngine(IObjectContext context, ICoreServices coreServices, IThreadingContext threading)
         {
-            this.services = coreServices;
-            this.threadingContext = threading;
+            this.Services = coreServices;
+            this.ThreadingContext = threading;
             associations = new Dictionary<string, Type>();
             typeAssociations = new Dictionary<Type, Type>();
             internalContext = context;
@@ -87,13 +82,6 @@ namespace Loki.UI.Wpf
 
         public object CreateBind(object view, object viewModel)
         {
-            object buffer = null;
-            threadingContext.OnUIThread(() => buffer = InternalCreateBind(view, viewModel));
-            return buffer;
-        }
-
-        private object InternalCreateBind(object view, object viewModel)
-        {
             var args = new BindingEventArgs { Bind = null, View = view, ViewModel = viewModel };
             OnBindingRequired(args);
             if (args.Bind != null)
@@ -101,52 +89,23 @@ namespace Loki.UI.Wpf
                 return args.Bind;
             }
 
+            object buffer = null;
+            ThreadingContext.OnUIThread(() => buffer = InternalCreateBind(view, viewModel));
+            return buffer;
+        }
+
+        protected virtual object InternalCreateBind(object view, object viewModel)
+        {
             var control = view as Window;
             if (control != null)
             {
-                return new WindowBind(services, threadingContext, control, viewModel);
-            }
-
-            var documentManager = view as DocumentGroup;
-            if (documentManager != null)
-            {
-                return new DocumentGroupBind(services, threadingContext, documentManager, viewModel);
-            }
-
-            var document = view as DocumentPanel;
-            if (document != null)
-            {
-                return new DocumentPanelBind(services, threadingContext, document, viewModel);
-            }
-
-            var tabControl = view as DXTabControl;
-            if (tabControl != null)
-            {
-                return new TabControlBind(services, threadingContext, tabControl, viewModel);
-            }
-
-            var tabItem = view as DXTabItem;
-            if (tabItem != null)
-            {
-                return new TabItemBind(services, threadingContext, tabItem, viewModel);
-            }
-
-            var navBarItem = view as DevExpress.Xpf.NavBar.NavBarItem;
-            if (navBarItem != null)
-            {
-                return new NavBarItemBind(services, threadingContext, navBarItem, viewModel);
-            }
-
-            var gridControl = view as DevExpress.Xpf.Grid.GridControl;
-            if (gridControl != null)
-            {
-                return new GridControlBind(services, threadingContext, gridControl, viewModel);
+                return new WindowBind(Services, ThreadingContext, control, viewModel);
             }
 
             var fe = view as FrameworkElement;
             if (fe != null)
             {
-                return new FrameworkElementBind<FrameworkElement>(services, threadingContext, fe, viewModel);
+                return new FrameworkElementBind<FrameworkElement>(Services, ThreadingContext, fe, viewModel);
             }
 
             return null;

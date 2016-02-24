@@ -15,5 +15,9 @@ namespace Loki.UI
         bool? ShowAsPopup(object viewModel);
 
         bool Confirm(string message);
+
+        void Message(string message);
+
+        void Warning(string message);
     }
 }

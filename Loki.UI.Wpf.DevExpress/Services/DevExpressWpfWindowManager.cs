@@ -2,13 +2,15 @@
 using System.Threading;
 using System.Windows;
 
-namespace Loki.UI.Wpf
+using DevExpress.Xpf.Core;
+
+namespace Loki.UI.Wpf.DevExpress
 {
-    public class WpfWindowManager : IWindowManager
+    public class DevExpressWpfWindowManager : IWindowManager
     {
         private readonly ITemplatingEngine engine;
 
-        public WpfWindowManager(ITemplatingEngine engine)
+        public DevExpressWpfWindowManager(ITemplatingEngine engine)
         {
             this.engine = engine;
         }
@@ -28,17 +30,18 @@ namespace Loki.UI.Wpf
 
         public bool Confirm(string message)
         {
-            return MessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            // return WinUIMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            return DXMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
         }
 
         public void Message(string message)
         {
-            MessageBox.Show(message);
+            DXMessageBox.Show(message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void Warning(string message)
         {
-            MessageBox.Show(message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Warning);
+            DXMessageBox.Show(message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public string GetOpenFileName(FileDialogInformations informations)
@@ -78,12 +81,15 @@ namespace Loki.UI.Wpf
         {
             var template = engine.GetTemplate(viewModel);
 
-            Window templateAsWindow = template as Window;
+            DXWindow templateAsWindow = template as DXWindow;
             if (templateAsWindow == null)
             {
-                templateAsWindow = new Window();
+                templateAsWindow = new DXWindow();
+                templateAsWindow.ShowIcon = false;
                 templateAsWindow.ShowInTaskbar = false;
+                templateAsWindow.BorderEffect = BorderEffect.Default;
                 templateAsWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                templateAsWindow.ShowTitle = false;
                 templateAsWindow.Padding = new Thickness { Bottom = 0, Top = 0 };
                 templateAsWindow.MinWidth = 100;
                 templateAsWindow.MinHeight = 100;

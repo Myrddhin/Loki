@@ -10,9 +10,12 @@ namespace Loki.UI.Wpf
     {
         private readonly IThreadingContext threading;
 
-        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager, IThreadingContext threading) : base(logManager, errorManager)
+        private readonly IWindowManager windows;
+
+        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager, IThreadingContext threading, IWindowManager windows) : base(logManager, errorManager)
         {
             this.threading = threading;
+            this.windows = windows;
 
             // if (Application.Current != null)
             // {
@@ -34,12 +37,12 @@ namespace Loki.UI.Wpf
 
         public void Message(string message)
         {
-            MessageBoxes.Message(message);
+            windows.Message(message);
         }
 
         public void Warning(string warning)
         {
-            MessageBoxes.Warning(warning);
+            windows.Warning(warning);
         }
 
         public void Error(Exception exception, bool imperative)

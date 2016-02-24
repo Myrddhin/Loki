@@ -7,8 +7,9 @@ using Loki.Common;
 using Loki.UI.Commands;
 using Loki.UI.Wpf.Binds;
 using Loki.UI.Wpf.Converters;
+using Loki.UI.Wpf.DevExpress.Controls;
 
-namespace Loki.UI.Wpf.Templating
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     internal class TabItemBind : FrameworkElementBind<DXTabItem>
     {
@@ -71,7 +72,7 @@ namespace Loki.UI.Wpf.Templating
 
             if (view.ContentTemplate == null)
             {
-                view.ContentTemplate = DefaultItemTemplate;
+                view.ContentTemplate = DefaultTemplates.DefaultItemTemplate;
             }
         }
     }

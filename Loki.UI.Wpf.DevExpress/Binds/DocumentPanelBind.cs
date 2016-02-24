@@ -5,9 +5,11 @@ using DevExpress.Xpf.Docking;
 
 using Loki.Common;
 using Loki.UI.Commands;
+using Loki.UI.Wpf.Binds;
 using Loki.UI.Wpf.Converters;
+using Loki.UI.Wpf.DevExpress.Controls;
 
-namespace Loki.UI.Wpf.Binds
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     internal class DocumentPanelBind : FrameworkElementBind<DocumentPanel>
     {
@@ -70,7 +72,7 @@ namespace Loki.UI.Wpf.Binds
 
             if (view.ContentTemplate == null)
             {
-                view.ContentTemplate = DefaultItemTemplate;
+                view.ContentTemplate = DefaultTemplates.DefaultItemTemplate;
             }
         }
     }

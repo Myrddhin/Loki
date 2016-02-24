@@ -7,8 +7,9 @@ using System.Windows.Data;
 using DevExpress.Xpf.Docking;
 
 using Loki.Common;
+using Loki.UI.Wpf.Binds;
 
-namespace Loki.UI.Wpf.Binds
+namespace Loki.UI.Wpf.Templating.DevExpress
 {
     internal class DocumentGroupBind : FrameworkElementBind<DocumentGroup>
     {

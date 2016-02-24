@@ -5,7 +5,7 @@ using System.Windows.Input;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 
-namespace Loki.UI.Wpf
+namespace Loki.UI.Wpf.DevExpress
 {
     public static class GridBinder
     {

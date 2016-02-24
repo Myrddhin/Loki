@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Loki.UI.Wpf</RootNamespace>
     <AssemblyName>Loki.UI.Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputPath>..\..\thirdparties\Loki\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -43,29 +44,22 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Behaviors\ClickToMessageBehavior.cs" />
-    <Compile Include="Behaviors\GridExportBehavior.cs" />
     <Compile Include="Bootstrapper\WpfBootSplashStrapper .cs" />
     <Compile Include="Bootstrapper\WpfBootStrapper.cs" />
     <Compile Include="Bootstrapper\WpfSignalManager.cs" />
+    <Compile Include="Controls\SimpleButton.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DisplayNameWithStateConverter.cs" />
+    <Compile Include="Converters\NullToValueConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
-    <Compile Include="ExtendedProperties\GridBinder.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
-    <Compile Include="Templating\GridControlBind.cs" />
-    <Compile Include="Templating\TabControlBind.cs" />
-    <Compile Include="Templating\TabItemBind.cs" />
-    <Compile Include="Views\LoadingDecorator.cs" />
-    <Compile Include="Views\SplashView.xaml.cs">
+    <Compile Include="Controls\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Templating\Bind.cs" />
-    <Compile Include="Templating\DocumentGroupBind.cs" />
-    <Compile Include="Templating\DocumentItemLayoutAdapter.cs" />
-    <Compile Include="Templating\DocumentPanelBind.cs" />
-    <Compile Include="Templating\FrameworkElement.cs" />
-    <Compile Include="Templating\NavBarItemBind.cs" />
+    <Compile Include="Templating\FrameworkElementBind.cs" />
     <Compile Include="Templating\DependencyObjectBind.cs" />
     <Compile Include="Templating\WindowBind.cs" />
     <Compile Include="Templating\WpfTemplatingEngine.cs" />
@@ -76,10 +70,9 @@
       <DependentUpon>ErrorMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="View.cs" />
-    <Compile Include="Views\ErrorMessageBox.xaml.cs">
+    <Compile Include="Controls\ErrorMessageBox.xaml.cs">
       <DependentUpon>ErrorMessageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MessageBoxes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
@@ -88,18 +81,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Controls.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Mvvm.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Core.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Docking.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Layout.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.LayoutControl.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.NavBar.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Printing.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Grid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Grid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -110,20 +91,23 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Licenses.licx" />
     <EmbeddedResource Include="Resources\ErrorMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\SplashView.xaml">
+    <Page Include="Controls\SplashView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ErrorMessageBox.xaml">
+    <Page Include="Controls\ErrorMessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
