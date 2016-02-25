@@ -9,7 +9,7 @@ namespace Loki.UI
             Selector = v => v is TViewModel;
         }
 
-        public string FunctionName { get; set; }
+        public string RouteName { get; set; }
 
         public Predicate<TViewModel> Selector { get; set; }
 

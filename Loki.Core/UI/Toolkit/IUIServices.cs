@@ -14,6 +14,8 @@ namespace Loki.UI
 
         IThreadingContext Threading { get; }
 
+        INavigationService Navigation { get; }
+
         // ITaskComponent Tasks { get; }
     }
 }

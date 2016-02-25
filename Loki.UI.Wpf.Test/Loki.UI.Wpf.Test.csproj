@@ -104,6 +104,10 @@
       <Project>{d4d7b5e0-582b-44c9-88c6-78223da307e4}</Project>
       <Name>Loki.UI.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Loki.UI.Wpf.DevExpress\Loki.UI.Wpf.DevExpress.csproj">
+      <Project>{d3734637-51a4-4449-a3cc-872aa145aff9}</Project>
+      <Name>Loki.UI.Wpf.DevExpress</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loki.UI.Wpf\Loki.UI.Wpf.csproj">
       <Project>{d2c5c4d0-606d-44e2-adb6-a08142177356}</Project>
       <Name>Loki.UI.Wpf</Name>

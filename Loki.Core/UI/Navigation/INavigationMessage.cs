@@ -10,6 +10,6 @@ namespace Loki.UI
 
         void Initialize(object newViewModel);
 
-        string FunctionName { get; set; }
+        string RouteName { get; }
     }
 }

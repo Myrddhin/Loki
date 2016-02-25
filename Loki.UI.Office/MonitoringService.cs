@@ -63,10 +63,10 @@ namespace Loki.UI.Office
 
         public void Handle(INavigationMessage message)
         {
-            if (!string.IsNullOrEmpty(message.FunctionName))
+            if (!string.IsNullOrEmpty(message.RouteName))
             {
                 // Log usage
-                Log.InfoFormat("Used fonction : {0}", message.FunctionName);
+                Log.InfoFormat("Used fonction : {0}", message.RouteName);
             }
         }
 

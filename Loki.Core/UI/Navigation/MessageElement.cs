@@ -1,5 +1,6 @@
-﻿using Loki.Common;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+
+using Loki.Common;
 
 namespace Loki.UI
 {
@@ -12,9 +13,9 @@ namespace Loki.UI
 
         #region Message
 
-        private static PropertyChangedEventArgs argsMessageChanged = ObservableHelper.CreateChangedArgs<MessageElement>(x => x.Message);
+        private static readonly PropertyChangedEventArgs ArgsMessageChanged = ObservableHelper.CreateChangedArgs<MessageElement>(x => x.Message);
 
-        private static PropertyChangingEventArgs argsMessageChanging = ObservableHelper.CreateChangingArgs<MessageElement>(x => x.Message);
+        private static readonly PropertyChangingEventArgs ArgsMessageChanging = ObservableHelper.CreateChangingArgs<MessageElement>(x => x.Message);
 
         private INavigationMessage message;
 
@@ -29,9 +30,9 @@ namespace Loki.UI
             {
                 if (value != message)
                 {
-                    NotifyChanging(argsMessageChanging);
+                    NotifyChanging(ArgsMessageChanging);
                     message = value;
-                    NotifyChanged(argsMessageChanged);
+                    NotifyChanged(ArgsMessageChanged);
                 }
             }
         }

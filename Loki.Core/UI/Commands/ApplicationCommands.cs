@@ -22,11 +22,20 @@
             public const string MESSAGE = "Application.Message";
             public const string OPEN = "Application.Open";
             public const string REFRESH = "Application.Refresh";
+            public const string NAVIGATE = "Application.Navigate";
             public const string SAVE = "Application.Save";
             public const string SEARCH = "Application.Search";
             public const string START = "Application.Start";
             public const string UPDATESTATUS = "Application.UpdateStatus";
             public const string WARNING = "Application.Warning";
+        }
+
+        public ICommand Navigate
+        {
+            get
+            {
+                return GetCommand(Names.NAVIGATE);
+            }
         }
 
         public ICommand Export
