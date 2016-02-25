@@ -3,22 +3,27 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 
+using Loki.Common;
+
 namespace Loki.UI.Commands
 {
     public class CommandBind
     {
-        public CommandBind(INotifyPropertyChanged target, IDisplayServices services)
+        public CommandBind(INotifyPropertyChanged target, ICommandComponent commands, IEventComponent events, IWindowManager windows)
         {
             this.target = target;
-            this.services = services;
+            this.commands = commands;
+            this.windows = windows;
             handlers = new ConcurrentDictionary<ICommand, List<ICommandHandler>>();
 
-            services.Core.Events.Changed.Register(target, this, (v, o, ev) => v.RefreshState());
+            events.Changed.Register(target, this, (v, o, ev) => v.RefreshState());
         }
 
         private readonly INotifyPropertyChanged target;
 
-        private readonly IDisplayServices services;
+        private readonly ICommandComponent commands;
+
+        private readonly IWindowManager windows;
 
         private readonly ConcurrentDictionary<ICommand, List<ICommandHandler>> handlers;
 
@@ -28,7 +33,7 @@ namespace Loki.UI.Commands
             {
                 foreach (ICommandHandler item in handler.Value)
                 {
-                    services.UI.Commands.RemoveHandler(handler.Key, item);
+                    commands.RemoveHandler(handler.Key, item);
                 }
             }
 
@@ -46,7 +51,7 @@ namespace Loki.UI.Commands
         /// </returns>
         public ICommand Get(string commandName)
         {
-            return services.UI.Windows.DesignMode ? new LokiRelayCommand(() => { }) : this.services.UI.Commands.GetCommand(commandName);
+            return windows.DesignMode ? new LokiRelayCommand(() => { }) : commands.GetCommand(commandName);
         }
 
         public void UnHandle(ICommand command)
@@ -55,7 +60,7 @@ namespace Loki.UI.Commands
             {
                 foreach (ICommandHandler item in handlers[command])
                 {
-                    services.UI.Commands.RemoveHandler(command, item);
+                    commands.RemoveHandler(command, item);
                 }
 
                 List<ICommandHandler> removed;
@@ -81,7 +86,7 @@ namespace Loki.UI.Commands
                 handlers[command] = new List<ICommandHandler>();
             }
 
-            handlers[command].Add(services.UI.Commands.CreateHandler(command, actionCanExecute, actionExecute, target, confirmDelegate));
+            handlers[command].Add(commands.CreateHandler(command, actionCanExecute, actionExecute, target, confirmDelegate));
         }
 
         public void Handle(ICommand command, Action<object, CanExecuteCommandEventArgs> actionCanExecute, Action<object, CommandEventArgs> actionExecute)

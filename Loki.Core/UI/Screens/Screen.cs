@@ -12,7 +12,7 @@ namespace Loki.UI
         public Screen(IDisplayServices coreServices)
             : base(coreServices)
         {
-            Commands = new CommandBind(this, coreServices);
+            Commands = new CommandBind(this, coreServices.UI.Commands, coreServices.Core.Events, coreServices.UI.Windows);
         }
 
         public CommandBind Commands
@@ -231,7 +231,7 @@ namespace Loki.UI
 
             set
             {
-                if (!object.Equals(busy, value))
+                if (!Equals(busy, value))
                 {
                     busy = value;
                     NotifyChanged(busyChangedEventArgs);
@@ -323,7 +323,7 @@ namespace Loki.UI
             }
         }
 
-        private bool closing = false;
+        private bool closing;
 
         public void TryClose(bool? dialogResult = null)
         {
