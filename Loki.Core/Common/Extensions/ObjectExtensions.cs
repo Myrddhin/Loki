@@ -13,14 +13,7 @@
 
         public static string SafeToString(this object potentialString)
         {
-            if (potentialString == null)
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return potentialString.ToString();
-            }
+            return potentialString == null ? string.Empty : potentialString.ToString();
         }
     }
 }

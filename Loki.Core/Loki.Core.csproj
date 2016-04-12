@@ -60,6 +60,7 @@
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />
+    <Compile Include="Common\Extensions\EventExtensions.cs" />
     <Compile Include="Common\ICoreServices.cs" />
     <Compile Include="Common\Toolkit\CoreServices.cs" />
     <Compile Include="IoC\IoCContext.cs" />
@@ -87,6 +88,7 @@
     <None Include="UI\Extensions\DelegateExtensions.cs" />
     <Compile Include="UI\IObservableEnumerable.cs" />
     <Compile Include="UI\Navigation\NavigationService.cs" />
+    <Compile Include="UI\NotifyPropertyChangedEx.cs" />
     <Compile Include="UI\Screens\AsyncScreen.cs" />
     <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
     <Compile Include="UI\Screens\FileDialogInformations.cs" />

@@ -16,7 +16,9 @@ namespace Loki.UI
     {
         private readonly Func<T> addingFunctor;
 
-        private readonly IDisplayServices services;
+        private readonly ICoreServices services;
+
+        private readonly IThreadingContext threading;
 
         private readonly List<T> removedItems = new List<T>();
 
@@ -34,7 +36,7 @@ namespace Loki.UI
             {
                 if (log == null)
                 {
-                    Interlocked.CompareExchange(ref log, services.Core.Logger.GetLog(LoggerName), null);
+                    Interlocked.CompareExchange(ref log, services.Logger.GetLog(LoggerName), null);
                 }
 
                 return log;
@@ -64,7 +66,7 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                services.UI.Threading.OnUIThread(() => handler(this, e));
+                threading.OnUIThread(() => handler(this, e));
             }
         }
 
@@ -144,7 +146,7 @@ namespace Loki.UI
         {
             if (IsNotifying)
             {
-                services.UI.Threading.OnUIThread(() => base.OnCollectionChanged(e));
+                threading.OnUIThread(() => base.OnCollectionChanged(e));
             }
 
             if (IsTrackingRemovedItems && e.OldItems != null)
@@ -157,7 +159,7 @@ namespace Loki.UI
         {
             if (IsNotifying)
             {
-                services.UI.Threading.OnUIThread(() => base.OnPropertyChanged(e));
+                threading.OnUIThread(() => base.OnPropertyChanged(e));
             }
         }
 
@@ -171,7 +173,7 @@ namespace Loki.UI
 
             if (handler != null)
             {
-                services.UI.Threading.OnUIThread(() => handler(this, e));
+                threading.OnUIThread(() => handler(this, e));
             }
         }
 
@@ -180,17 +182,29 @@ namespace Loki.UI
         #region Constructors
 
         public BindableCollection(IDisplayServices services, Func<T> addingFunctor = null)
+            : this(services.Core, services.UI.Threading, addingFunctor)
+        {
+        }
+
+        public BindableCollection(ICoreServices services, IThreadingContext threading, Func<T> addingFunctor = null)
         {
             this.addingFunctor = addingFunctor;
             this.services = services;
+            this.threading = threading;
             Initialize();
         }
 
         public BindableCollection(IDisplayServices services, IEnumerable<T> list, Func<T> addingFunctor = null)
+            : this(services.Core, services.UI.Threading, list, addingFunctor)
+        {
+        }
+
+        public BindableCollection(ICoreServices services, IThreadingContext threading, IEnumerable<T> list, Func<T> addingFunctor = null)
             : base(list)
         {
             this.addingFunctor = addingFunctor;
             this.services = services;
+            this.threading = threading;
             Initialize();
         }
 
@@ -368,7 +382,7 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                services.Core.Events.Changed.Register(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
+                services.Events.Changed.Register(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
             }
         }
 
@@ -444,7 +458,7 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                services.Core.Events.Changed.Unregister(inpc, this);
+                services.Events.Changed.Unregister(inpc, this);
             }
         }
 

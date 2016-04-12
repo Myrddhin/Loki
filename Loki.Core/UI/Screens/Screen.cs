@@ -216,31 +216,6 @@ namespace Loki.UI
 
         #endregion State
 
-        #region IsBusy
-
-        private readonly PropertyChangedEventArgs busyChangedEventArgs = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsBusy);
-
-        private bool busy = true;
-
-        public bool IsBusy
-        {
-            get
-            {
-                return busy;
-            }
-
-            set
-            {
-                if (!Equals(busy, value))
-                {
-                    busy = value;
-                    NotifyChanged(busyChangedEventArgs);
-                }
-            }
-        }
-
-        #endregion IsBusy
-
         public virtual void CanClose(Action<bool> callback)
         {
             callback(true);
@@ -319,7 +294,6 @@ namespace Loki.UI
                 Log.DebugFormat("Loading {0}.", this);
                 OnLoad();
                 IsLoaded = true;
-                IsBusy = false;
             }
         }
 

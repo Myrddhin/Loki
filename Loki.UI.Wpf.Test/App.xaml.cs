@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Loki.Common;
 
 namespace Loki.UI.Wpf.Test
 {
@@ -11,7 +10,7 @@ namespace Loki.UI.Wpf.Test
         public App()
         {
             InitializeComponent();
-            DevExpress.Xpf.Core.ThemeManager.ApplicationThemeName = "DXStyle";
+            global::DevExpress.Xpf.Core.ThemeManager.ApplicationThemeName = "DXStyle";
         }
     }
 }

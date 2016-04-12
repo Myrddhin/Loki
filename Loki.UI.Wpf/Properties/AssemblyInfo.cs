@@ -7,3 +7,5 @@ using System.Windows.Markup;
 [assembly: AssemblyDescription("")]
 [assembly: XmlnsDefinition("http://loki/controls", "Loki.UI.Wpf.Controls")]
 [assembly: XmlnsPrefix("http://loki/controls", "lokiControls")]
+[assembly: XmlnsDefinition("http://loki/core", "Loki.UI.Wpf")]
+[assembly: XmlnsPrefix("http://loki/core", "loki")]

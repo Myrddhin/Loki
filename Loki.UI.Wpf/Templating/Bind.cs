@@ -71,6 +71,8 @@ namespace Loki.UI.Wpf
                 return;
             }
 
+            fe.DataContext = e.NewValue;
+
             View.ExecuteOnLoad(
                 fe,
                 delegate

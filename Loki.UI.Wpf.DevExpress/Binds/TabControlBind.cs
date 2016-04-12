@@ -8,9 +8,8 @@ using System.Windows.Data;
 using DevExpress.Xpf.Core;
 
 using Loki.Common;
-using Loki.UI.Wpf.Binds;
 
-namespace Loki.UI.Wpf.Templating.DevExpress
+namespace Loki.UI.Wpf.Binds.DevExpress
 {
     internal class TabControlBind : FrameworkElementBind<DXTabControl>
     {

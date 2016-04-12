@@ -5,8 +5,7 @@ using DevExpress.Xpf.NavBar;
 
 using Loki.Common;
 using Loki.IoC;
-using Loki.UI.Wpf.Binds;
-using Loki.UI.Wpf.Templating;
+using Loki.UI.Wpf.Binds.DevExpress;
 using Loki.UI.Wpf.Templating.DevExpress;
 
 namespace Loki.UI.Wpf.DevExpress
