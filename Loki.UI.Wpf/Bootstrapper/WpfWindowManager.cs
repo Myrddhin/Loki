@@ -1,39 +1,44 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using System.Windows;
-using DevExpress.Xpf.Core;
-using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
     public class WpfWindowManager : IWindowManager
     {
+        private readonly ITemplatingEngine engine;
+
+        public WpfWindowManager(ITemplatingEngine engine)
+        {
+            this.engine = engine;
+        }
+
         public CultureInfo Culture
         {
             get { return Thread.CurrentThread.CurrentUICulture; }
         }
 
-        private bool? inDesignMode = null;
-
         public bool DesignMode
         {
             get
             {
-                if (inDesignMode == null)
-                {
-                    var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
-                    inDesignMode = (bool)descriptor.Metadata.DefaultValue;
-                }
-
-                return inDesignMode.GetValueOrDefault(false);
+                return View.DesignMode;
             }
         }
 
         public bool Confirm(string message)
         {
-            //return WinUIMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-            return DXMessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+            return MessageBox.Show(message, "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
+        public void Message(string message)
+        {
+            MessageBox.Show(message);
+        }
+
+        public void Warning(string message)
+        {
+            MessageBox.Show(message, string.Empty, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         public string GetOpenFileName(FileDialogInformations informations)
@@ -48,10 +53,8 @@ namespace Loki.UI.Wpf
             {
                 return fileDialog.FileName;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public string GetSaveFileName(FileDialogInformations informations)
@@ -67,26 +70,21 @@ namespace Loki.UI.Wpf
             {
                 return fileDialog.FileName;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public bool? ShowAsPopup(object viewModel)
         {
-            var template = Toolkit.UI.Templating.GetTemplate(viewModel);
+            var template = engine.GetTemplate(viewModel);
 
-            DXWindow templateAsWindow = template as DXWindow;
+            Window templateAsWindow = template as Window;
             if (templateAsWindow == null)
             {
-                templateAsWindow = new DXWindow();
-                templateAsWindow.ShowIcon = false;
+                templateAsWindow = new Window();
                 templateAsWindow.ShowInTaskbar = false;
-                templateAsWindow.BorderEffect = BorderEffect.Default;
                 templateAsWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                templateAsWindow.ShowTitle = false;
-                templateAsWindow.Padding = new Thickness() { Bottom = 0, Top = 0 };
+                templateAsWindow.Padding = new Thickness { Bottom = 0, Top = 0 };
                 templateAsWindow.MinWidth = 100;
                 templateAsWindow.MinHeight = 100;
                 templateAsWindow.ResizeMode = ResizeMode.NoResize;
@@ -100,15 +98,20 @@ namespace Loki.UI.Wpf
                     templateAsWindow.Width = dobject.Width;
                     templateAsWindow.Height = dobject.Height;
                 }*/
-
                 View.SetModel(templateAsWindow, viewModel);
-                Toolkit.UI.Templating.CreateBind(templateAsWindow, viewModel);
+                engine.CreateBind(templateAsWindow, viewModel);
             }
 
             var screen = viewModel as IScreen;
             if (screen != null)
             {
-                screen.DialogResultSetter = (r) => { if (templateAsWindow.DialogResult != r) { templateAsWindow.DialogResult = r; } };
+                screen.DialogResultSetter = r =>
+                    {
+                        if (templateAsWindow.DialogResult != r)
+                        {
+                            templateAsWindow.DialogResult = r;
+                        }
+                    };
             }
 
             return templateAsWindow.ShowDialog();

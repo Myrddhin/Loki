@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 using Loki.Common;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki default command service.
@@ -16,7 +17,11 @@ namespace Loki.Commands
 
         private readonly ConcurrentDictionary<string, ConcurrentCollection<WeakReference<ICommandHandler>>> commandHandlers;
 
+        private readonly ConcurrentDictionary<string, ICommand> commands;
+
         private readonly ICoreServices services;
+
+        private readonly IThreadingContext threading;
 
         #endregion Private storage
 
@@ -33,25 +38,42 @@ namespace Loki.Commands
         /// </returns>
         public IEnumerable<ICommandHandler> GetHandlers(ICommand command)
         {
-            // initialize return
-            List<ICommandHandler> buffer = null;
-
             // remove dead references
             CleanReferences();
 
+            // initialize return
+            var buffer = new List<ICommandHandler>();
+
             // get handlers
             ConcurrentCollection<WeakReference<ICommandHandler>> currentHandlers;
-            if (commandHandlers.TryGetValue(command.Name, out currentHandlers))
+            if (!this.commandHandlers.TryGetValue(command.Name, out currentHandlers))
             {
-                buffer = new List<ICommandHandler>();
-                foreach (var handlerReference in currentHandlers)
+                return buffer;
+            }
+
+            foreach (var handlerReference in currentHandlers)
+            {
+                ICommandHandler target;
+                if (!handlerReference.Value.TryGetTarget(out target))
                 {
-                    ICommandHandler target;
-                    if (handlerReference.Value.TryGetTarget(out target))
-                    {
-                        buffer.Add(target);
-                    }
+                    continue;
                 }
+
+                // continue if initializable target is not initialized.
+                var initializableTarget = target.Target as IInitializable;
+                if (initializableTarget != null && !initializableTarget.IsInitialized)
+                {
+                    continue;
+                }
+
+                // continue if activable target is not active.
+                var activableTarget = target.Target as IActivable;
+                if (activableTarget != null && !activableTarget.IsActive)
+                {
+                    continue;
+                }
+
+                buffer.Add(target);
             }
 
             // return
@@ -60,7 +82,7 @@ namespace Loki.Commands
 
         private void CleanReferences()
         {
-            foreach (ConcurrentCollection<WeakReference<ICommandHandler>> item in commandHandlers.Values)
+            foreach (var item in commandHandlers.Values)
             {
                 var toRemove = new List<IListNode<WeakReference<ICommandHandler>>>();
                 foreach (var handlerReference in item)
@@ -99,11 +121,21 @@ namespace Loki.Commands
         /// <param name="handler">
         /// The command handler.
         /// </param>
-        public void AddHandler(ICommand command, ICommandHandler handler)
+        private void AddHandler(ICommand command, ICommandHandler handler)
         {
             var currentHandlerList = commandHandlers.GetOrAdd(command.Name, new ConcurrentCollection<WeakReference<ICommandHandler>>());
+            var state = handler.Target as INotifyPropertyChanged;
+            if (state != null)
+            {
+                services.Events.Changed.Register(state, command, RefreshCommandState);
+            }
 
             currentHandlerList.Add(new WeakReference<ICommandHandler>(handler));
+        }
+
+        private static void RefreshCommandState(ICommand command, object sender, PropertyChangedEventArgs e)
+        {
+            command.RefreshState();
         }
 
         /// <summary>
@@ -128,7 +160,7 @@ namespace Loki.Commands
         /// You must hold a reference on the returned command handler as long as the
         /// listener observes the command.
         /// </returns>
-        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state, Func<CommandEventArgs, bool> confirmDelegate)
+        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state, Func<CommandEventArgs, bool> confirmDelegate)
         {
             LokiCommandHandler returnHandler;
             LokiCommandHandler creationHandler = null;
@@ -150,11 +182,46 @@ namespace Loki.Commands
             return returnHandler;
         }
 
-        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, ICommandAware state)
+        /// <summary>
+        /// Creates and register a command handler fo the specified command.
+        /// </summary>
+        /// <param name="command">
+        /// The command.
+        /// </param>
+        /// <param name="canExecuteFunction">
+        /// The CanExecute function.
+        /// </param>
+        /// <param name="executeFunction">
+        /// The Execute function.
+        /// </param>
+        /// <param name="state">
+        /// The command state handler.
+        /// </param>
+        /// <returns>
+        /// You must hold a reference on the returned command handler as long as the
+        /// listener observes the command.
+        /// </returns>
+        public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction, INotifyPropertyChanged state)
         {
             return CreateHandler(command, canExecuteFunction, executeFunction, state, null);
         }
 
+        /// <summary>
+        /// Creates and register a command handler fo the specified command.
+        /// </summary>
+        /// <param name="command">
+        /// The command.
+        /// </param>
+        /// <param name="canExecuteFunction">
+        /// The CanExecute function.
+        /// </param>
+        /// <param name="executeFunction">
+        /// The Execute function.
+        /// </param>
+        /// <returns>
+        /// You must hold a reference on the returned command handler as long as the
+        /// listener observes the command.
+        /// </returns>
         public ICommandHandler CreateHandler(ICommand command, Action<object, CanExecuteCommandEventArgs> canExecuteFunction, Action<object, CommandEventArgs> executeFunction)
         {
             return CreateHandler(command, canExecuteFunction, executeFunction, null);
@@ -188,6 +255,12 @@ namespace Loki.Commands
                         continue;
                     }
 
+                    var state = target.Target as INotifyPropertyChanged;
+                    if (state != null)
+                    {
+                        services.Events.Changed.Unregister(state, command);
+                    }
+
                     reference = handlerReference;
                     break;
                 }
@@ -208,28 +281,16 @@ namespace Loki.Commands
         /// <summary>
         /// Creates and registers a new command for the specified command name.
         /// </summary>
-        /// <param name="commandTag">
+        /// <param name="commandName">
         /// Name of the command.
         /// </param>
         /// <returns>
         /// The registered command.
         /// </returns>
-        public ICommand CreateCommand(string commandTag)
+        public ICommand GetCommand(string commandName)
         {
-            var command = new LokiRoutedCommand();
-            command.CommandService = this;
-            command.MessageBus = this.services.Messages;
-            command.Name = commandTag;
-            return command;
-        }
-
-        /// <summary>
-        /// Creates and registers a new command for the specified command name.
-        /// </summary>
-        /// <returns>The registered command.</returns>
-        public ICommand CreateCommand()
-        {
-            return CreateCommand(Guid.NewGuid().ToString());
+            var newCommand = new LokiRoutedCommand(commandName, this.services.Logger, this, this.services.Messages, this.threading);
+            return commands.GetOrAdd(commandName, newCommand);
         }
 
         #endregion Command registering
@@ -240,10 +301,15 @@ namespace Loki.Commands
         /// <param name="services">
         /// Core services.
         /// </param>
-        public LokiCommandService(ICoreServices services) : base(services.Logger, services.Error)
+        /// <param name="threading">
+        /// </param>
+        public LokiCommandService(ICoreServices services, IThreadingContext threading)
+            : base(services.Logger, services.Error)
         {
             commandHandlers = new ConcurrentDictionary<string, ConcurrentCollection<WeakReference<ICommandHandler>>>();
+            commands = new ConcurrentDictionary<string, ICommand>();
             this.services = services;
+            this.threading = threading;
         }
     }
 }

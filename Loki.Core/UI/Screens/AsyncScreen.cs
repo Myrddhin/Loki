@@ -18,13 +18,39 @@ namespace Loki.UI
         public AsyncScreen(IDisplayServices coreServices)
             : base(coreServices)
         {
+            BusyAfter = new TimeSpan(0);
         }
+
+        #region IsBusy
+
+        private readonly PropertyChangedEventArgs busyChangedEventArgs = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.IsBusy);
+
+        private bool busy;
+
+        public bool IsBusy
+        {
+            get
+            {
+                return busy;
+            }
+
+            set
+            {
+                if (!Equals(busy, value))
+                {
+                    busy = value;
+                    NotifyChanged(busyChangedEventArgs);
+                }
+            }
+        }
+
+        #endregion IsBusy
 
         #region Status
 
-        private static readonly PropertyChangedEventArgs argsStatusChanged = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.Status);
+        private static readonly PropertyChangedEventArgs StatusChangedArgs = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.Status);
 
-        private static readonly PropertyChangingEventArgs argsStatusChanging = ObservableHelper.CreateChangingArgs<AsyncScreen>(x => x.Status);
+        private static readonly PropertyChangingEventArgs StatusChangingArgs = ObservableHelper.CreateChangingArgs<AsyncScreen>(x => x.Status);
 
         private string status;
 
@@ -39,20 +65,59 @@ namespace Loki.UI
             {
                 if (value != status)
                 {
-                    NotifyChanging(argsStatusChanging);
+                    NotifyChanging(StatusChangingArgs);
                     status = value;
-                    NotifyChanged(argsStatusChanged);
+                    NotifyChanged(StatusChangedArgs);
                 }
             }
         }
 
         #endregion Status
 
+        #region BusyAfter
+
+        private TimeSpan busyAfter;
+
+        public TimeSpan BusyAfter
+        {
+            get
+            {
+                return busyAfter;
+            }
+
+            set
+            {
+                if (busyAfter != value)
+                {
+                    busyAfter = value;
+                    NotifyChanged(BusyAfterChangedArgs);
+                }
+            }
+        }
+
+        private static readonly PropertyChangedEventArgs BusyAfterChangedArgs = ObservableHelper.CreateChangedArgs<AsyncScreen>(x => x.BusyAfter);
+
+        #endregion BusyAfter
+
+        protected override void OnInitialize()
+        {
+            BeginBackgroudWork(string.Empty);
+
+            base.OnInitialize();
+
+            this.Services.Core.Events.WatchPropertyChanged(this, this, screen => screen.IsLoaded, screen => screen.Loaded_Changed);
+        }
+
+        private void Loaded_Changed(object sender, EventArgs e)
+        {
+            this.EndBackgroudWork(string.Empty);
+        }
+
         #region Background workers
 
         protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction)
         {
-            return CreateWorker<TArg, TResult>(title, workAction, this.Error);
+            return CreateWorker(title, workAction, this.Error);
         }
 
         protected ITaskConfiguration<TArg, TResult> CreateWorker<TArg, TResult>(string title, Func<TArg, Task<TResult>> workAction, Action<Exception> errorAction)
@@ -67,11 +132,11 @@ namespace Loki.UI
             public TaskConfiguration(AsyncScreen parent, string title, Func<TArg, Task<TResult>> worker, Action<Exception> errorAction)
             {
                 Title = title;
-                DoWorkAsync = async (args) =>
+                DoWorkAsync = async args =>
                     {
                         try
                         {
-                            await Toolkit.UI.Threading.OnUIThreadAsync(() => parent.BeginBackgroudWork(title));
+                            await parent.ThreadingContext.OnUIThreadAsync(() => parent.BeginBackgroudWork(title));
                             running = true;
                             return await worker(args);
                         }
@@ -82,7 +147,7 @@ namespace Loki.UI
                         finally
                         {
                             running = false;
-                            Toolkit.UI.Threading.OnUIThread(() => parent.EndBackgroudWork(title));
+                            parent.ThreadingContext.OnUIThread(() => parent.EndBackgroudWork(title));
                         }
 
                         return await Task.FromResult(default(TResult));
@@ -91,11 +156,15 @@ namespace Loki.UI
 
             public Func<TArg, Task<TResult>> DoWorkAsync
             {
-                get; }
+                get;
+                private set;
+            }
 
             public string Title
             {
-                get; }
+                get;
+                private set;
+            }
 
             public void Cancel()
             {

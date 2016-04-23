@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace Loki.UI.Wpf.Converters
@@ -9,21 +10,19 @@ namespace Loki.UI.Wpf.Converters
 
         public T TrueValue { get; set; }
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
             {
                 return FalseValue;
             }
-            else
-            {
-                return (bool)value ? TrueValue : FalseValue;
-            }
+
+            return (bool)value ? this.TrueValue : this.FalseValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value != null ? value.Equals(TrueValue) : false;
+            return value != null && value.Equals(this.TrueValue);
         }
     }
 }

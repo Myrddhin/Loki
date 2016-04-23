@@ -1,6 +1,5 @@
 ﻿using Loki.IoC;
 using Loki.IoC.Registration;
-using Loki.UI;
 
 namespace Loki.Common
 {
@@ -17,7 +16,6 @@ namespace Loki.Common
 
             // Core groups
             context.Register(Element.For<ICoreServices>().ImplementedBy<CoreServices>());
-            context.Register(Element.For<IUIServices>().ImplementedBy<UIServices>());
         }
     }
 }

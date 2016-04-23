@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki command handlers.
@@ -18,8 +18,15 @@ namespace Loki.Commands
         /// <summary>
         /// Creates the specified can execute function.
         /// </summary>
-        /// <param name="canExecuteFunction">The can execute function.</param>
-        /// <param name="executeFunction">The execute function.</param>
+        /// <param name="canExecuteFunction">
+        /// The can execute function.
+        /// </param>
+        /// <param name="executeFunction">
+        /// The execute function.
+        /// </param>
+        /// <returns>
+        /// Returns a new handler.
+        /// </returns>
         public static LokiCommandHandler Create(
             Action<object, CanExecuteCommandEventArgs> canExecuteFunction,
             Action<object, CommandEventArgs> executeFunction)
@@ -30,9 +37,18 @@ namespace Loki.Commands
         /// <summary>
         /// Creates the specified can execute function.
         /// </summary>
-        /// <param name="canExecuteFunction">The can execute function.</param>
-        /// <param name="executeFunction">The execute function.</param>
-        /// <param name="state">The state.</param>
+        /// <param name="canExecuteFunction">
+        /// The can execute function.
+        /// </param>
+        /// <param name="executeFunction">
+        /// The execute function.
+        /// </param>
+        /// <param name="state">
+        /// The state.
+        /// </param>
+        /// <returns>
+        /// Returns a new handler.
+        /// </returns>
         public static LokiCommandHandler Create(
             Action<object, CanExecuteCommandEventArgs> canExecuteFunction,
             Action<object, CommandEventArgs> executeFunction,
@@ -44,10 +60,21 @@ namespace Loki.Commands
         /// <summary>
         /// Creates a new command handler with the specified delegates.
         /// </summary>
-        /// <param name="canExecuteFunction">The can execute functor.</param>
-        /// <param name="executeFunction">The execute functor.</param>
-        /// <param name="state">The state callback.</param>
-        /// <param name="confirmDelegate">The confirm functor.</param>
+        /// <param name="canExecuteFunction">
+        /// The can execute functor.
+        /// </param>
+        /// <param name="executeFunction">
+        /// The execute functor.
+        /// </param>
+        /// <param name="state">
+        /// The state callback.
+        /// </param>
+        /// <param name="confirmDelegate">
+        /// The confirm functor.
+        /// </param>
+        /// <returns>
+        /// Return an new handler.
+        /// </returns>
         public static LokiCommandHandler Create(
             Action<object, CanExecuteCommandEventArgs> canExecuteFunction,
             Action<object, CommandEventArgs> executeFunction,

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Loki.Commands;
+
+using Loki.UI.Commands;
 
 namespace Loki.Common
 {
@@ -18,7 +19,7 @@ namespace Loki.Common
         /// </value>
         IWeakEventManager<INotifyPropertyChanging, PropertyChangingEventArgs> Changing { get; }
 
-        IWeakEventManager<INotifyCanExecuteChanged, EventArgs> CanExecuteChanged { get; }
+        IWeakEventManager<ICommand, EventArgs> CanExecuteChanged { get; }
 
         IWeakEventManager<INotifyCollectionChanged, NotifyCollectionChangedEventArgs> CollectionChanged { get; }
 

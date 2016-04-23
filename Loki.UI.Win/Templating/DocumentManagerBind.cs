@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using DevExpress.Utils;
 using DevExpress.XtraBars.Docking2010;
 using DevExpress.XtraBars.Docking2010.Views;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
 {
     public class DocumentManagerBind : ComponentBind<DocumentManager>
     {
-        public DocumentManagerBind(DocumentManager view, object viewModel)
-            : base(view, viewModel)
+        public DocumentManagerBind(ICoreServices services, IThreadingContext ctx, DocumentManager view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             var containerModel = ViewModel as IParent;
             if (containerModel == null)
@@ -22,7 +23,7 @@ namespace Loki.UI.Win
                 return;
             }
 
-            view.ShowThumbnailsInTaskBar = DevExpress.Utils.DefaultBoolean.False;
+            view.ShowThumbnailsInTaskBar = DefaultBoolean.False;
 
             AddDocument(Component, containerModel.Children);
 
@@ -82,7 +83,7 @@ namespace Loki.UI.Win
 
         private void AddDocument(DocumentManager manager, IEnumerable newModels)
         {
-            Toolkit.UI.Threading.OnUIThread(() =>
+            Context.OnUIThread(() =>
             {
                 foreach (var documentModel in newModels)
                 {
@@ -93,15 +94,15 @@ namespace Loki.UI.Win
 
         private BaseDocument CreateDocument(DocumentManager manager, object model)
         {
-            var template = Toolkit.UI.Templating.GetTemplate(model) as System.Windows.Forms.Control;
+            var template = Bind.GetTemplate(model) as Control;
             if (template == null)
             {
-                template = new System.Windows.Forms.Control();
+                template = new Control();
             }
 
             var document = manager.View.AddDocument(template);
 
-            Toolkit.UI.Templating.CreateBind(document, model);
+            Bind.CreateBind(document, model);
 
             IActivable activableModel = model as IActivable;
             if (activableModel != null)
@@ -125,11 +126,11 @@ namespace Loki.UI.Win
             return document;
         }
 
-        private bool activateFromView = false;
-        private bool activateFromViewModel = false;
+        private bool activateFromView;
+        private bool activateFromViewModel;
 
-        private bool desactivateFromView = false;
-        private bool desactivateFromViewModel = false;
+        private bool desactivateFromView;
+        private bool desactivateFromViewModel;
 
         private void View_DocumentActivated(object sender, DocumentEventArgs e)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Commands
+namespace Loki.UI.Commands
 {
     /// <summary>
     /// Provides argument for command events.
@@ -21,8 +21,12 @@ namespace Loki.Commands
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandEventArgs"/> class.
         /// </summary>
-        /// <param name="command">The command.</param>
-        /// <param name="parameter">The parameter.</param>
+        /// <param name="command">
+        /// The command.
+        /// </param>
+        /// <param name="parameter">
+        /// The parameter.
+        /// </param>
         public CommandEventArgs(ICommand command, object parameter)
         {
             Command = command;

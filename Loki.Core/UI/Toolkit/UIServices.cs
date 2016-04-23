@@ -1,6 +1,5 @@
-﻿using Loki.Commands;
-using Loki.Common;
-using Loki.UI.Tasks;
+﻿using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {
@@ -13,7 +12,7 @@ namespace Loki.UI
             ICommandComponent commands,
             IEventComponent events,
             IThreadingContext threading,
-            ITaskComponent tasks)
+            INavigationService navigation)
         {
             Windows = windows;
             Templates = templates;
@@ -21,7 +20,7 @@ namespace Loki.UI
             Commands = commands;
             Events = events;
             Threading = threading;
-            Tasks = tasks;
+            Navigation = navigation;
         }
 
         public IWindowManager Windows { get; private set; }
@@ -36,6 +35,6 @@ namespace Loki.UI
 
         public IThreadingContext Threading { get; private set; }
 
-        public ITaskComponent Tasks { get; private set; }
+        public INavigationService Navigation { get; private set; }
     }
 }

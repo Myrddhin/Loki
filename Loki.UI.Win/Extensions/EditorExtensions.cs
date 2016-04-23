@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Repository;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
@@ -23,9 +21,7 @@ namespace Loki.UI.Win
            IValueConverter converter = null,
            object converterParameter = null) where TVM : class, INotifyPropertyChanged
         {
-            Binder binder = new Binder();
-
-            var viewModel = View.GetViewModel<TVM>(editor);
+            var viewModel = editor.GetViewModel<TVM>();
             if (viewModel == null)
             {
                 return;
@@ -42,7 +38,7 @@ namespace Loki.UI.Win
             // set model property info
             PropertyInfo sourceDescriptior = ExpressionHelper.GetProperty(property);
 
-            binder.TwoWay(editor, destinationDescriptor, viewModel, sourceDescriptior, mode, converter, converterParameter);
+            Bind.TwoWay(editor, destinationDescriptor, viewModel, sourceDescriptior, mode, converter, converterParameter);
         }
     }
 }

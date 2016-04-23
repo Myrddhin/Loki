@@ -6,7 +6,7 @@ namespace Loki.UI.Tasks
 {
     internal class TaskComponent : ITaskComponent
     {
-        private readonly BindableCollection<TaskRun> tasks = new BindableCollection<TaskRun>();
+        private readonly BindableCollection<TaskRun> tasks;
 
         private TaskBuilder builder;
 
@@ -14,8 +14,9 @@ namespace Loki.UI.Tasks
 
         public IThreadingContext Threads { get; set; }
 
-        public TaskComponent()
+        public TaskComponent(IDisplayServices coreServices)
         {
+            tasks = new BindableCollection<TaskRun>(coreServices);
             ClearOnCompletion = true;
             builder = new TaskBuilder(this);
             Scheduler = TaskScheduler.Default;

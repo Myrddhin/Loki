@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Loki.Common;
 
 namespace Loki.UI.Wpf
 {
@@ -8,6 +7,13 @@ namespace Loki.UI.Wpf
     /// </summary>
     public static class Bind
     {
+        private static ITemplatingEngine engine;
+
+        public static void InitializeEngine(ITemplatingEngine templatingEngine)
+        {
+            engine = templatingEngine;
+        }
+
         /// <summary>
         ///   Allows binding on an existing view. Use this on root UserControls, Pages and Windows; not in a DataTemplate.
         /// </summary>
@@ -19,20 +25,28 @@ namespace Loki.UI.Wpf
                 new PropertyMetadata(null, ModelChanged));
 
         /// <summary>
-        ///   Gets the model to bind to.
+        /// Gets the model to bind to.
         /// </summary>
-        /// <param name = "dependencyObject">The dependency object to bind to.</param>
-        /// <returns>The model.</returns>
+        /// <param name="dependencyObject">
+        /// The dependency object to bind to.
+        /// </param>
+        /// <returns>
+        /// The model.
+        /// </returns>
         public static object GetModel(DependencyObject dependencyObject)
         {
             return dependencyObject.GetValue(ModelProperty);
         }
 
         /// <summary>
-        ///   Sets the model to bind to.
+        /// Sets the model to bind to.
         /// </summary>
-        /// <param name = "dependencyObject">The dependency object to bind to.</param>
-        /// <param name = "value">The model.</param>
+        /// <param name="dependencyObject">
+        /// The dependency object to bind to.
+        /// </param>
+        /// <param name="value">
+        /// The model.
+        /// </param>
         public static void SetModel(DependencyObject dependencyObject, object value)
         {
             dependencyObject.SetValue(ModelProperty, value);
@@ -40,7 +54,7 @@ namespace Loki.UI.Wpf
 
         private static void ModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (Toolkit.UI.Windows.DesignMode || e.NewValue == null || e.NewValue == e.OldValue)
+            if (View.DesignMode || e.NewValue == null || e.NewValue == e.OldValue)
             {
                 return;
             }
@@ -51,17 +65,19 @@ namespace Loki.UI.Wpf
                 var de = d as ContentElement;
                 if (de != null)
                 {
-                    Toolkit.UI.Templating.CreateBind(d, e.NewValue);
+                    engine.CreateBind(d, e.NewValue);
                 }
 
                 return;
             }
 
+            fe.DataContext = e.NewValue;
+
             View.ExecuteOnLoad(
                 fe,
                 delegate
                 {
-                    Toolkit.UI.Templating.CreateBind(d, e.NewValue);
+                    engine.CreateBind(d, e.NewValue);
                 });
         }
     }

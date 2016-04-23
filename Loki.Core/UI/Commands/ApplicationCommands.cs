@@ -1,25 +1,20 @@
-﻿using System;
-using Loki.Common;
-using Loki.IoC;
-using Loki.UI;
-
-namespace Loki.Commands
+﻿namespace Loki.UI.Commands
 {
-    public static class ApplicationCommands
+    public class ApplicationCommands
     {
-        static ApplicationCommands()
+        private readonly ICommandComponent commandService;
+
+        protected ICommand GetCommand(string name)
         {
-            if (!Toolkit.UI.Windows.DesignMode)
-            {
-                CreateCommands(Toolkit.IoC.DefaultContext);
-            }
-            else
-            {
-                CreateCommands(null);
-            }
+            return commandService.GetCommand(name);
         }
 
-        private static class Names
+        public ApplicationCommands(ICommandComponent commandService)
+        {
+            this.commandService = commandService;
+        }
+
+        public static class Names
         {
             public const string ERROR = "Application.Error";
             public const string EXIT = "Application.Exit";
@@ -27,6 +22,7 @@ namespace Loki.Commands
             public const string MESSAGE = "Application.Message";
             public const string OPEN = "Application.Open";
             public const string REFRESH = "Application.Refresh";
+            public const string NAVIGATE = "Application.Navigate";
             public const string SAVE = "Application.Save";
             public const string SEARCH = "Application.Search";
             public const string START = "Application.Start";
@@ -34,33 +30,60 @@ namespace Loki.Commands
             public const string WARNING = "Application.Warning";
         }
 
-        public static void CreateCommands(IObjectContext context)
+        public ICommand Navigate
         {
-            Func<string, ICommand> builder = s => new LokiRelayCommand(() => { });
-            if (context != null)
+            get
             {
-                var commands = context.Get<ICommandComponent>();
-                builder = name => commands.CreateCommand(name);
+                return GetCommand(Names.NAVIGATE);
             }
-
-            Export = builder(Names.EXPORT);
-            Open = builder(Names.OPEN);
-            Refresh = builder(Names.REFRESH);
-            Save = builder(Names.SAVE);
-            UpdateStatus = builder(Names.UPDATESTATUS);
-            Search = builder(Names.SEARCH);
         }
 
-        public static ICommand Export { get; private set; }
+        public ICommand Export
+        {
+            get
+            {
+                return GetCommand(Names.EXPORT);
+            }
+        }
 
-        public static ICommand Open { get; private set; }
+        public ICommand Open
+        {
+            get
+            {
+                return GetCommand(Names.OPEN);
+            }
+        }
 
-        public static ICommand Refresh { get; private set; }
+        public ICommand Refresh
+        {
+            get
+            {
+                return GetCommand(Names.REFRESH);
+            }
+        }
 
-        public static ICommand Save { get; private set; }
+        public ICommand Save
+        {
+            get
+            {
+                return GetCommand(Names.SAVE);
+            }
+        }
 
-        public static ICommand Search { get; private set; }
+        public ICommand Search
+        {
+            get
+            {
+                return GetCommand(Names.SEARCH);
+            }
+        }
 
-        public static ICommand UpdateStatus { get; private set; }
+        public ICommand UpdateStatus
+        {
+            get
+            {
+                return GetCommand(Names.UPDATESTATUS);
+            }
+        }
     }
 }

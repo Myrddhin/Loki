@@ -1,13 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+
+using DevExpress.XtraWaitForm;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
 {
     public class ControlBind<T> : ComponentBind<T> where T : Control
     {
-        private DevExpress.XtraWaitForm.ProgressPanel waitingView = new DevExpress.XtraWaitForm.ProgressPanel();
+        private readonly ProgressPanel waitingView = new ProgressPanel();
 
         protected void ProtectedExecute(Action action)
         {
@@ -42,8 +45,8 @@ namespace Loki.UI.Win
             }
         }
 
-        public ControlBind(T view, object viewModel)
-            : base(view, viewModel)
+        public ControlBind(ICoreServices services, IThreadingContext ctx, T view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             view.Tag = viewModel;
 
@@ -65,7 +68,6 @@ namespace Loki.UI.Win
                 (b, s, e) => b.Async_Changed(s, e));
 
                 ControlBinder.Editors.BindValue<IAsync>(waitingView., x => x.Status);*/
-
                 Component.Disposed += (s, e) => waitingView.Dispose();
             }
 
@@ -78,7 +80,7 @@ namespace Loki.UI.Win
             }
 
             // Display name
-            BindName(ExpressionHelper.GetProperty<System.Windows.Forms.Control, string>(x => x.Text));
+            BindName(ExpressionHelper.GetProperty<Control, string>(x => x.Text));
             BindName(ExpressionHelper.GetProperty<Control, string>(x => x.Text));
         }
 
@@ -102,7 +104,7 @@ namespace Loki.UI.Win
                 if (model == null || !model.IsBusy)
                 {
                     waitingView.Hide();
-                    foreach (System.Windows.Forms.Control ctrl in Component.Controls)
+                    foreach (Control ctrl in Component.Controls)
                     {
                         ctrl.Enabled = ctrl != waitingView;
                     }
@@ -113,12 +115,12 @@ namespace Loki.UI.Win
                     waitingView.Top = Component.Top + ((Component.Height - waitingView.Height) / 2);
 
                     waitingView.Show();
-                    foreach (System.Windows.Forms.Control ctrl in Component.Controls)
+                    foreach (Control ctrl in Component.Controls)
                     {
                         ctrl.Enabled = ctrl == waitingView;
                     }
 
-                    Component.Resize += new EventHandler(Component_Resize);
+                    Component.Resize += this.Component_Resize;
                 }
             };
 

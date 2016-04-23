@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Windows.Forms;
 
-using DevExpress.Export;
-using DevExpress.Utils;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
-using DevExpress.XtraPrinting;
 
-using Loki.Commands;
-using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
@@ -27,9 +21,7 @@ namespace Loki.UI.Win
             where TModel : class
             where TItem : class
         {
-            var binder = new Binder();
-
-            var containerModel = binder.GetBindedObject(view.GridControl, propertyGetter);
+            var containerModel = Win.Bind.GetBindedObject(view.GridControl, propertyGetter);
             if (containerModel == null)
             {
                 return;
@@ -37,7 +29,7 @@ namespace Loki.UI.Win
 
             ConfigureGridCommands<TModel, TItem>(view, null, containerModel);
 
-            Toolkit.UI.Templating.CreateBind(view, containerModel);
+            Win.Bind.CreateBind(view, containerModel);
         }
 
         public static void BindCommandOnDoubleClick<TModel, TItem>(
@@ -90,8 +82,7 @@ namespace Loki.UI.Win
                         if (e.Menu.MenuType == GridMenuType.Row || e.Menu.MenuType == GridMenuType.User
                             || e.HitInfo.HitTest == GridHitTest.EmptyRow)
                         {
-                            e.Menu.Items.Add(CreateItem("Export to excel", () => ExportToExcel(grid)));
-
+                            // e.Menu.Items.Add(CreateItem("Export to excel", () => ExportToExcel(grid)));
                             if (grid.GroupedColumns != null && grid.GroupedColumns.Count > 0)
                             {
                                 e.Menu.Items.Add(CreateItem("Expand all", grid.ExpandAllGroups, true));
@@ -104,24 +95,24 @@ namespace Loki.UI.Win
                             {
                                 P_Grid.PasteValues();
                             };*/
-                                if (grid.OptionsBehavior.AllowDeleteRows != DefaultBoolean.False)
-                                {
-                                    var item = CreateItem(
-                                        "Clear",
-                                        () =>
-                                        {
-                                            if (Toolkit.UI.Windows.Confirm("Delete all lines ?"))
-                                            {
-                                                dataSource.Clear();
-                                            }
-                                        });
-                                    e.Menu.Items.Add(item);
-                                }
+                                // if (grid.OptionsBehavior.AllowDeleteRows != DefaultBoolean.False)
+                                // {
+                                // var item = CreateItem(
+                                // "Clear",
+                                // () =>
+                                // {
+                                // if (Toolkit.UI.Windows.Confirm("Delete all lines ?"))
+                                // {
+                                // dataSource.Clear();
+                                // }
+                                // });
+                                // e.Menu.Items.Add(item);
+                                // }
                             }
 
                             if (rowCommands != null)
                             {
-                                var viewModel = View.GetViewModel<TVM>(grid.GridControl);
+                                var viewModel = grid.GridControl.GetViewModel<TVM>();
                                 if (viewModel == null)
                                 {
                                     return;
@@ -156,51 +147,51 @@ namespace Loki.UI.Win
             }
         }
 
-        public static void ExportToExcel(this GridView grid)
-        {
-            ILog log = Toolkit.Common.Logger.GetLog("GridViewExtensions");
-            try
-            {
-                string tempfile = string.Format(
-                    "{0}export_excel_{1}.xlsx",
-                    Path.GetTempPath(),
-                    System.DateTime.Now.Ticks);
-                grid.OptionsPrint.AutoWidth = false;
-                log.InfoFormat("Exporting to {0}", tempfile);
-                using (Stream str = new MemoryStream())
-                {
-                    grid.SaveLayoutToStream(str);
-                    str.Seek(0, System.IO.SeekOrigin.Begin);
-                    grid.BestFitColumns();
-                    grid.OptionsView.ColumnAutoWidth = false;
-                    XlsxExportOptionsEx options = new XlsxExportOptionsEx(TextExportMode.Value);
-                    options.ExportMode = XlsxExportMode.SingleFile;
-                    options.ExportType = ExportType.DataAware;
-                    grid.ExportToXlsx(tempfile, options);
-                    System.Diagnostics.ProcessStartInfo infos = new System.Diagnostics.ProcessStartInfo();
-                    infos.UseShellExecute = false;
-                    infos.CreateNoWindow = true;
-                    infos.FileName = "excel.exe";
-                    infos.Arguments = tempfile;
+        // public static void ExportToExcel(this GridView grid)
+        // {
+        // ILog log = Toolkit.Common.Logger.GetLog("GridViewExtensions");
+        // try
+        // {
+        // string tempfile = string.Format(
+        // "{0}export_excel_{1}.xlsx",
+        // Path.GetTempPath(),
+        // System.DateTime.Now.Ticks);
+        // grid.OptionsPrint.AutoWidth = false;
+        // log.InfoFormat("Exporting to {0}", tempfile);
+        // using (Stream str = new MemoryStream())
+        // {
+        // grid.SaveLayoutToStream(str);
+        // str.Seek(0, System.IO.SeekOrigin.Begin);
+        // grid.BestFitColumns();
+        // grid.OptionsView.ColumnAutoWidth = false;
+        // XlsxExportOptionsEx options = new XlsxExportOptionsEx(TextExportMode.Value);
+        // options.ExportMode = XlsxExportMode.SingleFile;
+        // options.ExportType = ExportType.DataAware;
+        // grid.ExportToXlsx(tempfile, options);
+        // ProcessStartInfo infos = new System.Diagnostics.ProcessStartInfo();
+        // infos.UseShellExecute = false;
+        // infos.CreateNoWindow = true;
+        // infos.FileName = "excel.exe";
+        // infos.Arguments = tempfile;
 
-                    try
-                    {
-                        System.Diagnostics.Process.Start(infos);
-                    }
-                    catch (Win32Exception)
-                    {
-                        // no open excel ; use shell. Upgrade by check if an excel adapter is available in object context.
-                        System.Diagnostics.Process.Start(tempfile);
-                    }
+        // try
+        // {
+        // System.Diagnostics.Process.Start(infos);
+        // }
+        // catch (Win32Exception)
+        // {
+        // // no open excel ; use shell. Upgrade by check if an excel adapter is available in object context.
+        // System.Diagnostics.Process.Start(tempfile);
+        // }
 
-                    grid.RestoreLayoutFromStream(str);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Internal error", ex);
-                Toolkit.Common.MessageBus.PublishOnUIThread(new WarningMessage("Internal error while exporting"));
-            }
-        }
+        // grid.RestoreLayoutFromStream(str);
+        // }
+        // }
+        // catch (Exception ex)
+        // {
+        // log.Error("Internal error", ex);
+        // Toolkit.Common.MessageBus.PublishOnUIThread(new WarningMessage("Internal error while exporting"));
+        // }
+        // }
     }
 }

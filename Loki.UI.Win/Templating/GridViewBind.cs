@@ -1,14 +1,17 @@
 ﻿using System.Drawing;
+
 using DevExpress.XtraGrid;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
+
+using Loki.Common;
 
 namespace Loki.UI.Win
 {
     public class GridViewBind : ComponentBind<GridView>
     {
-        public GridViewBind(GridView view, object viewModel)
-            : base(view, viewModel)
+        public GridViewBind(ICoreServices services, IThreadingContext ctx, GridView view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             // apparence
             ConfigureApparence(view);
@@ -66,13 +69,13 @@ namespace Loki.UI.Win
                 view.Columns.Add(COL_IsChanged);
 
                 StyleFormatCondition condition = new StyleFormatCondition();
-                condition.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+                condition.Appearance.Font = new Font("Tahoma", 8.25F, FontStyle.Bold);
                 condition.Appearance.Options.UseFont = true;
                 condition.ApplyToRow = true;
                 condition.Column = COL_IsChanged;
-                condition.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+                condition.Condition = FormatConditionEnum.Equal;
                 condition.Value1 = true;
-                view.FormatConditions.AddRange(new DevExpress.XtraGrid.StyleFormatCondition[] { condition });
+                view.FormatConditions.AddRange(new[] { condition });
             }
         }
     }

@@ -1,57 +1,38 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
+
 using Loki.Common;
 using Loki.IoC;
 
 namespace Loki.UI.Wpf
 {
-    public class WpfSplashBootStrapper<TMainModel, TSplashModel> : LoggableObject, IPlatform
+    public class WpfSplashBootStrapper<TMainModel, TSplashModel> : IPlatform
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
+        private readonly IoCContext compositionRoot;
+
         private object mainObject;
 
         public WpfSplashBootStrapper(Window splashWindow)
         {
-            if (Application.Current != null && !DesignMode)
+            if (Application.Current != null && !View.DesignMode)
             {
                 Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
                 Application.Current.MainWindow = splashWindow;
                 mainObject = Application.Current.MainWindow;
-                BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
+
                 Application.Current.MainWindow.Show();
-
-                Toolkit.Initialize();
-                Toolkit.IoC.RegisterInstaller(UIInstaller.Wpf);
-                Context = Toolkit.IoC.DefaultContext;
-                this.Core = Context.Get<ICoreServices>();
-                UI = Context.Get<IUIServices>();
-
-                UI.Threading.OnUIThread(() => { });
-
+                compositionRoot = new IoCContext();
                 Application.Current.Startup += Application_Startup;
             }
 
             BootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
         }
 
-        private bool? inDesignMode;
-
-        public bool DesignMode
+        protected virtual void InitializeUIEngine(IObjectContext context)
         {
-            get
-            {
-                if (this.inDesignMode != null)
-                {
-                    return this.inDesignMode.GetValueOrDefault(false);
-                }
-
-                var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
-                this.inDesignMode = (bool)descriptor.Metadata.DefaultValue;
-
-                return inDesignMode.GetValueOrDefault(false);
-            }
+            context.Initialize(UIInstaller.Wpf);
         }
 
         public object EntryPoint
@@ -68,30 +49,59 @@ namespace Loki.UI.Wpf
             }
         }
 
-        public ICoreServices Core { get; private set; }
+        private ICoreServices core;
 
-        public IObjectContext Context { get; private set; }
+        public ICoreServices Core
+        {
+            get
+            {
+                return this.core ?? (this.core = this.Context.Get<ICoreServices>());
+            }
+        }
 
-        public IUIServices UI { get; private set; }
+        public IObjectContext Context
+        {
+            get
+            {
+                return compositionRoot;
+            }
+        }
+
+        private IUIServices ui;
+
+        public IUIServices UI
+        {
+            get
+            {
+                return this.ui ?? (this.ui = this.Context.Get<IUIServices>());
+            }
+        }
 
         protected CommonBootstrapper<TMainModel, TSplashModel> BootStrapper { get; private set; }
 
-        public async void Run(string[] args)
+        public void Run(string[] args)
         {
+            ApplicationStart(args);
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            ApplicationStart(e.Args);
+        }
+
+        private async void ApplicationStart(string[] args)
+        {
+            // Initialize composition root;
+            InitializeUIEngine(compositionRoot);
+
+            UI.Threading.OnUIThread(() => { });
+
+            // Initialize helper classes.
+            View.InitializeViewHelper(UI.Templates, Core.Logger.GetLog("View"), Core.Messages);
+            Bind.InitializeEngine(UI.Templates);
+
             await BootStrapper.Run(args);
 
-            ApplicationStart();
-        }
-
-        private async void Application_Startup(object sender, StartupEventArgs e)
-        {
-            await BootStrapper.Run(e.Args);
-
-            ApplicationStart();
-        }
-
-        private void ApplicationStart()
-        {
             var mainModel = Context.Get<TMainModel>();
             EntryPoint = mainModel;
             Application.Current.MainWindow.Show();

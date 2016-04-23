@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
@@ -9,6 +10,10 @@ namespace Loki.UI.Win
 {
     public class WinformWindowManager : LoggableObject, IWindowManager
     {
+        public WinformWindowManager(ILoggerComponent logger) : base(logger)
+        {
+        }
+
         public virtual CultureInfo Culture
         {
             get { return Application.CurrentCulture; }
@@ -88,6 +93,16 @@ namespace Loki.UI.Win
         public bool Confirm(string message)
         {
             return XtraMessageBox.Show(message, "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes;
+        }
+
+        public void Message(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Warning(string message)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

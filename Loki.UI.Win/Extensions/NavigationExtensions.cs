@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.XtraBars;
+
 using DevExpress.XtraNavBar;
-using Loki.Common;
 
 namespace Loki.UI.Win
 {
@@ -14,15 +9,13 @@ namespace Loki.UI.Win
     {
         public static void Bind<TModel>(this NavBarControl navBar, Expression<Func<TModel, object>> propertyGetter) where TModel : class
         {
-            var binder = new Binder();
-
-            var containerModel = binder.GetContainer<TModel>(navBar, propertyGetter);
+            var containerModel = Win.Bind.GetContainer(navBar, propertyGetter);
             if (containerModel == null)
             {
                 return;
             }
 
-            Toolkit.UI.Templating.CreateBind(navBar, containerModel);
+            Win.Bind.CreateBind(navBar, containerModel);
         }
 
         /*

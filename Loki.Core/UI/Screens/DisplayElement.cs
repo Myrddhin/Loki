@@ -1,34 +1,38 @@
 ﻿using System;
 
-using Loki.Commands;
 using Loki.Common;
-using Loki.UI.Tasks;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {
     public class DisplayElement : TrackedObject
     {
-        protected IDisplayServices Services { get; private set; }
-
         public DisplayElement(IDisplayServices coreServices)
-            : base(coreServices.Core)
+            : base(coreServices)
         {
-            this.Services = coreServices;
+            applicationCommands = new Lazy<ApplicationCommands>(GetApplicationCommands);
         }
 
-        public IMessageComponent CommonBus
+        protected virtual ApplicationCommands GetApplicationCommands()
+        {
+            return new ApplicationCommands(this.Services.UI.Commands);
+        }
+
+        private readonly Lazy<ApplicationCommands> applicationCommands;
+
+        public ApplicationCommands ApplicationCommands
+        {
+            get
+            {
+                return applicationCommands.Value;
+            }
+        }
+
+        public IMessageComponent Bus
         {
             get
             {
                 return Services.Core.Messages;
-            }
-        }
-
-        public ICommandComponent CommandService
-        {
-            get
-            {
-                return Services.UI.Commands;
             }
         }
 
@@ -48,13 +52,13 @@ namespace Loki.UI
             }
         }
 
-        public ITaskComponent Tasks
-        {
-            get
-            {
-                return Services.UI.Tasks;
-            }
-        }
+        //public ITaskComponent Tasks
+        //{
+        //    get
+        //    {
+        //        return Services.UI.Tasks;
+        //    }
+        //}
 
         public IThreadingContext ThreadingContext
         {
@@ -70,12 +74,6 @@ namespace Loki.UI
             {
                 return Services.UI.Signals;
             }
-        }
-
-        public CommandManager Commands
-        {
-            get;
-            set;
         }
 
         protected void Information(string message)

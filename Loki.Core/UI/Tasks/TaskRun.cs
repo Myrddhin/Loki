@@ -132,7 +132,7 @@ namespace Loki.UI.Tasks
 
         protected virtual void DispatchToUIThread(Action action)
         {
-            action.OnUIThreadAsync();
+            // action.OnUIThreadAsync();
         }
 
         protected virtual void OnTaskCompleted()

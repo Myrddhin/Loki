@@ -1,9 +1,9 @@
-﻿namespace Loki.Commands
+﻿namespace Loki.UI.Commands
 {
     /// <summary>
     /// Common interface for Loki commands.
     /// </summary>
-    public interface ICommand : INotifyCanExecuteChanged, System.Windows.Input.ICommand
+    public interface ICommand : System.Windows.Input.ICommand
     {
         /// <summary>
         /// Gets the command name.

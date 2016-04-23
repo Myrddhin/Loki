@@ -1,25 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+
 using Loki.Common;
 
 namespace Loki.UI.Wpf.Binds
 {
     internal class WindowBind : FrameworkElementBind<Window>
     {
-        private bool desactivateFromViewModel = false;
-        private bool desativatingFromView = false;
+        private bool desactivateFromViewModel;
+        private bool desativatingFromView;
 
-        private bool activatingFromViewModel = false;
-        private bool activatingFromView = false;
+        private bool activatingFromViewModel;
+        private bool activatingFromView;
 
-        private bool closingFromViewModel = false;
-        private bool closingFromView = false;
+        private bool closingFromViewModel;
+        private bool closingFromView;
 
-        private bool actuallyClosing = false;
+        private bool actuallyClosing;
 
-        public WindowBind(Window view, object viewModel)
-            : base(view, viewModel)
+        public WindowBind(ICoreServices services, IThreadingContext threading, Window view, object viewModel)
+            : base(services, threading, view, viewModel)
         {
             var withDisplayName = viewModel as IHaveDisplayName;
             if (withDisplayName != null)
@@ -101,23 +102,6 @@ namespace Loki.UI.Wpf.Binds
             desativatingFromView = false;
         }
 
-        private void Closed(object sender, EventArgs e)
-        {
-            Component.Closed -= Closed;
-            Component.Closing -= Closing;
-
-            if (desactivateFromViewModel)
-            {
-                return;
-            }
-
-            var deactivatable = (ICloseable)ViewModel;
-
-            desativatingFromView = true;
-            deactivatable.TryClose(null);
-            desativatingFromView = false;
-        }
-
         private void ViewModel_Deactivated(object sender, DesactivationEventArgs e)
         {
             if (e.WasClosed)
@@ -185,7 +169,7 @@ namespace Loki.UI.Wpf.Binds
 
             guard.CanClose(canClose =>
             {
-                Toolkit.UI.Threading.OnUIThread(
+                Threading.OnUIThread(
                     () =>
                     {
                         if (runningAsync && canClose)

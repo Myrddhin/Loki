@@ -12,12 +12,6 @@ namespace Loki.Core.Tests.IoC
     {
         public IIoCComponent Component { get; protected set; }
 
-        [Fact(DisplayName = "Default context is created")]
-        public void DefaultContextNoNull()
-        {
-            Assert.NotNull(Component.DefaultContext);
-        }
-
         [Fact(DisplayName = "Singleton as default lifetime")]
         public void SingletonAsDefault()
         {
@@ -45,12 +39,6 @@ namespace Loki.Core.Tests.IoC
             Component.DropContext(ctx);
             var removeCtxCount = Component.Contexts.Count;
             Assert.Equal(removeCtxCount, ctxCount);
-        }
-
-        [Fact(DisplayName = "Main context cannot be dropped")]
-        public void DropMainContext()
-        {
-            Assert.Throws<NotSupportedException>(() => Component.DropContext(Component.DefaultContext));
         }
 
         [Fact(DisplayName = "Contexts tracks no reference of transients POCO")]
@@ -151,18 +139,6 @@ namespace Loki.Core.Tests.IoC
 
             var item = ctx.Get<DummyClass>("Instance");
             Assert.Equal(item.DummyString, instance1.DummyString);
-        }
-
-        [Fact(DisplayName = "Late registration inject in all contextes")]
-        public void LateRegistration()
-        {
-            var ctx2 = Component.CreateContext("Late");
-            Component.RegisterInstaller(new DummyInstaller());
-            var dumm = ctx2.Get<DummyClass>();
-            Assert.NotNull(dumm);
-            var ctx = Component.CreateContext("Default");
-            dumm = ctx.Get<DummyClass>();
-            Assert.NotNull(dumm);
         }
 
         [Fact(DisplayName = "Named registration with type")]

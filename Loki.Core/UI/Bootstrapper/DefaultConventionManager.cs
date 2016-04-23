@@ -19,7 +19,7 @@ namespace Loki.UI
         {
             Dictionary<string, Type> associations = new Dictionary<string, Type>();
 
-            foreach (var item in assemblies.SelectMany(x => x.GetExportedTypes()))
+            foreach (var item in assemblies.Distinct().SelectMany(x => x.GetExportedTypes()))
             {
                 string name = item.FullName;
                 if (matcher.IsMatch(name) && !item.IsInterface)

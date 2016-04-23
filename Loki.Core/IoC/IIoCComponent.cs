@@ -8,23 +8,6 @@ namespace Loki.IoC
     public interface IIoCComponent
     {
         /// <summary>
-        /// Initializes the engine.
-        /// </summary>
-        void Initialize();
-
-        /// <summary>
-        /// Registers a new installer for all future contextes.
-        /// </summary>
-        /// <param name="installer">The installer to add.</param>
-        void RegisterInstaller(IContextInstaller installer);
-
-        /// <summary>
-        /// Gets the data context.
-        /// </summary>
-        /// <returns>The data context.</returns>
-        IObjectContext DefaultContext { get; }
-
-        /// <summary>
         /// Creates a new context.
         /// </summary>
         /// <param name="contextName">Name of the context.</param>

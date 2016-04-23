@@ -1,7 +1,9 @@
 ﻿using System;
+
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+
 using Loki.IoC;
 using Loki.IoC.Registration;
 using Loki.UI;
@@ -20,8 +22,6 @@ namespace Loki.Castle
             InternalContainer.SafeDispose();
             InternalContainer = new WindsorContainer();
             InternalContainer.Kernel.AddFacility<TypedFactoryFacility>();
-
-            Register(Element.For<IObjectCreator>().Instance(this));
         }
 
         protected WindsorContainer InternalContainer { get; private set; }

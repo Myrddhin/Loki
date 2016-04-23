@@ -1,25 +1,30 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
+﻿using System.ComponentModel;
 using System.Reflection;
 
-using Loki.Commands;
 using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
     public class ComponentBind<TComponent> : LoggableObject
            where TComponent : Component
     {
-        private Binder binder = new Binder();
+        private readonly Binder binder;
 
-        protected TComponent Component { get; private set; }
+        protected TComponent Component { get; }
 
-        protected object ViewModel { get; private set; }
+        protected ICoreServices Services { get; private set; }
 
-        public ComponentBind(TComponent component, object viewModel)
+        protected IThreadingContext Context { get; private set; }
+
+        protected object ViewModel { get; }
+
+        public ComponentBind(ICoreServices services, IThreadingContext context, TComponent component, object viewModel) : base(services.Logger)
         {
+            binder = new Binder(services, context);
+            Services = services;
             Component = component;
+            Context = context;
             ViewModel = viewModel;
         }
 

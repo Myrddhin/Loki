@@ -14,9 +14,6 @@ namespace Loki.IoC
             var engineManager = new ExtensionManager<IIoCComponent>(DefaultEngine);
             engineManager.Initialize();
             Engine = engineManager.SelectedComponent;
-
-            // TODO : remove this when default context will not be required.
-            Engine.Initialize();
         }
 
         private static readonly IIoCComponent Engine;
@@ -31,6 +28,11 @@ namespace Loki.IoC
         public IoCContext(string name)
         {
             internalContext = Engine.CreateContext(name);
+
+            internalContext.Initialize(ServicesInstaller.All);
+
+            // For type requiring context.
+            internalContext.Register(Element.For<IObjectCreator, IObjectContext>().Instance(this));
         }
 
         public T Get<T>(string objectName) where T : class

@@ -1,7 +1,9 @@
-﻿using Loki.Commands;
-using Loki.Common;
-using System;
+﻿using System;
 using System.ComponentModel;
+
+using Loki.Commands;
+using Loki.Common;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {
@@ -10,6 +12,13 @@ namespace Loki.UI
         public Screen(IDisplayServices coreServices)
             : base(coreServices)
         {
+            Commands = new CommandBind(this, coreServices.UI.Commands, coreServices.Core.Events, coreServices.UI.Windows);
+        }
+
+        public CommandBind Commands
+        {
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -41,9 +50,9 @@ namespace Loki.UI
 
         #region DisplayName
 
-        private static PropertyChangedEventArgs argsDisplayNameChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.DisplayName);
+        private static readonly PropertyChangedEventArgs argsDisplayNameChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.DisplayName);
 
-        private static PropertyChangingEventArgs argsDisplayNameChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.DisplayName);
+        private static readonly PropertyChangingEventArgs argsDisplayNameChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.DisplayName);
 
         private string displayName;
 
@@ -69,9 +78,9 @@ namespace Loki.UI
 
         #region IsActive
 
-        private static PropertyChangedEventArgs argsIsActiveChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsActive);
+        private static readonly PropertyChangedEventArgs argsIsActiveChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsActive);
 
-        private static PropertyChangingEventArgs argsIsActiveChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsActive);
+        private static readonly PropertyChangingEventArgs argsIsActiveChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsActive);
 
         private bool isActive;
 
@@ -97,9 +106,9 @@ namespace Loki.UI
 
         #region Parent
 
-        private static PropertyChangedEventArgs argsParentChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.Parent);
+        private static readonly PropertyChangedEventArgs argsParentChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.Parent);
 
-        private static PropertyChangingEventArgs argsParentChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.Parent);
+        private static readonly PropertyChangingEventArgs argsParentChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.Parent);
 
         private object parent;
 
@@ -125,9 +134,9 @@ namespace Loki.UI
 
         #region IsInitialized
 
-        private static PropertyChangedEventArgs argsIsInitializedChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsInitialized);
+        private static readonly PropertyChangedEventArgs argsIsInitializedChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsInitialized);
 
-        private static PropertyChangingEventArgs argsIsInitializedChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsInitialized);
+        private static readonly PropertyChangingEventArgs argsIsInitializedChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsInitialized);
 
         private bool initialized;
 
@@ -153,9 +162,9 @@ namespace Loki.UI
 
         #region IsLoaded
 
-        private static PropertyChangedEventArgs argsIsLoadedChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsLoaded);
+        private static readonly PropertyChangedEventArgs argsIsLoadedChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsLoaded);
 
-        private static PropertyChangingEventArgs argsIsLoadedChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsLoaded);
+        private static readonly PropertyChangingEventArgs argsIsLoadedChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.IsLoaded);
 
         private bool loaded;
 
@@ -181,9 +190,9 @@ namespace Loki.UI
 
         #region State
 
-        private static PropertyChangedEventArgs argsStateChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.State);
+        private static readonly PropertyChangedEventArgs argsStateChanged = ObservableHelper.CreateChangedArgs<Screen>(x => x.State);
 
-        private static PropertyChangingEventArgs argsStateChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.State);
+        private static readonly PropertyChangingEventArgs argsStateChanging = ObservableHelper.CreateChangingArgs<Screen>(x => x.State);
 
         private ICentralizedChangeTracking state;
 
@@ -206,31 +215,6 @@ namespace Loki.UI
         }
 
         #endregion State
-
-        #region IsBusy
-
-        private PropertyChangedEventArgs busyChangedEventArgs = ObservableHelper.CreateChangedArgs<Screen>(x => x.IsBusy);
-
-        private bool busy = true;
-
-        public bool IsBusy
-        {
-            get
-            {
-                return busy;
-            }
-
-            set
-            {
-                if (!object.Equals(busy, value))
-                {
-                    busy = value;
-                    NotifyChanged(busyChangedEventArgs);
-                }
-            }
-        }
-
-        #endregion IsBusy
 
         public virtual void CanClose(Action<bool> callback)
         {
@@ -292,11 +276,10 @@ namespace Loki.UI
                 Log.DebugFormat("Initializing {0}.", this);
 
                 // subsribe to messagebus
-                CommonBus.Subscribe(this);
+                this.Bus.Subscribe(this);
 
                 // configure commands.
                 State = this;
-                Commands.SetTarget(this);
 
                 OnInitialize();
 
@@ -311,11 +294,10 @@ namespace Loki.UI
                 Log.DebugFormat("Loading {0}.", this);
                 OnLoad();
                 IsLoaded = true;
-                IsBusy = false;
             }
         }
 
-        private bool closing = false;
+        private bool closing;
 
         public void TryClose(bool? dialogResult = null)
         {
@@ -340,7 +322,7 @@ namespace Loki.UI
                 ((IDesactivable)this).Desactivate(true);
 
                 // unsubscribe to message bus
-                CommonBus.Unsubscribe(this);
+                this.Bus.Unsubscribe(this);
 
                 OnClose();
 
@@ -369,12 +351,15 @@ namespace Loki.UI
         /// </summary>
         protected virtual void OnClose()
         {
+            Commands.Unbind();
         }
 
         /// <summary>
         /// Called when deactivating.
         /// </summary>
-        /// <param name = "close">Inidicates whether this instance will be closed.</param>
+        /// <param name="close">
+        /// Inidicates whether this instance will be closed.
+        /// </param>
         protected virtual void OnDesactivate(bool close)
         {
         }
