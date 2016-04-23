@@ -1,25 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
 {
     internal class FormBind : ControlBind<Form>
     {
-        private bool desactivateFromViewModel = false;
-        private bool desativatingFromView = false;
+        private bool desactivateFromViewModel;
+        private bool desativatingFromView;
 
-        private bool activatingFromViewModel = false;
-        private bool activatingFromView = false;
+        private bool activatingFromViewModel;
+        private bool activatingFromView;
 
-        private bool closingFromViewModel = false;
-        private bool closingFromView = false;
+        private bool closingFromViewModel;
+        private bool closingFromView;
 
-        private bool actuallyClosing = false;
+        private bool actuallyClosing;
 
-        public FormBind(Form view, object viewModel)
-            : base(view, viewModel)
+        public FormBind(ICoreServices services, IThreadingContext ctx, Form view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             var activatable = viewModel as IActivable;
             if (activatable != null)
@@ -181,13 +182,13 @@ namespace Loki.UI.Win
 
             guard.CanClose(canClose =>
             {
-                Toolkit.UI.Threading.OnUIThread(
+                Context.OnUIThread(
                     () =>
                     {
                         if (runningAsync && canClose)
                         {
                             actuallyClosing = true;
-                            View.ProtectedCall(Component, Component.Close);
+                            this.Component.ProtectedCall(Component.Close);
                         }
                         else
                         {

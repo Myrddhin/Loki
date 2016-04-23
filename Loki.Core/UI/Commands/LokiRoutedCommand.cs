@@ -99,6 +99,7 @@ namespace Loki.UI.Commands
 
             UpdateCanExecute(args.CanExecute);
 
+            Log.DebugFormat("Command {0} : can execute {1}", this.Name, args.CanExecute);
             return args.CanExecute;
         }
 

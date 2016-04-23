@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Threading;
+
 using DevExpress.XtraBars;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
 {
     public class BarBind : ComponentBind<Bar>
     {
-        public BarBind(Bar view, object viewModel)
-            : base(view, viewModel)
+        public BarBind(ICoreServices services, IThreadingContext ctx, Bar view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             var containerModel = viewModel as IParent;
             if (containerModel == null)
@@ -44,8 +42,8 @@ namespace Loki.UI.Win
 
                     if (GlyphConverter != null)
                     {
-                        button.Glyph = GlyphConverter.Convert(menuName.Command, typeof(Image), true, Toolkit.UI.Windows.Culture) as Image;
-                        button.GlyphDisabled = GlyphConverter.Convert(menuName.Command, typeof(Image), false, Toolkit.UI.Windows.Culture) as Image;
+                        button.Glyph = GlyphConverter.Convert(menuName.Command, typeof(Image), true, Thread.CurrentThread.CurrentUICulture) as Image;
+                        button.GlyphDisabled = GlyphConverter.Convert(menuName.Command, typeof(Image), false, Thread.CurrentThread.CurrentUICulture) as Image;
                     }
 
                     view.Manager.Items.Add(button);

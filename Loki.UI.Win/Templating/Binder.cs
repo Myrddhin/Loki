@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 
 using Loki.Common;
@@ -15,11 +16,21 @@ namespace Loki.UI.Win
 
         public IValueConverter NameConverter { get; set; }
 
+        private readonly ICoreServices services;
+
+        private readonly IThreadingContext context;
+
+        public Binder(ICoreServices services, IThreadingContext context) : base(services.Logger)
+        {
+            this.services = services;
+            this.context = context;
+        }
+
         internal void BindCommandActivation(
-            object component,
-            PropertyInfo property,
-            object bindingContext,
-            ICommand command,
+            object component, 
+            PropertyInfo property, 
+            object bindingContext, 
+            ICommand command, 
             object commandDefaultParameter = null)
         {
             // check in control property is editable
@@ -36,24 +47,24 @@ namespace Loki.UI.Win
                     };
                 };
 
-                Action<object, object, EventArgs> handler = (context, sender, e) => Toolkit.UI.Threading.OnUIThread(functor(context));
+                Action<object, object, EventArgs> handler = (c, sender, e) => context.OnUIThread(functor(c));
 
                 // register in change manager service
-                Toolkit.Common.Events.CanExecuteChanged.Register(command, component, handler);
+                services.Events.CanExecuteChanged.Register(command, component, handler);
 
                 ICloseable closable = bindingContext as ICloseable;
                 if (closable != null)
                 {
-                    closable.Closing += (s, e) => Toolkit.Common.Events.CanExecuteChanged.Unregister(command, component);
+                    closable.Closing += (s, e) => services.Events.CanExecuteChanged.Unregister(command, component);
                 }
 
-                Toolkit.UI.Threading.OnUIThread(functor(component));
+                context.OnUIThread(functor(component));
             }
         }
 
         protected internal IConductor GetContainer<TModel>(Control control, Expression<Func<TModel, object>> propertyGetter) where TModel : class
         {
-            TModel model = View.GetViewModel<TModel>(control);
+            TModel model = control.GetViewModel<TModel>();
 
             if (model == null)
             {
@@ -69,17 +80,15 @@ namespace Loki.UI.Win
                 Log.Warn("Navigation/Menu model must be a container");
                 return null;
             }
-            else
-            {
-                return containerModel;
-            }
+
+            return containerModel;
         }
 
         protected internal TBinded GetBindedObject<TModel, TBinded>(Control control, Expression<Func<TModel, TBinded>> propertyGetter)
             where TModel : class
             where TBinded : class
         {
-            TModel model = View.GetViewModel<TModel>(control);
+            TModel model = control.GetViewModel<TModel>();
 
             if (model == null)
             {
@@ -89,16 +98,14 @@ namespace Loki.UI.Win
 
             var bindingTarget = propertyGetter.Compile()(model);
 
-            var containerModel = bindingTarget as TBinded;
+            var containerModel = bindingTarget;
             if (containerModel == null)
             {
                 Log.WarnFormat("Binding is done on a wrong type {0} instead of {1}", bindingTarget.GetType(), typeof(TBinded));
                 return null;
             }
-            else
-            {
-                return containerModel;
-            }
+
+            return containerModel;
         }
 
         public void BindName(object destination, PropertyInfo destinationProperty, object source)
@@ -112,11 +119,11 @@ namespace Loki.UI.Win
         }
 
         public void OneWay(
-                            object destination,
-                            PropertyInfo destinationProperty,
-                            INotifyPropertyChanged source,
-                            PropertyInfo sourceProperty,
-                            IValueConverter converter = null,
+                            object destination, 
+                            PropertyInfo destinationProperty, 
+                            INotifyPropertyChanged source, 
+                            PropertyInfo sourceProperty, 
+                            IValueConverter converter = null, 
                             object converterParameter = null)
         {
             // check in control property is editable
@@ -126,7 +133,7 @@ namespace Loki.UI.Win
                 Func<object, Action> eventFunctor = CreateGetValueAndSetFunctor(source, sourceProperty, converter, converterParameter, destinationProperty);
 
                 // register in change manager service
-                Toolkit.Common.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (context, sender, e) => Toolkit.UI.Threading.OnUIThread(eventFunctor(context)));
+                services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
 
                 var valueGetter = PropertyGetter(sourceProperty);
                 var valueSetter = PropertySetter(destinationProperty);
@@ -136,7 +143,7 @@ namespace Loki.UI.Win
                 }
                 else
                 {
-                    valueSetter(destination, converter.Convert(valueGetter(source), destinationProperty.PropertyType, converterParameter, Toolkit.UI.Windows.Culture));
+                    valueSetter(destination, converter.Convert(valueGetter(source), destinationProperty.PropertyType, converterParameter, Thread.CurrentThread.CurrentUICulture));
                 }
             }
         }
@@ -180,7 +187,7 @@ namespace Loki.UI.Win
                     }
                     else
                     {
-                        value = converter.Convert(valueGetter(source), propertyToSetDescriptor.PropertyType, converterParameter, Toolkit.UI.Windows.Culture);
+                        value = converter.Convert(valueGetter(source), propertyToSetDescriptor.PropertyType, converterParameter, Thread.CurrentThread.CurrentUICulture);
                     }
 
                     valueSetter(c, value);
@@ -199,24 +206,20 @@ namespace Loki.UI.Win
                 {
                     return display.DisplayName;
                 }
-                else
-                {
-                    return NameConverter.Convert(display.DisplayName, typeof(string), null, Toolkit.UI.Windows.Culture).SafeToString();
-                }
+
+                return this.NameConverter.Convert(display.DisplayName, typeof(string), null, Thread.CurrentThread.CurrentUICulture).SafeToString();
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public void TwoWay(
-            object destination,
-            PropertyInfo destinationProperty,
-            INotifyPropertyChanged source,
-            PropertyInfo sourceProperty,
-            DataSourceUpdateMode mode = DataSourceUpdateMode.OnValidation,
-            IValueConverter converter = null,
+            object destination, 
+            PropertyInfo destinationProperty, 
+            INotifyPropertyChanged source, 
+            PropertyInfo sourceProperty, 
+            DataSourceUpdateMode mode = DataSourceUpdateMode.OnValidation, 
+            IValueConverter converter = null, 
             object converterParameter = null)
         {
             // check in control property is editable
@@ -225,7 +228,7 @@ namespace Loki.UI.Win
                 Func<object, Action> eventFunctor = CreateGetValueAndSetFunctor(source, sourceProperty, converter, converterParameter, destinationProperty);
 
                 // register in change manager service
-                Toolkit.Common.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (context, sender, e) => Toolkit.UI.Threading.OnUIThread(eventFunctor(context)));
+                services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
             }
 
             if (sourceProperty.CanWrite && mode != DataSourceUpdateMode.Never)
@@ -264,10 +267,10 @@ namespace Loki.UI.Win
                 // Create getter
                 Func<object, object> valueGetter = PropertyGetter(destinationProperty);
 
-                Toolkit.Common.Events.PropertyChanged.Register(
-                    wrapper,
-                    destinationProperty.Name,
-                    source,
+                services.Events.PropertyChanged.Register(
+                    wrapper, 
+                    destinationProperty.Name, 
+                    source, 
                     delegate (object c, object s, PropertyChangedEventArgs e)
                     {
                         if (converter == null)
@@ -290,7 +293,7 @@ namespace Loki.UI.Win
             }
             else
             {
-                valueInitSetter(destination, converter.Convert(valueInitGetter(source), destinationProperty.PropertyType, converterParameter, Toolkit.UI.Windows.Culture));
+                valueInitSetter(destination, converter.Convert(valueInitGetter(source), destinationProperty.PropertyType, converterParameter, Thread.CurrentThread.CurrentUICulture));
             }
         }
     }

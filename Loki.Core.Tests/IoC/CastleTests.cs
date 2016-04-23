@@ -10,7 +10,6 @@ namespace Loki.Core.Tests
         public CastleTests()
         {
             Component = new CastleEngine();
-            Component.Initialize();
         }
 
         public void Dispose()

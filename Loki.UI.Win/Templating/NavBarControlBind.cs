@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Globalization;
+
 using DevExpress.XtraNavBar;
+
 using Loki.Common;
 
 namespace Loki.UI.Win
 {
     public class NavBarControlBind : ControlBind<NavBarControl>
     {
-        public NavBarControlBind(NavBarControl view, object viewModel)
-            : base(view, viewModel)
+        public NavBarControlBind(ICoreServices services, IThreadingContext ctx, NavBarControl view, object viewModel)
+            : base(services, ctx, view, viewModel)
         {
             var containerModel = ViewModel as IParent;
             if (containerModel == null)
@@ -45,7 +43,7 @@ namespace Loki.UI.Win
                         var navMessage = navigationLink as IMessageElement;
                         if (navMessage != null)
                         {
-                            item.Item.LinkClicked += (s, o) => Toolkit.Common.MessageBus.PublishOnUIThread(navMessage.Message);
+                            item.Item.LinkClicked += (s, o) => services.Messages.PublishOnUIThread(ctx, navMessage.Message);
                         }
 
                         var navCommand = navigationLink as ICommandElement;
@@ -55,8 +53,8 @@ namespace Loki.UI.Win
 
                             if (GlyphConverter != null)
                             {
-                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), true, Toolkit.UI.Windows.Culture) as Image;
-                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), false, Toolkit.UI.Windows.Culture) as Image;
+                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), true, CultureInfo.CurrentUICulture) as Image;
+                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), false, CultureInfo.CurrentUICulture) as Image;
                             }
                         }
                     }

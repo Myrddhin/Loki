@@ -20,11 +20,17 @@ namespace Loki.UI.Win
         private IObjectContext internalContext;
         private Dictionary<Type, Type> typeAssociations;
 
-        public WinformTemplatingEngine()
+        private ICoreServices services;
+
+        private IThreadingContext ctx;
+
+        public WinformTemplatingEngine(ICoreServices services, IThreadingContext ctx)
         {
-            internalContext = Toolkit.IoC.CreateContext(ContextName);
+            internalContext = new IoCContext(ContextName);
             associations = new Dictionary<string, Type>();
             typeAssociations = new Dictionary<Type, Type>();
+            this.services = services;
+            this.ctx = ctx;
         }
 
         public object CreateBind(object view, object viewModel)
@@ -39,45 +45,42 @@ namespace Loki.UI.Win
             object bind = null;
 
             var form = view as Form;
-            if (form != null)
-            {
-                form.ProtectedCall(() => bind = new FormBind(form, viewModel));
-            }
+            form?.ProtectedCall(() => bind = new FormBind(services, ctx, form, viewModel));
 
             var documentManager = view as DocumentManager;
             if (documentManager != null)
             {
-                return new DocumentManagerBind(documentManager, viewModel);
+                return new DocumentManagerBind(services, ctx, documentManager, viewModel);
             }
 
             var document = view as BaseDocument;
             if (document != null)
             {
-                return new DocumentBind(document, viewModel);
+                return new DocumentBind(services, ctx, document, viewModel);
             }
 
             var navControl = view as NavBarControl;
             if (navControl != null)
             {
-                return new NavBarControlBind(navControl, viewModel);
+                return new NavBarControlBind(services, ctx, navControl, viewModel);
             }
 
             var gridView = view as GridView;
             if (gridView != null)
             {
-                return new GridViewBind(gridView, viewModel);
+                return new GridViewBind(services, ctx, gridView, viewModel);
             }
 
             var barView = view as Bar;
             if (barView != null)
             {
-                return new BarBind(barView, viewModel);
+                return new BarBind(services, ctx, barView, viewModel);
             }
 
             var control = view as Control;
             if (control != null)
             {
-                control.ProtectedCall(() => bind = new ControlBind<System.Windows.Forms.Control>(control, viewModel));
+                control.ProtectedCall(() => bind = new ControlBind<System.Windows.Forms.Control>(services, ctx, control, viewModel));
             }
 
             return bind;

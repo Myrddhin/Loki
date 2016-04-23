@@ -9,15 +9,22 @@ namespace Loki.UI.Win
     public class ComponentBind<TComponent> : LoggableObject
            where TComponent : Component
     {
-        private readonly Binder binder = new Binder();
+        private readonly Binder binder;
 
         protected TComponent Component { get; }
 
+        protected ICoreServices Services { get; private set; }
+
+        protected IThreadingContext Context { get; private set; }
+
         protected object ViewModel { get; }
 
-        public ComponentBind(TComponent component, object viewModel)
+        public ComponentBind(ICoreServices services, IThreadingContext context, TComponent component, object viewModel) : base(services.Logger)
         {
+            binder = new Binder(services, context);
+            Services = services;
             Component = component;
+            Context = context;
             ViewModel = viewModel;
         }
 
