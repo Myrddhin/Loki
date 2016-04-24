@@ -64,16 +64,10 @@ namespace Loki.Castle
         {
             var item = InternalContainer.Resolve<T>(objectName);
             var awareItem = item as IContextAware;
-            if (awareItem != null)
-            {
-                awareItem.SetContext(this);
-            }
+            awareItem?.SetContext(this);
 
             var initializable = item as IInitializable;
-            if (initializable != null)
-            {
-                initializable.Initialize();
-            }
+            initializable?.Initialize();
 
             return item;
         }
@@ -83,54 +77,36 @@ namespace Loki.Castle
             var item = this.InternalContainer.Resolve<T>();
 
             var awareItem = item as IContextAware;
-            if (awareItem != null)
-            {
-                awareItem.SetContext(this);
-            }
+            awareItem?.SetContext(this);
 
             var initializable = item as IInitializable;
-            if (initializable != null)
-            {
-                initializable.Initialize();
-            }
+            initializable?.Initialize();
 
             return item;
         }
 
         public object Get(Type type)
         {
-            object item = InternalContainer.Resolve(type);
+            var item = InternalContainer.Resolve(type);
 
             var awareItem = item as IContextAware;
-            if (awareItem != null)
-            {
-                awareItem.SetContext(this);
-            }
+            awareItem?.SetContext(this);
 
             var initializable = item as IInitializable;
-            if (initializable != null)
-            {
-                initializable.Initialize();
-            }
+            initializable?.Initialize();
 
             return item;
         }
 
         public object Get(Type type, string objectName)
         {
-            object item = InternalContainer.Resolve(objectName, type);
+            var item = InternalContainer.Resolve(objectName, type);
 
             var awareItem = item as IContextAware;
-            if (awareItem != null)
-            {
-                awareItem.SetContext(this);
-            }
+            awareItem?.SetContext(this);
 
             var initializable = item as IInitializable;
-            if (initializable != null)
-            {
-                initializable.Initialize();
-            }
+            initializable?.Initialize();
 
             return item;
         }
@@ -210,10 +186,7 @@ namespace Loki.Castle
         public void Release(object objectToRelease)
         {
             var awareItem = objectToRelease as IContextAware;
-            if (awareItem != null)
-            {
-                awareItem.Release();
-            }
+            awareItem?.Release();
 
             InternalContainer.Release(objectToRelease);
         }

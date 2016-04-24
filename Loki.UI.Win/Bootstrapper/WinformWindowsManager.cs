@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
@@ -97,12 +96,10 @@ namespace Loki.UI.Win
 
         public void Message(string message)
         {
-            throw new NotImplementedException();
         }
 
         public void Warning(string message)
         {
-            throw new System.NotImplementedException();
         }
     }
 }
