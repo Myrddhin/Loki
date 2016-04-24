@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Loki.Common
 {
@@ -12,21 +13,20 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified debug info.
         /// </summary>
-        /// <param name="message">The Message.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
         void Debug(string message);
 
         /// <summary>
         /// Logs the specified debug info.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        void Debug(string message, Exception exception);
-
-        /// <summary>
-        /// Logs the specified debug info.
-        /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="args">The Args.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="args">
+        /// The Args.
+        /// </param>
         void DebugFormat(string message, params object[] args);
 
         #endregion Debug
@@ -36,23 +36,33 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified error.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
         void Error(string message);
 
         /// <summary>
         /// Logs the specified error.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="exception">
+        /// The Exception.
+        /// </param>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
         void Error(string message, Exception exception);
 
         /// <summary>
         /// Logs the specified error.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="args">The Args.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="args">
+        /// The Args.
+        /// </param>
         void ErrorFormat(string message, params object[] args);
 
         #endregion Error
@@ -62,21 +72,31 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified fatal error.
         /// </summary>
-        /// <param name="message">The Message.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
         void Fatal(string message);
 
         /// <summary>
         /// Logs the specified fatal error.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="exception">
+        /// The Exception.
+        /// </param>
         void Fatal(string message, Exception exception);
 
         /// <summary>
         /// Logs the specified fatal error.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="args">The Args.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="args">
+        /// The Args.
+        /// </param>
         void FatalFormat(string message, params object[] args);
 
         #endregion Fatal
@@ -86,21 +106,20 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified info.
         /// </summary>
-        /// <param name="message">The Message.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
         void Info(string message);
 
         /// <summary>
         /// Logs the specified info.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        void Info(string message, Exception exception);
-
-        /// <summary>
-        /// Logs the specified info.
-        /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="args">The Args.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="args">
+        /// The Args.
+        /// </param>
         void InfoFormat(string message, params object[] args);
 
         #endregion Info
@@ -110,21 +129,20 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified debug info.
         /// </summary>
-        /// <param name="message">The Message.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
         void Warn(string message);
 
         /// <summary>
         /// Logs the specified debug info.
         /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        void Warn(string message, Exception exception);
-
-        /// <summary>
-        /// Logs the specified debug info.
-        /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="args">The Format parameters.</param>
+        /// <param name="message">
+        /// The Message.
+        /// </param>
+        /// <param name="args">
+        /// The Format parameters.
+        /// </param>
         void WarnFormat(string message, params object[] args);
 
         #endregion Warn

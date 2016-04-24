@@ -3,15 +3,18 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
+
 using Loki.Core.Resources;
 
 namespace Loki.Common
 {
-    internal class ErrorService : LoggableObject, IErrorComponent
+    internal class ErrorService : IErrorComponent
     {
+        private readonly ILog log;
+
         public ErrorService(ILoggerComponent logManager)
-            : base(logManager)
         {
+            log = logManager.GetLog(nameof(ErrorService));
         }
 
         private readonly ConcurrentDictionary<Type, Func<string, Exception, Exception>> fullTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception, Exception>>();
@@ -20,7 +23,7 @@ namespace Loki.Common
         public T BuildError<T>(string message, Exception innerException) where T : Exception
         {
             // log exception
-            Log.Error(message, innerException);
+            log.Error(message, innerException);
 
             Type exceptionType = typeof(T);
 
@@ -32,13 +35,11 @@ namespace Loki.Common
 
                 return stringTypeBuilders[exceptionType](message) as T;
             }
-            else
-            {
-                // check cache
-                BuildTypeConstructorWithStringAndException(exceptionType);
 
-                return fullTypeBuilders[exceptionType](message, innerException) as T;
-            }
+            // check cache
+            BuildTypeConstructorWithStringAndException(exceptionType);
+
+            return fullTypeBuilders[exceptionType](message, innerException) as T;
         }
 
         public T BuildError<T>(string message) where T : Exception
@@ -49,7 +50,7 @@ namespace Loki.Common
         public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
         {
             // log exception
-            Log.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
+            log.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
 
             Type exceptionType = typeof(T);
 
@@ -61,23 +62,21 @@ namespace Loki.Common
 
                 return stringTypeBuilders[exceptionType](string.Format(CultureInfo.InvariantCulture, message, parameters)) as T;
             }
-            else
-            {
-                // check cache
-                BuildTypeConstructorWithStringAndException(exceptionType);
 
-                return fullTypeBuilders[exceptionType](string.Format(CultureInfo.InvariantCulture, message, parameters), innerException) as T;
-            }
+            // check cache
+            BuildTypeConstructorWithStringAndException(exceptionType);
+
+            return fullTypeBuilders[exceptionType](string.Format(CultureInfo.InvariantCulture, message, parameters), innerException) as T;
         }
 
         public T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
         {
-            return this.BuildErrorFormat<T>(null, message, parameters);
+            return BuildErrorFormat<T>(null, message, parameters);
         }
 
         public void LogError(string message, Exception innerException, params object[] parameters)
         {
-            Log.Error(message, innerException);
+            log.Error(message, innerException);
         }
 
         private void BuildTypeConstructorWithString(Type exceptionType)
@@ -93,7 +92,7 @@ namespace Loki.Common
                 }
                 else
                 {
-                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, Log, exceptionType);
+                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, log, exceptionType);
                 }
             }
         }
@@ -112,7 +111,7 @@ namespace Loki.Common
                 }
                 else
                 {
-                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, Log, exceptionType);
+                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, log, exceptionType);
                 }
             }
         }
