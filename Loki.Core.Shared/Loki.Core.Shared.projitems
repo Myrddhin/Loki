@@ -9,5 +9,13 @@
     <Import_RootNamespace>Loki.Core.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IoC\IoCContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\IHandle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\IHandle.Generic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Messages\MessageBus.cs" />
   </ItemGroup>
 </Project>

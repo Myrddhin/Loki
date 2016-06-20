@@ -8,10 +8,10 @@ namespace Loki.Core.Tests.Common
     {
         public MessageBusTest()
         {
-            Component = Context.Get<IMessageComponent>();
+            Component = Context.Resolve<IMessageBus>();
         }
 
-        public IMessageComponent Component { get; private set; }
+        public IMessageBus Component { get; private set; }
 
         [Fact]
         public void TestSimpleMessage()

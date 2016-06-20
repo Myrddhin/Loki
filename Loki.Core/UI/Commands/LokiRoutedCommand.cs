@@ -22,16 +22,15 @@ namespace Loki.UI.Commands
         /// <param name="commands">
         /// Command service component.
         /// </param>
-        /// <param name="messageComponent">
-        /// Messaging component.
+        /// <param name="messageBus">
         /// </param>
         /// <param name="thread">
         /// Threading context.
         /// </param>
-        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageComponent messageComponent, IThreadingContext thread) : base(logger)
+        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageBus messageBus, IThreadingContext thread) : base(logger)
         {
             commandService = commands;
-            messageBus = messageComponent;
+            this.messageBus = messageBus;
             this.threading = thread;
             Name = name;
             lastCanExecute = null;
@@ -51,14 +50,14 @@ namespace Loki.UI.Commands
         /// <value>
         /// The message bus.
         /// </value>
-        private readonly IMessageComponent messageBus;
+        private readonly IMessageBus messageBus;
 
         private readonly IThreadingContext threading;
 
         /// <summary>
         /// Gets the command name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Définit la méthode qui détermine si la commande peut s'exécuter dans son état actuel.

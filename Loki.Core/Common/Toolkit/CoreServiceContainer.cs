@@ -14,7 +14,7 @@ namespace Loki.Common
             logger = new LazyResolver<ILoggerComponent>(context);
             errors = new LazyResolver<IErrorComponent>(context);
             events = new LazyResolver<IEventComponent>(context);
-            messages = new LazyResolver<IMessageComponent>(context);
+            messages = new LazyResolver<IMessageBus>(context);
         }
 
         private Lazy<ILoggerComponent> logger;
@@ -23,7 +23,7 @@ namespace Loki.Common
 
         private Lazy<IEventComponent> events;
 
-        private Lazy<IMessageComponent> messages;
+        private Lazy<IMessageBus> messages;
 
         /// <summary>
         /// Gets the error service.
@@ -65,7 +65,7 @@ namespace Loki.Common
         /// <value>
         /// The message bus.
         /// </value>
-        public IMessageComponent MessageBus
+        public IMessageBus MessageBus
         {
             get
             {

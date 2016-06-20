@@ -6,7 +6,7 @@
 
         IErrorComponent Error { get; }
 
-        IMessageComponent Messages { get; }
+        IMessageBus Messages { get; }
 
         IEventComponent Events { get; }
     }

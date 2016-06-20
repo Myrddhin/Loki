@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+
+using Loki.Common;
 
 namespace Loki.UI
 {

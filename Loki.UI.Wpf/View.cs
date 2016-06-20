@@ -20,9 +20,9 @@ namespace Loki.UI.Wpf
 
         private static ILog log;
 
-        private static IMessageComponent bus;
+        private static IMessageBus bus;
 
-        public static IMessageComponent MessageBus
+        public static IMessageBus MessageBus
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Loki.UI.Wpf
             }
         }
 
-        public static void InitializeViewHelper(ITemplatingEngine templateEngine, ILog logger, IMessageComponent messageBus)
+        public static void InitializeViewHelper(ITemplatingEngine templateEngine, ILog logger, IMessageBus messageBus)
         {
             log = logger;
             engine = templateEngine;

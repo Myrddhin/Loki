@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
+using Loki.Common;
+
 namespace Loki.UI
 {
     public class ContainerOneActive<T> : ContainerBaseWithActiveItem<T> where T : class

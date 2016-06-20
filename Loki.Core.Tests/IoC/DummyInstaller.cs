@@ -1,13 +1,20 @@
-﻿using Loki.IoC;
-using Loki.IoC.Registration;
+﻿using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Castle.Windsor;
 
 namespace Loki.Core.Tests.IoC
 {
-    internal class DummyInstaller : LokiContextInstaller
+    public class DummyInstaller : IWindsorInstaller
     {
-        public override void Install(IObjectContext context)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            context.Register(Element.For<DummyClass>());
+            container.Register(Component.For<DummyClass>());
+            container.Register(Component.For<DummyClass>().Named("Instance"));
+            container.Register(Component.For<DummyTransient>().LifestyleTransient());
+            container.Register(Component.For<DummyDisposable>().LifestyleTransient());
+            container.Register(Component.For<DummyDependant>().LifestyleTransient());
+            container.Register(Component.For<DummyInitializable>());
+            container.Register(Component.For<DummyInitializable>().Named("Instance2"));
         }
     }
 }

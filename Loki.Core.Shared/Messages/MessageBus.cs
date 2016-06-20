@@ -8,7 +8,7 @@ namespace Loki.Common
     /// <summary>
     /// Enables loosely-coupled publication of and subscription to events.
     /// </summary>
-    public class MessageBus : IMessageComponent
+    public class MessageBus : IMessageBus
     {
         private readonly List<Handler> handlers = new List<Handler>();
 
@@ -21,8 +21,12 @@ namespace Loki.Common
         /// Searches the subscribed handlers to check if we have a handler for
         /// the message type supplied.
         /// </summary>
-        /// <param name="messageType">The message type to check with.</param>
-        /// <returns>True if any handler is found, false if not.</returns>
+        /// <param name="messageType">
+        /// The message type to check with.
+        /// </param>
+        /// <returns>
+        /// True if any handler is found, false if not.
+        /// </returns>
         public bool HandlerExistsFor(Type messageType)
         {
             lock (handlers)
@@ -32,14 +36,16 @@ namespace Loki.Common
         }
 
         /// <summary>
-        /// Subscribes an instance to all events declared through implementations of <see cref = "IHandle{T}" />
+        /// Subscribes an instance to all events declared through implementations of <see cref="IHandle{T}"/>
         /// </summary>
-        /// <param name = "subscriber">The instance to subscribe for event publication.</param>
+        /// <param name="subscriber">
+        /// The instance to subscribe for event publication.
+        /// </param>
         public virtual void Subscribe(object subscriber)
         {
             if (subscriber == null)
             {
-                throw new ArgumentNullException("subscriber");
+                throw new ArgumentNullException(nameof(subscriber));
             }
 
             lock (handlers)
@@ -56,12 +62,14 @@ namespace Loki.Common
         /// <summary>
         /// Unsubscribes the instance from all events.
         /// </summary>
-        /// <param name = "subscriber">The instance to unsubscribe.</param>
+        /// <param name="subscriber">
+        /// The instance to unsubscribe.
+        /// </param>
         public virtual void Unsubscribe(object subscriber)
         {
             if (subscriber == null)
             {
-                throw new ArgumentNullException("subscriber");
+                throw new ArgumentNullException(nameof(subscriber));
             }
 
             lock (handlers)
@@ -78,18 +86,22 @@ namespace Loki.Common
         /// <summary>
         /// Publishes a message.
         /// </summary>
-        /// <param name = "message">The message instance.</param>
-        /// <param name = "marshal">Allows the publisher to provide a custom thread marshaller for the message publication.</param>
+        /// <param name="message">
+        /// The message instance.
+        /// </param>
+        /// <param name="marshal">
+        /// Allows the publisher to provide a custom thread marshaller for the message publication.
+        /// </param>
         public virtual void Publish(object message, Action<Action> marshal)
         {
             if (message == null)
             {
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException(nameof(message));
             }
 
             if (marshal == null)
             {
-                throw new ArgumentNullException("marshal");
+                throw new ArgumentNullException(nameof(marshal));
             }
 
             Handler[] toNotify;
@@ -131,7 +143,7 @@ namespace Loki.Common
                 reference = new WeakReference(handler);
 
                 var interfaces = handler.GetType().GetInterfaces()
-                    .Where(x => typeof(IHandle).IsAssignableFrom(x) && x.IsGenericType);
+                    .Where(x => typeof(IHandle).IsAssignableFrom(x) && x.GetTypeInfo().IsGenericType);
 
                 foreach (var @interface in interfaces)
                 {

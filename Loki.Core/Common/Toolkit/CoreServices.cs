@@ -2,7 +2,7 @@
 {
     internal class CoreServices : ICoreServices
     {
-        public CoreServices(ILoggerComponent logger, IErrorComponent error, IMessageComponent message, IEventComponent events)
+        public CoreServices(ILoggerComponent logger, IErrorComponent error, IMessageBus message, IEventComponent events)
         {
             Logger = logger;
             Error = error;
@@ -14,7 +14,7 @@
 
         public IErrorComponent Error { get; private set; }
 
-        public IMessageComponent Messages { get; private set; }
+        public IMessageBus Messages { get; private set; }
 
         public IEventComponent Events { get; private set; }
     }

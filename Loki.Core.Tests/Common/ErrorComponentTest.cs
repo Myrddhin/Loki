@@ -17,9 +17,9 @@ namespace Loki.Core.Tests.Common
             Log = new Mock<ILog>();
             LogMock.Setup(x => x.GetLog(It.IsAny<string>())).Returns(Log.Object);
 
-            Context.Register(Element.For<ILoggerComponent>().Instance(LogMock.Object).AsDefault());
+            Context.OverrideInfrastructureInstance(LogMock.Object);
 
-            Component = Context.Get<IErrorComponent>();
+            Component = Context.Resolve<IErrorComponent>();
         }
 
         public IErrorComponent Component { get; private set; }

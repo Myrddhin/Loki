@@ -18,13 +18,13 @@ namespace Loki.Core.Tests.Common
             Log = new Mock<ILog>();
             LogMock.Setup(x => x.GetLog(It.IsAny<string>())).Returns(Log.Object);
 
-            Context.Register(Element.For<ILoggerComponent>().Instance(LogMock.Object).AsDefault());
+            Context.OverrideInfrastructureInstance(LogMock.Object);
 
             ErrorMock = new Mock<IErrorComponent>();
 
-            Context.Register(Element.For<IErrorComponent>().Instance(ErrorMock.Object).AsDefault());
+            Context.OverrideInfrastructureInstance(ErrorMock.Object);
 
-            Component = Context.Get<IEventComponent>();
+            Component = Context.Resolve<IEventComponent>();
         }
 
         public IEventComponent Component { get; private set; }

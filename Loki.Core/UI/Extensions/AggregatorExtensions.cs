@@ -5,7 +5,7 @@ using Loki.UI;
 namespace Loki.Common
 {
     /// <summary>
-    /// Extensions for <see cref="IMessageComponent"/>.
+    /// Extensions for <see cref="IMessageBus"/>.
     /// </summary>
     public static class EventAggregatorExtensions
     {
@@ -18,7 +18,7 @@ namespace Loki.Common
         /// <param name="message">
         /// The message instance.
         /// </param>
-        public static void PublishOnCurrentThread(this IMessageComponent eventAggregator, object message)
+        public static void PublishOnCurrentThread(this IMessageBus eventAggregator, object message)
         {
             eventAggregator.Publish(message, action => action());
         }
@@ -32,7 +32,7 @@ namespace Loki.Common
         /// <param name="message">
         /// The message instance.
         /// </param>
-        public static void PublishOnBackgroundThread(this IMessageComponent eventAggregator, object message)
+        public static void PublishOnBackgroundThread(this IMessageBus eventAggregator, object message)
         {
             eventAggregator.Publish(message, action => Task.Factory.StartNew(action));
         }
@@ -49,7 +49,7 @@ namespace Loki.Common
         /// <param name="message">
         /// The message instance.
         /// </param>
-        public static void PublishOnUIThread(this IMessageComponent eventAggregator, IThreadingContext thread, object message)
+        public static void PublishOnUIThread(this IMessageBus eventAggregator, IThreadingContext thread, object message)
         {
             eventAggregator.Publish(message, thread.OnUIThread);
         }
@@ -69,7 +69,7 @@ namespace Loki.Common
         /// <returns>
         /// The created task.
         /// </returns>
-        public static Task PublishOnUIThreadAsync(this IMessageComponent eventAggregator, IThreadingContext thread, object message)
+        public static Task PublishOnUIThreadAsync(this IMessageBus eventAggregator, IThreadingContext thread, object message)
         {
             Task task = null;
             eventAggregator.Publish(message, action => task = thread.OnUIThreadAsync(action));

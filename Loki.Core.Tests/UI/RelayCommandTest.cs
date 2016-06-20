@@ -15,7 +15,7 @@ namespace Loki.Core.Tests.UI
             var log = new Mock<ILog>();
             logger.Setup(x => x.GetLog(It.IsAny<string>())).Returns(log.Object);
 
-            var messages = new Mock<IMessageComponent>();
+            var messages = new Mock<IMessageBus>();
 
             var commands = new Mock<ICommandComponent>();
 

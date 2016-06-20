@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+
+using Loki.Common;
 
 namespace Loki.UI
 {
@@ -45,20 +46,28 @@ namespace Loki.UI
         /// <summary>
         /// Activates the specified item.
         /// </summary>
-        /// <param name="item">The item to activate.</param>
+        /// <param name="item">
+        /// The item to activate.
+        /// </param>
         public abstract void ActivateItem(T item);
 
         /// <summary>
         /// Deactivates the specified item.
         /// </summary>
-        /// <param name="item">The item to close.</param>
-        /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
+        /// <param name="item">
+        /// The item to close.
+        /// </param>
+        /// <param name="close">
+        /// Indicates whether or not to close the item after deactivating it.
+        /// </param>
         public abstract void DeactivateItem(T item, bool close);
 
         /// <summary>
         /// Activates the specified item.
         /// </summary>
-        /// <param name="item">The item to activate.</param>
+        /// <param name="item">
+        /// The item to activate.
+        /// </param>
         void IConductor.ActivateItem(object item)
         {
             ActivateItem((T)item);
@@ -67,8 +76,12 @@ namespace Loki.UI
         /// <summary>
         /// Deactivates the specified item.
         /// </summary>
-        /// <param name="item">The item to close.</param>
-        /// <param name="close">Indicates whether or not to close the item after deactivating it.</param>
+        /// <param name="item">
+        /// The item to close.
+        /// </param>
+        /// <param name="close">
+        /// Indicates whether or not to close the item after deactivating it.
+        /// </param>
         void IConductor.DeactivateItem(object item, bool close)
         {
             DeactivateItem((T)item, close);
@@ -77,8 +90,12 @@ namespace Loki.UI
         /// <summary>
         /// Ensures that an item is ready to be activated.
         /// </summary>
-        /// <param name="newItem">New item.</param>
-        /// <returns>The item to be activated.</returns>
+        /// <param name="newItem">
+        /// New item.
+        /// </param>
+        /// <returns>
+        /// The item to be activated.
+        /// </returns>
         protected virtual T EnsureItem(T newItem)
         {
             var node = newItem as IChild;
@@ -93,8 +110,12 @@ namespace Loki.UI
         /// <summary>
         /// Called by a subclass when an activation needs processing.
         /// </summary>
-        /// <param name="item">The item on which activation was attempted.</param>
-        /// <param name="success">If set to <c>true</c> activation was successful.</param>
+        /// <param name="item">
+        /// The item on which activation was attempted.
+        /// </param>
+        /// <param name="success">
+        /// If set to <c>true</c> activation was successful.
+        /// </param>
         protected virtual void OnActivationProcessed(T item, bool success)
         {
             if (item == null)

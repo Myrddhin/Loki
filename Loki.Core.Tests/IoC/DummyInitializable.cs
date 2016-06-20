@@ -1,14 +1,21 @@
-﻿using Loki.UI;
+﻿using System.ComponentModel;
 
 namespace Loki.Core.Tests.IoC
 {
-    public class DummyInitializable : IInitializable
+    public class DummyInitializable : ISupportInitialize
     {
-        public bool IsInitialized { get; private set; }
+        public bool EndDone { get; private set; }
 
-        public void Initialize()
+        public bool BeginDone { get; private set; }
+
+        public void BeginInit()
         {
-            IsInitialized = true;
+            BeginDone = true;
+        }
+
+        public void EndInit()
+        {
+            EndDone = true;
         }
     }
 }

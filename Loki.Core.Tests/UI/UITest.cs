@@ -24,8 +24,8 @@ namespace Loki.Core.Tests.UI
             Error = new Mock<IErrorComponent>();
             Context.Register(Element.For<IErrorComponent>().Instance(Error.Object).AsDefault());
 
-            Messages = new Mock<IMessageComponent>();
-            Context.Register(Element.For<IMessageComponent>().Instance(Messages.Object).AsDefault());
+            Messages = new Mock<IMessageBus>();
+            Context.Register(Element.For<IMessageBus>().Instance(Messages.Object).AsDefault());
         }
 
         public void Dispose()
@@ -67,7 +67,7 @@ namespace Loki.Core.Tests.UI
 
         public Mock<IErrorComponent> Error { get; private set; }
 
-        public Mock<IMessageComponent> Messages { get; private set; }
+        public Mock<IMessageBus> Messages { get; private set; }
 
         public Mock<ILog> Log { get; private set; }
     }

@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="IoC\IoCContainer.cs" />
+    <Compile Include="IoC\LightInjectDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Loki.Core.Universal.rd.xml" />
   </ItemGroup>

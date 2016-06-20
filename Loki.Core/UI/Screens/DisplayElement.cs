@@ -28,7 +28,7 @@ namespace Loki.UI
             }
         }
 
-        public IMessageComponent Bus
+        public IMessageBus Bus
         {
             get
             {
