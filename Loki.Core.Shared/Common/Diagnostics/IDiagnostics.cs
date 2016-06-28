@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace Loki.Common
+namespace Loki.Common.Diagnostics
 {
-    /// <summary>
-    /// Loki error service.
-    /// </summary>
-    public interface IErrorComponent
+    public interface IDiagnostics : IInitializable
     {
+        ILog GetLog(string logName);
+
+        IActivityLog GetActivityLog(string logName);
+
+        Task<string> GetLogDataAsync();
+
         /// <summary>
         /// Builds a new error and log it.
         /// </summary>
@@ -39,13 +43,5 @@ namespace Loki.Common
         /// <param name="message">The message.</param>
         /// <param name="parameters">The parameters.</param>
         T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception;
-
-        /// <summary>
-        /// Logs the error.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="exception">The exception.</param>
-        /// <param name="parameters">The parameters.</param>
-        void LogError(string message, Exception exception, params object[] parameters);
     }
 }

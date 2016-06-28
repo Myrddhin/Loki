@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Commands
 {
     /// <summary>
     /// Loki default command type.
     /// </summary>
-    public class LokiRoutedCommand : LoggableObject, ICommand
+    public class LokiRoutedCommand : BaseObject, ICommand
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LokiRoutedCommand"/> class.
@@ -27,7 +28,7 @@ namespace Loki.UI.Commands
         /// <param name="thread">
         /// Threading context.
         /// </param>
-        public LokiRoutedCommand(string name, ILoggerComponent logger, ICommandComponent commands, IMessageBus messageBus, IThreadingContext thread) : base(logger)
+        public LokiRoutedCommand(string name, IDiagnostics diagnostics, ICommandComponent commands, IMessageBus messageBus, IThreadingContext thread) : base(diagnostics)
         {
             commandService = commands;
             this.messageBus = messageBus;

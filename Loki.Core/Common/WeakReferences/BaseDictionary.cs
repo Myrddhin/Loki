@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
+
+using Loki.Common.Diagnostics;
 using Loki.Core.Resources;
 
 namespace Loki.Common
@@ -25,8 +27,8 @@ namespace Loki.Common
     [DebuggerTypeProxy(Prefix + DebugProxy + Suffix)]
     public abstract class BaseDictionary<TKey, TValue> : BaseObject, IDictionary<TKey, TValue>
     {
-        protected BaseDictionary(ILoggerComponent logger, IErrorComponent errorComponent)
-            : base(logger, errorComponent)
+        protected BaseDictionary(IDiagnostics logger)
+            : base(logger)
         {
         }
 
@@ -240,17 +242,17 @@ namespace Loki.Common
         {
             if (array == null)
             {
-                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest);
+                throw BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopyNullDest);
             }
 
             if (arrayIndex < 0 || arrayIndex > array.Count)
             {
-                throw ErrorManager.BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange);
+                throw BuildError<ArgumentOutOfRangeException>(Errors.Utils_BaseDictionary_CopyIndexOutOfRange);
             }
 
             if ((array.Count - arrayIndex) < source.Count)
             {
-                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest);
+                throw BuildError<ArgumentException>(Errors.Utils_BaseDictionary_CopySmallDest);
             }
 
             foreach (T item in source)

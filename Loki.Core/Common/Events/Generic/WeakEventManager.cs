@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Loki.Common.Diagnostics;
+
 namespace Loki.Common
 {
     internal class WeakEventManager<TEventClass, TEventArgs> : BaseObject, IWeakEventManager<TEventClass, TEventArgs>
@@ -13,13 +15,12 @@ namespace Loki.Common
         private readonly Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> eventUnmapper;
 
         public WeakEventManager(
-            ILoggerComponent loggerComponent,
-            IErrorComponent errorComponent,
+            IDiagnostics loggerComponent,
             Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> mapper,
             Action<TEventClass, WeakEventBridge<TEventClass, TEventArgs>> unmapper)
-            : base(loggerComponent, errorComponent)
+            : base(loggerComponent)
         {
-            sourceToBridgeTable = new WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>>(loggerComponent, errorComponent);
+            sourceToBridgeTable = new WeakDictionary<TEventClass, WeakEventBridge<TEventClass, TEventArgs>>(loggerComponent);
             eventMapper = mapper;
             eventUnmapper = unmapper;
         }

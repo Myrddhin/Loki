@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 using Loki.UI.Commands;
 
 namespace Loki.UI

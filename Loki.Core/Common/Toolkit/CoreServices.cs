@@ -1,21 +1,20 @@
-﻿namespace Loki.Common
+﻿using Loki.Common.Diagnostics;
+
+namespace Loki.Common
 {
     internal class CoreServices : ICoreServices
     {
-        public CoreServices(ILoggerComponent logger, IErrorComponent error, IMessageBus message, IEventComponent events)
+        public CoreServices(IDiagnostics logger,  IMessageBus message, IEventComponent events)
         {
-            Logger = logger;
-            Error = error;
+            Diagnostics = logger;
             Messages = message;
             Events = events;
         }
 
-        public ILoggerComponent Logger { get; private set; }
+        public IDiagnostics Diagnostics { get; }
 
-        public IErrorComponent Error { get; private set; }
+        public IMessageBus Messages { get; }
 
-        public IMessageBus Messages { get; private set; }
-
-        public IEventComponent Events { get; private set; }
+        public IEventComponent Events { get; }
     }
 }

@@ -11,6 +11,7 @@ namespace Loki.Core.Tests.Common
         public CommonTest()
         {
             Context = IoCContainer.DependencyResolverFactory();
+            Context.RegisterAssembly(typeof(IoCContainer).Assembly);
         }
 
         public void Dispose()

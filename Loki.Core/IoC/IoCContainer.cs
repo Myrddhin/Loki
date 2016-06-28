@@ -11,9 +11,9 @@ namespace Loki.Core.IoC
             () => new CastleWindsorDependencyResolver();
 
 
-
-        protected virtual void RegisterInfrastructure()
+        protected void RegisterInfrastructure()
         {
+            this.RegisterInstaller(new Loki.Common.Installers.InfrastructureInstaller());
         }
     }
 }

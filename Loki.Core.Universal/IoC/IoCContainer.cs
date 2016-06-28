@@ -14,7 +14,7 @@ namespace Loki.Core.IoC
         public static Func<IDependencyResolver> DependencyResolverFactory { get; set; } =
             () => new LightInjectDependencyResolver();
 
-        protected virtual void RegisterInfrastructure()
+        protected void RegisterInfrastructure()
         {
         }
     }

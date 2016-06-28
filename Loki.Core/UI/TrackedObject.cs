@@ -13,7 +13,7 @@ namespace Loki.UI
         protected IDisplayServices Services { get; private set; }
 
         public TrackedObject(IDisplayServices services)
-            : base(services.Core.Logger, services.Core.Error)
+            : base(services.Core.Diagnostics)
         {
             Services = services;
             Tracking = true;

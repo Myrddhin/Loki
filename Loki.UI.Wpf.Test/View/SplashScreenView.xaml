@@ -1,17 +1,17 @@
-﻿<dx:DXWindow x:Class="Loki.UI.Wpf.Test.SplashScreenView"
+﻿<Window x:Class="Loki.UI.Wpf.Test.SplashScreenView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
               dx:ThemeManager.ThemeName="DeepBlue"
-        Title="SplashScreenView" Width="450" Height="350" ShowIcon="False" ShowTitle="False" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="SplashScreenView" Width="450" Height="350" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <BitmapImage UriSource="pack://application:,,,/Loki.UI.Wpf.Test;component/Resources/splash.jpeg" x:Key="IMG_Splash" />
     </Window.Resources>
-    <dx:DXWindow.Background>
+    <Window.Background>
         <ImageBrush ImageSource="{StaticResource IMG_Splash}" Stretch="UniformToFill" />
-    </dx:DXWindow.Background>
+    </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -25,4 +25,4 @@
             </dxe:ProgressBarEdit.StyleSettings>
         </dxe:ProgressBarEdit>
     </Grid>
-</dx:DXWindow>
+</Window>

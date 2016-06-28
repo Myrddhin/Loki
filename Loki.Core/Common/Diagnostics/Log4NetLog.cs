@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Loki.Common
+namespace Loki.Common.Diagnostics
 {
     /// <summary>
     /// Logger proxy class.
@@ -26,17 +26,7 @@ namespace Loki.Common
         public void Debug(string message)
         {
             logger.Debug(message);
-        }
-
-        /// <summary>
-        /// Logs the specified debug info.
-        /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        public void Debug(string message, Exception exception)
-        {
-            logger.Debug(message, exception);
-        }
+        }        
 
         /// <summary>
         /// Logs the specified debug info.
@@ -118,16 +108,6 @@ namespace Loki.Common
         /// <summary>
         /// Logs the specified info.
         /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="exception">The exception.</param>
-        public void Info(string message, Exception exception)
-        {
-            logger.Info(message, exception);
-        }
-
-        /// <summary>
-        /// Logs the specified info.
-        /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="args">The Args.</param>
         public void InfoFormat(string message, params object[] args)
@@ -142,16 +122,6 @@ namespace Loki.Common
         public void Warn(string message)
         {
             logger.Warn(message);
-        }
-
-        /// <summary>
-        /// Logs the specified warning.
-        /// </summary>
-        /// <param name="message">The Message.</param>
-        /// <param name="exception">The Exception.</param>
-        public void Warn(string message, Exception exception)
-        {
-            logger.Warn(message, exception);
         }
 
         /// <summary>

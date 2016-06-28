@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+
+using Loki.Common.Diagnostics;
 using Loki.Core.Resources;
 
 namespace Loki.Common
@@ -32,23 +34,23 @@ namespace Loki.Common
 
         private readonly WeakKeyComparer<TKey> internalComparer;
 
-        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent)
-            : this(loggerComponent, errorComponent, 0, null)
+        public WeakDictionary(IDiagnostics loggerComponent)
+            : this(loggerComponent, 0, null)
         {
         }
 
-        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, int capacity)
-            : this(loggerComponent, errorComponent, capacity, null)
+        public WeakDictionary(IDiagnostics loggerComponent, int capacity)
+            : this(loggerComponent,  capacity, null)
         {
         }
 
-        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, IEqualityComparer<TKey> comparer)
-            : this(loggerComponent, errorComponent, 0, comparer)
+        public WeakDictionary(IDiagnostics loggerComponent, IEqualityComparer<TKey> comparer)
+            : this(loggerComponent,  0, comparer)
         {
         }
 
-        public WeakDictionary(ILoggerComponent loggerComponent, IErrorComponent errorComponent, int capacity, IEqualityComparer<TKey> comparer) :
-            base(loggerComponent, errorComponent)
+        public WeakDictionary(IDiagnostics loggerComponent, int capacity, IEqualityComparer<TKey> comparer) :
+            base(loggerComponent)
         {
             this.internalComparer = new WeakKeyComparer<TKey>(comparer);
             this.internalDictionary = new ConcurrentDictionary<WeakKeyReference<TKey>, WeakReference<TValue>>(Environment.ProcessorCount * 2, capacity, this.internalComparer);
@@ -68,7 +70,7 @@ namespace Loki.Common
         {
             if (key == null)
             {
-                throw ErrorManager.BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
+                throw BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
             }
 
             WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);

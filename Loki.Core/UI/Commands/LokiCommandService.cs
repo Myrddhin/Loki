@@ -173,10 +173,7 @@ namespace Loki.UI.Commands
             }
             finally
             {
-                if (creationHandler != null)
-                {
-                    creationHandler.Cut();
-                }
+                creationHandler?.Cut();
             }
 
             return returnHandler;
@@ -289,7 +286,7 @@ namespace Loki.UI.Commands
         /// </returns>
         public ICommand GetCommand(string commandName)
         {
-            var newCommand = new LokiRoutedCommand(commandName, this.services.Logger, this, this.services.Messages, this.threading);
+            var newCommand = new LokiRoutedCommand(commandName, this.services.Diagnostics, this, this.services.Messages, this.threading);
             return commands.GetOrAdd(commandName, newCommand);
         }
 
@@ -304,7 +301,7 @@ namespace Loki.UI.Commands
         /// <param name="threading">
         /// </param>
         public LokiCommandService(ICoreServices services, IThreadingContext threading)
-            : base(services.Logger, services.Error)
+            : base(services.Diagnostics)
         {
             commandHandlers = new ConcurrentDictionary<string, ConcurrentCollection<WeakReference<ICommandHandler>>>();
             commands = new ConcurrentDictionary<string, ICommand>();

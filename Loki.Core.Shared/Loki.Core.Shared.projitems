@@ -9,13 +9,23 @@
     <Import_RootNamespace>Loki.Core.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\Diagnostics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\IActivityLog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\IDiagnostics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\ILog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\ILogFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\LokiException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IInfrastrucure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IInitializable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Infrastructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\BaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IHandle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IHandle.Generic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IMessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\MessageBus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IoCContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Messages\IHandle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Messages\IHandle.Generic.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Messages\IMessageBus.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Messages\MessageBus.cs" />
   </ItemGroup>
 </Project>

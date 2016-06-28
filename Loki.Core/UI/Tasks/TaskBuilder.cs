@@ -6,7 +6,7 @@ using Loki.Common;
 
 namespace Loki.UI.Tasks
 {
-    internal class TaskBuilder : LoggableObject
+    internal class TaskBuilder : BaseObject
     {
         private readonly TaskComponent service;
 

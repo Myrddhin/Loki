@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI
 {
@@ -36,7 +37,7 @@ namespace Loki.UI
             {
                 if (log == null)
                 {
-                    Interlocked.CompareExchange(ref log, services.Logger.GetLog(LoggerName), null);
+                    Interlocked.CompareExchange(ref log, services.Diagnostics.GetLog(LoggerName), null);
                 }
 
                 return log;

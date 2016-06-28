@@ -1,10 +1,10 @@
-﻿namespace Loki.Common
+﻿using Loki.Common.Diagnostics;
+
+namespace Loki.Common
 {
     public interface ICoreServices
     {
-        ILoggerComponent Logger { get; }
-
-        IErrorComponent Error { get; }
+        IDiagnostics Diagnostics { get; }
 
         IMessageBus Messages { get; }
 

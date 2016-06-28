@@ -43,13 +43,11 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Common\BaseObject.cs" />
     <Compile Include="Common\ConcurrentList\IListNode.cs" />
     <Compile Include="Common\ConcurrentList\ConcurrentList.cs" />
     <Compile Include="Common\ConcurrentList\ConcurrentListNode.cs" />
-    <Compile Include="Common\Error\ErrorComponent.cs" />
-    <Compile Include="Common\Error\IErrorComponent.cs" />
-    <Compile Include="Common\Error\LokiException.cs" />
+    <Compile Include="Common\Diagnostics\Diagnostics.cs" />
+    <Compile Include="Common\Diagnostics\Log4NetLogFactory.cs" />
     <Compile Include="Common\Events\Generic\IWeakEventCallback.cs" />
     <Compile Include="Common\Events\Generic\IWeakEventManager.cs" />
     <Compile Include="Common\Events\Generic\WeakEventBridge.cs" />
@@ -63,9 +61,16 @@
     <Compile Include="Common\Extensions\EventExtensions.cs" />
     <Compile Include="Common\ICoreServices.cs" />
     <Compile Include="Common\Toolkit\CoreServices.cs" />
+    <Compile Include="Installers\InfrastructureInstaller.cs" />
     <Compile Include="IoC\CastleWindsorDependencyResolver.cs" />
+    <Compile Include="IoC\CoreInstaller.cs" />
     <Compile Include="IoC\IoCContainer.cs" />
     <Compile Include="IoC\IoCContext.cs" />
+    <Compile Include="Resources\Errors.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Errors.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\CommandBind.cs" />
     <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
@@ -73,11 +78,7 @@
     <Compile Include="Common\Extensions\ThreadingExtensions.cs" />
     <Compile Include="Common\ICentralizedChangeTracking.cs" />
     <Compile Include="Common\INotifyPropertyChangedEx.cs" />
-    <Compile Include="Common\LoggableObject.cs" />
-    <Compile Include="Common\Log\ILog.cs" />
-    <Compile Include="Common\Log\ILoggerComponent.cs" />
-    <Compile Include="Common\Log\Log4NetLog.cs" />
-    <Compile Include="Common\Log\Log4NetLogger.cs" />
+    <Compile Include="Common\Diagnostics\Log4NetLog.cs" />
     <Compile Include="Common\ObservableHelper.cs" />
     <Compile Include="Common\Randomizer.cs" />
     <None Include="packages.config" />
@@ -92,7 +93,6 @@
     <Compile Include="UI\Tasks\ITaskComponent.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.cs" />
     <Compile Include="UI\Tasks\ITaskConfiguration.Generic.cs" />
-    <Compile Include="Common\Toolkit\CoreServiceContainer.cs" />
     <Compile Include="Common\Toolkit\IExtensionType.cs" />
     <Compile Include="Common\Toolkit\ExtensionManager.cs" />
     <None Include="Common\Toolkit\Toolkit.cs" />
@@ -123,11 +123,6 @@
     <Compile Include="IoC\Registration\Property.cs" />
     <Compile Include="IoC\Registration\PropertyKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Errors.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Errors.resx</DependentUpon>
-    </Compile>
     <Compile Include="UI\BindableCollection.cs" />
     <Compile Include="UI\Bootstrapper\BindingEventArgs.cs" />
     <Compile Include="UI\Bootstrapper\CommonBootstrapper.cs" />
@@ -227,14 +222,12 @@
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\Errors.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Errors.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\MessageBus\" />
   </ItemGroup>
   <Import Project="..\Loki.Core.Shared\Loki.Core.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

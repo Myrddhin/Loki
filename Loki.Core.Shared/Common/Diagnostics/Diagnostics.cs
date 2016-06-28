@@ -1,29 +1,58 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using System.Globalization;
+using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 
 using Loki.Core.Resources;
 
-namespace Loki.Common
+namespace Loki.Common.Diagnostics
 {
-    internal class ErrorService : IErrorComponent
+    internal partial class Diagnostics : IDiagnostics
     {
-        private readonly ILog log;
+        private readonly Lazy<ILogFactory> factory = new Lazy<ILogFactory>(LogFactory);
 
-        public ErrorService(ILoggerComponent logManager)
+        private readonly ConcurrentDictionary<string, ILog> logCache = new ConcurrentDictionary<string, ILog>();
+
+        private ILog internalLog;
+
+        public void Initialize()
         {
-            log = logManager.GetLog(nameof(ErrorService));
+            factory.Value.Initialize();
+            internalLog = factory.Value.CreateLog(typeof(Diagnostics).Name);
+        }
+
+        public Task<string> GetLogDataAsync()
+        {
+            return factory.Value.GetLogDataAsync();
+        }
+
+        public bool Initialized => factory.Value.Initialized;
+
+        public ILog GetLog(string logName)
+        {
+            if (logCache.ContainsKey(logName))
+            {
+                return logCache[logName];
+            }
+
+            return this.logCache.AddOrUpdate(logName, this.factory.Value.CreateLog(logName), (x, l) => l);
+        }
+
+        public IActivityLog GetActivityLog(string logName)
+        {
+            throw new NotImplementedException();
         }
 
         private readonly ConcurrentDictionary<Type, Func<string, Exception, Exception>> fullTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception, Exception>>();
+
         private readonly ConcurrentDictionary<Type, Func<string, Exception>> stringTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception>>();
 
         public T BuildError<T>(string message, Exception innerException) where T : Exception
         {
             // log exception
-            log.Error(message, innerException);
+            internalLog.Error(message, innerException);
 
             Type exceptionType = typeof(T);
 
@@ -50,7 +79,7 @@ namespace Loki.Common
         public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
         {
             // log exception
-            log.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
+            internalLog.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
 
             Type exceptionType = typeof(T);
 
@@ -76,7 +105,7 @@ namespace Loki.Common
 
         public void LogError(string message, Exception innerException, params object[] parameters)
         {
-            log.Error(message, innerException);
+            internalLog.Error(message, innerException);
         }
 
         private void BuildTypeConstructorWithString(Type exceptionType)
@@ -92,7 +121,7 @@ namespace Loki.Common
                 }
                 else
                 {
-                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, log, exceptionType);
+                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, internalLog, exceptionType);
                 }
             }
         }
@@ -111,7 +140,7 @@ namespace Loki.Common
                 }
                 else
                 {
-                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, log, exceptionType);
+                    throw BuildErrorFormat<ArgumentException>(Errors.Error_InvalidExceptionType, internalLog, exceptionType);
                 }
             }
         }

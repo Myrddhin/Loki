@@ -3,7 +3,7 @@
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainView : DevExpress.Xpf.Core.DXWindow
+    public partial class MainView 
     {
         public MainView()
         {

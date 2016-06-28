@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Loki.Common
+namespace Loki.Common.Diagnostics
 {
-    /// <summary>
-    /// Interface for loggers.
-    /// </summary>
     public interface ILog
     {
         #region Debug
@@ -39,7 +35,6 @@ namespace Loki.Common
         /// <param name="message">
         /// The Message.
         /// </param>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
         void Error(string message);
 
         /// <summary>
@@ -51,7 +46,6 @@ namespace Loki.Common
         /// <param name="exception">
         /// The Exception.
         /// </param>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Error", Justification = "Log standard pattern")]
         void Error(string message, Exception exception);
 
         /// <summary>
@@ -66,40 +60,6 @@ namespace Loki.Common
         void ErrorFormat(string message, params object[] args);
 
         #endregion Error
-
-        #region Fatal
-
-        /// <summary>
-        /// Logs the specified fatal error.
-        /// </summary>
-        /// <param name="message">
-        /// The Message.
-        /// </param>
-        void Fatal(string message);
-
-        /// <summary>
-        /// Logs the specified fatal error.
-        /// </summary>
-        /// <param name="message">
-        /// The Message.
-        /// </param>
-        /// <param name="exception">
-        /// The Exception.
-        /// </param>
-        void Fatal(string message, Exception exception);
-
-        /// <summary>
-        /// Logs the specified fatal error.
-        /// </summary>
-        /// <param name="message">
-        /// The Message.
-        /// </param>
-        /// <param name="args">
-        /// The Args.
-        /// </param>
-        void FatalFormat(string message, params object[] args);
-
-        #endregion Fatal
 
         #region Info
 

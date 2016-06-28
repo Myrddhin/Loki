@@ -21,7 +21,7 @@ namespace Loki.UI
         private readonly ICommand navigationCommand;
 
         public NavigationService(ICoreServices services, IThreadingContext threading, ICommandComponent commands)
-            : base(services.Logger, services.Error)
+            : base(services.Diagnostics)
         {
             this.services = services;
             this.threading = threading;

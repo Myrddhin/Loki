@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Loki.Common.Diagnostics;
+
 namespace Loki.Common
 {
     public class WeakNotifyPropertyManager<TEventInterface, TEventArgs> : BaseObject, IWeakEventPropertyManager<TEventInterface, TEventArgs>
@@ -12,18 +14,17 @@ namespace Loki.Common
         private readonly WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> sourceToBridgeTable;
 
         public WeakNotifyPropertyManager(
-            ILoggerComponent loggerComponent,
-            IErrorComponent errorComponent,
+            IDiagnostics loggerComponent,
             Func<TEventArgs, string> propertyNameGetter,
             Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> subscribeMapper,
             Action<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>> unsubscribeMapper)
-            : base(loggerComponent, errorComponent)
+            : base(loggerComponent)
         {
             nameGetter = propertyNameGetter;
             unsubscribeCallback = unsubscribeMapper;
             subscribeCallback = subscribeMapper;
 
-            sourceToBridgeTable = new WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>>(loggerComponent, errorComponent);
+            sourceToBridgeTable = new WeakDictionary<TEventInterface, WeakNotifyPropertyBridge<TEventInterface, TEventArgs>>(loggerComponent);
         }
 
         public void Register<TListener>(TEventInterface source, string propertyName, TListener listener, Action<TListener, object, TEventArgs> propertyChangedCallback)

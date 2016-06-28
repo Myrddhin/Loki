@@ -10,8 +10,6 @@ namespace Loki.UI
     {
         private readonly BindableCollection<T> items;
 
-        private readonly bool openPublicItems;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ContainerAllActive&lt;T&gt;"/> class.
         /// </summary>
@@ -188,22 +186,6 @@ namespace Loki.UI
             if (close)
             {
                 items.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Called when initializing.
-        /// </summary>
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            if (openPublicItems)
-            {
-                GetType().GetProperties()
-                    .Where(x => x.Name != "Parent" && typeof(T).IsAssignableFrom(x.PropertyType))
-                    .Select(x => x.GetValue(this, null))
-                    .Cast<T>()
-                    .Apply(ActivateItem);
             }
         }
 
