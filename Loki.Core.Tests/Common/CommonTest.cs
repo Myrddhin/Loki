@@ -1,16 +1,16 @@
 ﻿using System;
 
-using Loki.Core.IoC;
+using Loki.Common.IoC;
 
-namespace Loki.Core.Tests.Common
+namespace Loki.Common.Tests
 {
     public class CommonTest : IDisposable
     {
-        protected IDependencyResolver Context { get; private set; }
+        protected IoCContainer Context { get; private set; }
 
         public CommonTest()
         {
-            Context = IoCContainer.DependencyResolverFactory();
+            Context = new IoCContainer(true);
             Context.RegisterAssembly(typeof(IoCContainer).Assembly);
         }
 

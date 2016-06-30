@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Loki.Core.Tests.IoC
+namespace Loki.Common.IoC.Tests
 {
     public class DummyInitializable : ISupportInitialize
     {

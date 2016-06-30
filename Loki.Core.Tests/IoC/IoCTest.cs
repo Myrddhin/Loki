@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Loki.Core.IoC;
+using Loki.Common.IoC;
 
 using Xunit;
 
-namespace Loki.Core.Tests.IoC
+namespace Loki.Common.IoC.Tests
 {
     public class IoCTest
     {
         [Fact(DisplayName = "Singleton as default lifetime")]
         public void SingletonAsDefault()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             var instance1 = ctx.Resolve<DummyClass>();
@@ -36,7 +36,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Contexts tracks no reference of transients POCO")]
         public void TransientNoDisposeNorDependecyNoTrack()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             WeakReference<DummyTransient> reference = null;
@@ -58,7 +58,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Release objects remove references")]
         public void ReleaseReferences()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             WeakReference<DummyDisposable> reference = null;
@@ -80,7 +80,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Contexts tracks reference of transients disposables")]
         public void TransientDisposeDependecyTrack()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             WeakReference<DummyDisposable> reference = null;
@@ -101,7 +101,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Contexts tracks reference of transients with disposables depdendencies")]
         public void TransientDependecyTrack()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             WeakReference<DummyDependant> reference = null;
@@ -122,7 +122,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Named registration")]
         public void NamedRegistration()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
 
             var item = ctx.Resolve<DummyClass>("Instance");
@@ -134,7 +134,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Initialisable types are initialized (simple)")]
         public void CorrectInitializeSimple()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
             var init = ctx.Resolve<DummyInitializable>();
             Assert.True(init.BeginDone);
@@ -144,7 +144,7 @@ namespace Loki.Core.Tests.IoC
         [Fact(DisplayName = "Initialisable types are initialized (named)")]
         public void CorrectInitializeNamed()
         {
-            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            var ctx = new IoCContainer(false);
             ctx.RegisterInstaller(new DummyInstaller());
             var init = ctx.Resolve<DummyInitializable>("Instance2");
             Assert.True(init.BeginDone);

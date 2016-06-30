@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 using Loki.Common.Diagnostics;
-using Loki.Core.Resources;
+using Loki.Common.Resources;
 
 namespace Loki.Common
 {

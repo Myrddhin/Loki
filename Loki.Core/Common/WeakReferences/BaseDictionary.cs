@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 
 using Loki.Common.Diagnostics;
-using Loki.Core.Resources;
+using Loki.Common.Resources;
 
 namespace Loki.Common
 {

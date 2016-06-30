@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 
-using Loki.Core.Resources;
+using Loki.Common.Resources;
 
 namespace Loki.Common.Diagnostics
 {
@@ -101,11 +101,6 @@ namespace Loki.Common.Diagnostics
         public T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
         {
             return BuildErrorFormat<T>(null, message, parameters);
-        }
-
-        public void LogError(string message, Exception innerException, params object[] parameters)
-        {
-            internalLog.Error(message, innerException);
         }
 
         private void BuildTypeConstructorWithString(Type exceptionType)

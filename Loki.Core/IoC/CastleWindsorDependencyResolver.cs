@@ -6,7 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 
-namespace Loki.Core.IoC
+namespace Loki.Common.IoC
 {
     public sealed class CastleWindsorDependencyResolver : IDependencyResolver
     {

@@ -1,6 +1,6 @@
 ﻿using Loki.Common;
 
-namespace Loki.Core.Tests.Common
+namespace Loki.Common.Tests
 {
     public class SimpleMessageListener : IHandle<SimpleMessage>
     {

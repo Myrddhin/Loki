@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Loki.Core.IoC
+namespace Loki.Common.IoC
 {
     public interface IDependencyResolver : IDisposable
     {

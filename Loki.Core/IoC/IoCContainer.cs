@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Core.IoC
+namespace Loki.Common.IoC
 {
     /// <summary>
     /// IoC Container class.

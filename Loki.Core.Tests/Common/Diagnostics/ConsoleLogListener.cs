@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Loki.Core.Tests.Common.Diagnostics
+namespace Loki.Common.Diagnostics.Tests
 {
     public static class ConsoleLogListener
     {

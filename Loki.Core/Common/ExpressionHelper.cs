@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
-using Loki.Core.Resources;
+using Loki.Common.Resources;
 
 namespace Loki.Common
 {

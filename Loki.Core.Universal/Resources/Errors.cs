@@ -17,10 +17,10 @@
 // 	This code contains a helper class exposing property representations
 // 	of the string resources defined in the specified .ResW file
 // 
-// 	Generated: 06/27/2016 23:06:39
+// 	Generated: 06/30/2016 23:56:53
 // </auto-generatedInfo>
 // --------------------------------------------------------------------------------------------------
-namespace Loki.Core.Resources
+namespace Loki.Common.Resources
 {
     using Windows.ApplicationModel.Resources;
     

@@ -7,7 +7,7 @@
     <ProjectGuid>{96B7D521-1224-4732-B419-A92922C895AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Loki.Core</RootNamespace>
+    <RootNamespace>Loki.Common</RootNamespace>
     <AssemblyName>Loki.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OutputPath>..\Build\$(Configuration)\net45\</OutputPath>
