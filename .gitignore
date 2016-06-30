@@ -53,3 +53,4 @@ Loki.Core_
 Build/
 *.bak
 /.vs/config
+/packages
