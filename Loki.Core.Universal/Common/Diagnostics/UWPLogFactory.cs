@@ -17,6 +17,11 @@ namespace Loki.Common.Diagnostics
             throw new NotImplementedException();
         }
 
+        public IActivityLog CreateActivityLog(string activityName)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<string> GetLogDataAsync()
         {
             throw new NotImplementedException();
