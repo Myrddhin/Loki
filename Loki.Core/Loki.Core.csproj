@@ -44,6 +44,7 @@
     <Compile Include="Common\ConcurrentList\IListNode.cs" />
     <Compile Include="Common\ConcurrentList\ConcurrentList.cs" />
     <Compile Include="Common\ConcurrentList\ConcurrentListNode.cs" />
+    <Compile Include="Common\Diagnostics\Log4NetActivityLog.cs" />
     <Compile Include="Common\Diagnostics\Diagnostics.cs" />
     <Compile Include="Common\Diagnostics\Log4NetLogFactory.cs" />
     <Compile Include="Common\Events\Generic\IWeakEventCallback.cs" />

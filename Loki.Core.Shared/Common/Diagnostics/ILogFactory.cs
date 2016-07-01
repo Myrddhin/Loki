@@ -9,6 +9,8 @@ namespace Loki.Common.Diagnostics
     {
         ILog CreateLog(string logName);
 
+        IActivityLog CreateActivityLog(string activityName);
+
         Task<string> GetLogDataAsync();
     }
 }

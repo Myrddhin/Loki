@@ -42,7 +42,7 @@ namespace Loki.Common.Diagnostics
 
         public IActivityLog GetActivityLog(string logName)
         {
-            throw new NotImplementedException();
+            return factory.Value.CreateActivityLog(logName);
         }
 
         private readonly ConcurrentDictionary<Type, Func<string, Exception, Exception>> fullTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception, Exception>>();

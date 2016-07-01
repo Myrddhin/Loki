@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,13 +16,18 @@ namespace Loki.Common.Diagnostics
             return new Log4NetLog(logName);
         }
 
+        public IActivityLog CreateActivityLog(string activityName)
+        {
+            return new Log4NetActivityLog(activityName);
+        }
+
         public Task<string> GetLogDataAsync()
         {
             var rootAppender = ((Hierarchy)LogManager.GetRepository())
                                          .Root.Appenders.OfType<FileAppender>()
                                          .FirstOrDefault();
 
-            var fileName= rootAppender != null ? rootAppender.File : string.Empty;
+            var fileName = rootAppender != null ? rootAppender.File : string.Empty;
 
             if (!File.Exists(fileName))
             {

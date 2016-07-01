@@ -92,6 +92,7 @@
     <Compile Include="Common\Diagnostics\ConsoleLogListener.cs" />
     <Compile Include="Common\Diagnostics\DiagnosticsTest.cs" />
     <None Include="Common\EventComponentTest.cs" />
+    <Compile Include="Common\Diagnostics\InvalidException.cs" />
     <Compile Include="Common\EventListener.cs" />
     <None Include="Common\LoggerComponentTest.cs" />
     <Compile Include="Common\MessageBusTest.cs" />

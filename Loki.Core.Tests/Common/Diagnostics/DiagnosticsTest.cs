@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using Loki.Common.Tests;
 
@@ -16,9 +17,29 @@ namespace Loki.Common.Diagnostics.Tests
             Component.Initialize();
         }
 
+        #region Activity log
+
+        [Fact(DisplayName = "Activity log")]
+        public void ActivityLog()
+
+        {
+            ConsoleLogListener.StartCapture();
+            using (var x = Component.GetActivityLog("Activity"))
+            {
+                Assert.True(ConsoleLogListener.Present("Start"));
+                x.Info("Doing");
+            }
+
+            Assert.True(ConsoleLogListener.Present("End"));
+
+            ConsoleLogListener.EndCapture();
+        }
+
+        #endregion Activity log
+
         #region Log Test
 
-        [Fact]
+        [Fact(DisplayName = "Log Info format")]
         public void LogLevelInfoFormat()
         {
             var log = Component.GetLog("TestLog");
@@ -33,7 +54,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present(string.Format("Hello {0}", 1)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Warn format")]
         public void LogLevelWarnFormat()
         {
             var log = Component.GetLog("TestLog");
@@ -48,7 +69,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present(string.Format("Hello {0}", 1)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Error format")]
         public void LogLevelErrorFormat()
         {
             var log = Component.GetLog("TestLog");
@@ -63,7 +84,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present(string.Format("Hello {0}", 1)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Debug format")]
         public void LogLevelDebugFormat()
         {
             var log = Component.GetLog("TestLog");
@@ -78,7 +99,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present(string.Format("Hello {0}", 1)));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Debug")]
         public void LogLevelDebug()
         {
             var log = Component.GetLog("TestLog");
@@ -92,7 +113,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present("DEBUG"));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Error")]
         public void LogLevelError()
         {
             var log = Component.GetLog("TestLog");
@@ -106,7 +127,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present("ERROR"));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Info")]
         public void LogLeveInfo()
         {
             var log = Component.GetLog("TestLog");
@@ -120,7 +141,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present("INFO"));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log Warn")]
         public void LogLevelWarn()
         {
             var log = Component.GetLog("TestLog");
@@ -134,7 +155,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present("WARN"));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Log object is a singleton by name")]
         public void LogNameSingleton()
         {
             var log1 = Component.GetLog("TestLog");
@@ -147,7 +168,54 @@ namespace Loki.Common.Diagnostics.Tests
 
         #region Build error test
 
-        [Fact]
+        [Fact(DisplayName = "Error when the exception type has no constructor with string")]
+        public void InvalidExceptionType()
+        {
+            Assert.Throws<ArgumentException>(() => Component.BuildError<InvalidException>("o"));
+        }
+
+        [Fact(DisplayName = "Error when the exception type has no constructor with string and exception")]
+        public void InvalidExceptionTypeWithInner()
+        {
+            Assert.Throws<ArgumentException>(() => Component.BuildError<InvalidException>("o", new ApplicationException()));
+        }
+
+        [Fact(DisplayName = "Exception formatted message is logged with Error level")]
+        public void BuildExecptionFormat()
+        {
+            ConsoleLogListener.StartCapture();
+
+            var ex = Component.BuildErrorFormat<ApplicationException>("Hello {0}", 1);
+
+            ConsoleLogListener.EndCapture();
+
+            Assert.True(ConsoleLogListener.Present("ERROR"));
+            Assert.True(ConsoleLogListener.Present(string.Format(CultureInfo.InvariantCulture, "Hello {0}", 1)));
+        }
+
+        [Fact(DisplayName = "Inner exception is logged with Error level when present (with format)")]
+        public void BuildExecptionFormatWithInner()
+        {
+            ConsoleLogListener.StartCapture();
+
+            var inner = new ApplicationException("Inner message");
+
+            var ex = Component.BuildErrorFormat<ApplicationException>(inner, "Hello {0}", 1);
+
+            ConsoleLogListener.EndCapture();
+
+            Assert.True(ConsoleLogListener.Present(inner.ToString()));
+        }
+
+        [Fact(DisplayName = "Exception builded is of the required type")]
+        public void BuildExceptionCheckType()
+        {
+            var ex = Component.BuildError<ApplicationException>("Test");
+
+            Assert.IsType<ApplicationException>(ex);
+        }
+
+        [Fact(DisplayName = "Exception message is logged with Error level")]
         public void BuildExceptionLogError()
         {
             ConsoleLogListener.StartCapture();
@@ -160,7 +228,7 @@ namespace Loki.Common.Diagnostics.Tests
             Assert.True(ConsoleLogListener.Present(ex.Message));
         }
 
-        [Fact]
+        [Fact(DisplayName = "Inner exception is logged with Error level when present")]
         public void BuildExceptionLogErrorWithInner()
         {
             ConsoleLogListener.StartCapture();
@@ -176,7 +244,7 @@ namespace Loki.Common.Diagnostics.Tests
 
         #endregion Build error test
 
-        [Fact]
+        [Fact(DisplayName = "Component is initialized when resolved")]
         public void InitializedAtStart()
         {
             Assert.True(Component.Initialized);
