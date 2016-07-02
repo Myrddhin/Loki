@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Loki.Common.IoC.Tests
 {
+    [Trait("Category", "IoC")]
     public class IoCTest
     {
         [Fact(DisplayName = "Singleton as default lifetime")]

@@ -54,3 +54,5 @@ Build/
 *.bak
 /.vs/config
 /packages
+*.user
+/Build
