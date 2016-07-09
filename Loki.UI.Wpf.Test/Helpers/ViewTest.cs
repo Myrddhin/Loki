@@ -40,6 +40,7 @@ namespace Loki.UI
         #region ExecuteOnLoad
 
         [WpfFact(DisplayName = "Execute immediately when loaded")]
+        [DomainNeedsDispatcherCleanup]
         public void AfterLoadExecute()
         {
             bool raised = false;

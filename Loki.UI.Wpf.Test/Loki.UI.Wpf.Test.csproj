@@ -51,6 +51,7 @@
     <Compile Include="Helpers\ViewTest.cs" />
     <Compile Include="Models\NotifyPropertyChangedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\DispatcherCleanupAttribute.cs" />
     <Compile Include="Tools\WpfFactAttribute.cs" />
     <Compile Include="Tools\WpfFactDiscover.cs" />
     <Compile Include="Tools\WpfTestCase.cs" />
