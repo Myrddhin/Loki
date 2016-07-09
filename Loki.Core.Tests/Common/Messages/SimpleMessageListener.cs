@@ -1,6 +1,6 @@
 ﻿using Loki.Common;
 
-namespace Loki.Common.Tests
+namespace Loki.Common.Messages
 {
     public class SimpleMessageListener : IHandle<SimpleMessage>
     {
@@ -9,6 +9,9 @@ namespace Loki.Common.Tests
         public void Handle(SimpleMessage message)
         {
             Received = true;
+            ReceiveCount++;
         }
+
+        public int ReceiveCount { get; set; }
     }
 }

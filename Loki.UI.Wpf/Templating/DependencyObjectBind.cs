@@ -4,7 +4,7 @@ using Loki.Common;
 
 namespace Loki.UI.Wpf.Binds
 {
-    public class DependencyObjectBind<TComponent> : LoggableObject where TComponent : DependencyObject
+    public class DependencyObjectBind<TComponent> : BaseObject where TComponent : DependencyObject
     {
         protected TComponent Component { get; private set; }
 
@@ -14,7 +14,7 @@ namespace Loki.UI.Wpf.Binds
 
         protected IThreadingContext Threading { get; private set; }
 
-        public DependencyObjectBind(ICoreServices services, IThreadingContext threading, TComponent component, object viewModel) : base(services.Logger)
+        public DependencyObjectBind(ICoreServices services, IThreadingContext threading, TComponent component, object viewModel) : base(services.Diagnostics)
         {
             Services = services;
             Threading = threading;

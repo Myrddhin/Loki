@@ -1,8 +1,11 @@
-﻿using Loki.Common;
+﻿using System;
+using System.Threading.Tasks;
+
+using Loki.Common.Tests;
 
 using Xunit;
 
-namespace Loki.Common.Tests
+namespace Loki.Common.Messages
 {
     [Trait("Category", "Message bus")]
     public class MessageBusTest : CommonTest
@@ -13,6 +16,58 @@ namespace Loki.Common.Tests
         }
 
         public IMessageBus Component { get; private set; }
+
+        [Fact(DisplayName = "Multi registration : only one effective")]
+        public void SubscribeWithNoHandlers()
+        {
+
+            var multi = new SimpleMessageListener();
+            Component.Subscribe(multi);
+            Component.Subscribe(multi);
+
+            Component.PublishOnCurrentThread(new SimpleMessage());
+
+            Assert.Equal(1, multi.ReceiveCount);
+        }
+
+        [Fact(DisplayName = "Dead handlers subscribing")]
+        public void DeadReceiver()
+        {
+            WeakReference<SimpleMessageListener> reference = null;
+            var task = Task.Factory.StartNew(
+                () =>
+                    {
+                        var receiver = new SimpleMessageListener();
+                        reference = new WeakReference<SimpleMessageListener>(receiver);
+                        Component.Subscribe(receiver);
+                    });
+
+            Task.WaitAll(task);
+            GC.Collect();
+            SimpleMessageListener buffer;
+            Assert.False(reference.TryGetTarget(out buffer));
+
+            Component.Publish(new object(), a => a());
+        }
+
+        [Fact(DisplayName = "Publish with argument null")]
+        public void PublishNullProtecttion()
+        {
+            Assert.Throws<ArgumentNullException>(() => Component.Publish(new object(), null));
+            Assert.Throws<ArgumentNullException>(() => Component.Publish(null, a => { }));
+        }
+
+        [Fact(DisplayName = "Subscribe with argument null")]
+        public void SubscribeNullProtection()
+        {
+            Assert.Throws<ArgumentNullException>(() => Component.Subscribe(null));
+        }
+
+        [Fact(DisplayName = "UnSubscribe with argument null")]
+        public void UnsubscribeNullProtection()
+        {
+            Assert.Throws<ArgumentNullException>(() => Component.Unsubscribe(null));
+        }
 
         [Fact(DisplayName = "Simple message reception")]
         public void TestSimpleMessage()

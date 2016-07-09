@@ -51,7 +51,7 @@ namespace Loki.Common
         {
             Type type = typeof(TTarget);
 
-            ConstructorInfo builder = type.GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, Type.DefaultBinder, Type.EmptyTypes, null);
+            ConstructorInfo builder = type.GetConstructor(Type.EmptyTypes);
             if (builder == null)
             {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, Errors.Utils_ExpressionHelper_NoConstructor, type.FullName));
@@ -61,18 +61,8 @@ namespace Loki.Common
         }
 
         public static bool HasDefaultConstructor(Type type)
-        {
-            if (type.IsPrimitive)
-            {
-                return true;
-            }
-
-            if (type.GetConstructor(BindingFlags.Public | BindingFlags.Instance | BindingFlags.CreateInstance, null, new Type[0], null) != null)
-            {
-                return true;
-            }
-
-            return false;
+        {  
+            return type.GetConstructor(Type.EmptyTypes) != null;
         }
     }
 }

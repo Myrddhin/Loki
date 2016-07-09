@@ -91,12 +91,12 @@ namespace Loki.UI.Tasks
         public ITaskConfiguration<TArgs, TResult> CreateTask<TArgs, TResult>(string title, Func<TArgs, Task<TResult>> workAction, Action<TResult> callbackAction, Action<Exception> errorAction)
         {
             throw new NotImplementedException();
-            var config = new TaskConfiguration<TArgs, TResult>(this);
-            config.Title = title;
-            config.Worker = workAction;
-            config.Callback = callbackAction;
-            config.Error = errorAction;
-            return config;
+            //var config = new TaskConfiguration<TArgs, TResult>(this);
+            //config.Title = title;
+            //config.Worker = workAction;
+            //config.Callback = callbackAction;
+            //config.Error = errorAction;
+            //return config;
         }
 
         public ITaskConfiguration<TArgs, TResult> CreateCancellableTask<TArgs, TResult>(string title, Func<TArgs, CancellationToken, TResult> workAction, Action<TResult> callbackAction, Action<Exception> errorAction)

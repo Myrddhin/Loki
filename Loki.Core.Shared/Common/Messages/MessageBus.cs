@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Loki.Common
+namespace Loki.Common.Messages
 {
     /// <summary>
     /// Enables loosely-coupled publication of and subscription to events.
@@ -11,11 +11,6 @@ namespace Loki.Common
     public class MessageBus : IMessageBus
     {
         private readonly List<Handler> handlers = new List<Handler>();
-
-        /// <summary>
-        /// Processing of handler results on publication thread.
-        /// </summary>
-        private static readonly Action<object, object> HandlerResultProcessing = (target, result) => { };
 
         /// <summary>
         /// Searches the subscribed handlers to check if we have a handler for
@@ -170,11 +165,8 @@ namespace Loki.Common
                 {
                     if (pair.Key.IsAssignableFrom(messageType))
                     {
-                        var result = pair.Value.Invoke(target, new[] { message });
-                        if (result != null)
-                        {
-                            HandlerResultProcessing(target, result);
-                        }
+                        pair.Value.Invoke(target, new[] { message });
+                       
                     }
                 }
 

@@ -54,6 +54,10 @@
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.5.10\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -95,12 +99,13 @@
     <Compile Include="Common\Diagnostics\InvalidException.cs" />
     <Compile Include="Common\EventListener.cs" />
     <None Include="Common\LoggerComponentTest.cs" />
-    <Compile Include="Common\MessageBusTest.cs" />
+    <Compile Include="Common\Messages\MessageBusTest.cs" />
     <Compile Include="Common\NotifyCanExecuteChangedRaiser.cs" />
     <Compile Include="Common\NotifyPropertyChangedRaiser.cs" />
-    <Compile Include="Common\SimpleMessage.cs" />
-    <Compile Include="Common\SimpleMessageListener.cs" />
+    <Compile Include="Common\Messages\SimpleMessage.cs" />
+    <Compile Include="Common\Messages\SimpleMessageListener.cs" />
     <None Include="Common\WeakDictionnaryTest.cs" />
+    <Compile Include="Common\Tools\ExpressionHelperTest.cs" />
     <Compile Include="IoC\DummyTransient.cs" />
     <Compile Include="IoC\DummyClass.cs" />
     <Compile Include="IoC\DummyDependant.cs" />

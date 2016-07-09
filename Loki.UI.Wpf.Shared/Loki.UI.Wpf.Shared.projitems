@@ -9,5 +9,7 @@
     <Import_RootNamespace>Loki.UI.Wpf.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Platform\WPFPlatform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View.cs" />
   </ItemGroup>
 </Project>

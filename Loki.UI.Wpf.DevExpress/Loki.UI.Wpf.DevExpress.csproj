@@ -55,7 +55,7 @@
     <Compile Include="Controls\DefaultItemTemplate.cs" />
     <Compile Include="ExtendedProperties\GridBinder.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
-    <Compile Include="Services\DevExpressWpfSplashBootstrapper.cs" />
+    <None Include="Services\DevExpressWpfSplashBootstrapper.cs" />
     <Compile Include="Services\DevExpressWpfTemplatingEngine.cs" />
     <Compile Include="Services\DevExpressWpfWindowManager.cs" />
     <Compile Include="Controls\LoadingDecorator.cs" />
@@ -90,6 +90,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="..\Loki.UI.Shared\Loki.UI.Shared.projitems" Label="Shared" />
+  <Import Project="..\Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Common.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

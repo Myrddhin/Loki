@@ -1,4 +1,5 @@
-﻿using Loki.IoC;
+﻿using Loki.Common.Messages;
+using Loki.IoC;
 using Loki.IoC.Registration;
 
 namespace Loki.Common

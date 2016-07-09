@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.Common
+namespace Loki.Common.Messages
 {
     /// <summary>
     ///   Enables loosely-coupled publication of and subscription to events.

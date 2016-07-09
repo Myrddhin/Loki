@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
+using Loki.Common.Messages;
 
 namespace Loki.UI.Wpf
 {

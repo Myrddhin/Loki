@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 
+using Loki.Common.Messages;
 using Loki.UI;
 
 namespace Loki.Common

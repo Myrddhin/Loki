@@ -1,4 +1,4 @@
-﻿namespace Loki.Common.Tests
+﻿namespace Loki.Common.Messages
 {
     public class SimpleMessage
     {

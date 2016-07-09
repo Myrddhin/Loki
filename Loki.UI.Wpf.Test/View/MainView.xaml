@@ -1,9 +1,0 @@
-﻿<Window
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:loki="clr-namespace:Loki.UI.Wpf;assembly=Loki.UI.Wpf"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="Loki.UI.Wpf.Test.MainView"
-    Title="MainWindow" WindowState="Maximized">
-  
-</Window>

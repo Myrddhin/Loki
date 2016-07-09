@@ -2,6 +2,7 @@
 using System.Windows;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 using Loki.UI.Wpf.Resources;
 
 namespace Loki.UI.Wpf
@@ -12,7 +13,7 @@ namespace Loki.UI.Wpf
 
         private readonly IWindowManager windows;
 
-        public WpfSignalManager(ILoggerComponent logManager, IErrorComponent errorManager, IThreadingContext threading, IWindowManager windows) : base(logManager, errorManager)
+        public WpfSignalManager(IDiagnostics diagnostics, IThreadingContext threading, IWindowManager windows) : base(diagnostics)
         {
             this.threading = threading;
             this.windows = windows;
@@ -54,7 +55,7 @@ namespace Loki.UI.Wpf
             }
             else
             {
-                ErrorMessageBox.Show(threading, ErrorManager.BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
+                ErrorMessageBox.Show(threading, BuildError<LokiException>(ErrorMessages.Application_UnhandledException, exception), imperative);
             }
 
             if (imperative)

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Loki.Common.Diagnostics;
+using Loki.Common.Messages;
 
 namespace Loki.Common
 {
     public interface IInfrastrucure
     {
         IMessageBus MessageBus { get; }
+
+        IDiagnostics Diagnostics { get; }
     }
 }

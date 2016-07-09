@@ -2,6 +2,7 @@
 
 using Loki.Common;
 using Loki.Common.Diagnostics;
+using Loki.Common.Messages;
 using Loki.UI.Commands;
 
 namespace Loki.UI

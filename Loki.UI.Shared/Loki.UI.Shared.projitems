@@ -9,5 +9,11 @@
     <Import_RootNamespace>Loki.UI.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\Shell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IPlatform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\NotifyPropertyChanged.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
   </ItemGroup>
 </Project>

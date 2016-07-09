@@ -16,7 +16,7 @@ namespace Loki.Common.Diagnostics
             name = activityName;
             token = Guid.NewGuid();
             chrono = new Stopwatch();
-            this.InfoFormat("Start activity {0} ; token {1}", activityName);
+            this.InfoFormat("Start activity {0} ; token {1}", activityName, token);
             chrono.Start();
         }
 

@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Loki.Common.Diagnostics.Tests
 {
+    [Trait("Category", "Diagnostics")]
     public class DiagnosticsTest : CommonTest
     {
         public IDiagnostics Component { get; set; }

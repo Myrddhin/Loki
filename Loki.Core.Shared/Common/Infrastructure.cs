@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Loki.Common.Diagnostics;
+using Loki.Common.Messages;
 
 namespace Loki.Common
 {
     internal class Infrastructure : IInfrastrucure
     {
         public Infrastructure(
-            IMessageBus bus)
+            IMessageBus bus,
+            IDiagnostics diagnostics)
         {
             MessageBus = bus;
+            Diagnostics = diagnostics;
         }
 
-        public IMessageBus MessageBus { get; private set; }
+        public IMessageBus MessageBus { get; }
+
+        public IDiagnostics Diagnostics { get; }
     }
 }

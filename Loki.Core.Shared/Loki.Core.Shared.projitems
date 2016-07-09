@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\ILog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\ILogFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\LokiException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ExpressionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IInfrastrucure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Infrastructure.cs" />
@@ -27,5 +28,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IoCContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\INotifyPropertyChangedEx.cs" />
   </ItemGroup>
 </Project>

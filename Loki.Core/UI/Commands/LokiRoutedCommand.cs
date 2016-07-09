@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Loki.Common;
 using Loki.Common.Diagnostics;
+using Loki.Common.Messages;
 
 namespace Loki.UI.Commands
 {

@@ -45,8 +45,8 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Behaviors\ClickToMessageBehavior.cs" />
-    <Compile Include="Bootstrapper\WpfBootSplashStrapper .cs" />
-    <Compile Include="Bootstrapper\WpfBootStrapper.cs" />
+    <None Include="Bootstrapper\WpfBootSplashStrapper .cs" />
+    <None Include="Bootstrapper\WpfBootStrapper.cs" />
     <Compile Include="Bootstrapper\WpfSignalManager.cs" />
     <Compile Include="Controls\SimpleButton.cs" />
     <Compile Include="Converters\BoolToValueConverter.cs" />
