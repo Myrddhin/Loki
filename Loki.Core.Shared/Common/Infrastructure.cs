@@ -1,4 +1,5 @@
-﻿using Loki.Common.Diagnostics;
+﻿using Loki.Common.Configuration;
+using Loki.Common.Diagnostics;
 using Loki.Common.Messages;
 
 namespace Loki.Common
@@ -7,14 +8,18 @@ namespace Loki.Common
     {
         public Infrastructure(
             IMessageBus bus,
-            IDiagnostics diagnostics)
+            IDiagnostics diagnostics,
+            IConfiguration configuration)
         {
             MessageBus = bus;
             Diagnostics = diagnostics;
+            Configuration = configuration;
         }
 
         public IMessageBus MessageBus { get; }
 
         public IDiagnostics Diagnostics { get; }
+
+        public IConfiguration Configuration { get; }
     }
 }

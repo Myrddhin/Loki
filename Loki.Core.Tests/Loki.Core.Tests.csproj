@@ -93,6 +93,7 @@
     <Compile Include="Common\CommonTest.cs" />
     <None Include="App.config" />
     <None Include="Common\ErrorComponentTest.cs" />
+    <Compile Include="Common\Configuration\ConfigurationTest.cs" />
     <Compile Include="Common\Diagnostics\ConsoleLogListener.cs" />
     <Compile Include="Common\Diagnostics\DiagnosticsTest.cs" />
     <None Include="Common\EventComponentTest.cs" />
