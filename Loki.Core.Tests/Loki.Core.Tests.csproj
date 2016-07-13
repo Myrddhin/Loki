@@ -90,6 +90,8 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\Bases\BaseServiceTest.cs" />
+    <Compile Include="Common\Bases\DummyService.cs" />
     <Compile Include="Common\CommonTest.cs" />
     <None Include="App.config" />
     <None Include="Common\ErrorComponentTest.cs" />
