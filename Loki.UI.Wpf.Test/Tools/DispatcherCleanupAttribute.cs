@@ -15,9 +15,9 @@ namespace Loki.UI
     {
         public override void After(MethodInfo methodUnderTest)
         {
-            base.After(methodUnderTest);
-
             Dispatcher.CurrentDispatcher.InvokeShutdown();
+
+            base.After(methodUnderTest);
         }
     }
 }
