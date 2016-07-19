@@ -1,5 +1,5 @@
 version: 3.0.{build}
-configuration: Debug
+configuration: Quality
 platform: Any CPU
 assembly_info:
   patch: true
@@ -12,3 +12,5 @@ before_build:
 build:
   project: Loki.sln
   verbosity: minimal
+test:
+  assemblies: Loki.Core.Tests.dll
