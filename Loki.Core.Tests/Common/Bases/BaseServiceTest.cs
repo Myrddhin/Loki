@@ -16,7 +16,7 @@ namespace Loki.Common
         {
             public void Install(IWindsorContainer container, IConfigurationStore store)
             {
-                container.Register(Component.For<DummyService>().OnCreate(x => x.Initialize()));
+                container.Register(Component.For<DummyService>());
             }
         }
 
@@ -32,19 +32,7 @@ namespace Loki.Common
             this.infra = container.Resolve<IInfrastrucure>();
         }
 
-        [Fact(DisplayName = "Not connected to bus when not initialized")]
-        public void NoSubScribeBeforeInitialize()
-        {
-            int count = 0;
-            var secondService= new DummyService(this.infra);
-            secondService.Received += (s, e) => count++;
-
-            this.infra.MessageBus.Publish(new SimpleMessage(), x => x());
-
-            Assert.Equal(0, count);
-        }
-
-        [Fact(DisplayName = "Connected to bus when initialized")]
+        [Fact(DisplayName = "Connected to bus when created")]
         public void WithBusWhenInitilized()
         {
             int count = 0;
@@ -54,19 +42,12 @@ namespace Loki.Common
             Assert.Equal(1, count);
         }
 
-        [Fact(DisplayName = "Service is initialized when resolved")]
-        public void InitializedWhenCreated()
+        [Fact(DisplayName = "Registered disposables are disposed")]
+        public void RegisterdDisposablesAreDisposed()
         {
-            Assert.True(this.service.Initialized);
-        }
-
-        [Fact(DisplayName = "Service is initialized only once")]
-        public void OnlyOneInitialization()
-        {
-            int count = 0;
-            this.service.RaiseInitialized += (s, e) => count++;
-            this.service.Initialize();
-            Assert.Equal(0, count);
+            Assert.False(this.service.SubDisposable.Disposed);
+            this.service.Dispose();
+            Assert.True(this.service.SubDisposable.Disposed);
         }
 
         [Fact(DisplayName = "Service is disposed only once")]

@@ -1,32 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Loki.Common
 {
-    public abstract class BaseService : BaseObject, IInitializable, IDisposable
+    public abstract class BaseService : BaseObject, IDisposable
     {
-        protected IInfrastrucure Infrastructure { get; private set; }
+        protected IInfrastrucure Infrastructure { get; }
 
-        private readonly Lazy<bool> initialized;
+        private readonly HashSet<IDisposable> disposables = new HashSet<IDisposable>();
 
-        private bool disposed = false;
+        private bool disposed;
 
         protected BaseService(IInfrastrucure infrastructure)
             : base(infrastructure.Diagnostics)
         {
             Infrastructure = infrastructure;
-            initialized = new Lazy<bool>(this.InitializeService);
-        }
-
-        protected abstract bool InitializeService();
-
-        public void Initialize()
-        {
             this.Infrastructure.MessageBus.Subscribe(this);
-
-            Log.DebugFormat("Initialized :{0}", initialized.Value);
         }
 
-        public bool Initialized => this.initialized.IsValueCreated;
+        protected void RegisterDisposable(IDisposable disposable)
+        {
+            this.disposables.Add(disposable);
+        }
 
         protected void Dispose(bool disposing)
         {
@@ -37,6 +32,7 @@ namespace Loki.Common
 
             if (disposing)
             {
+                this.disposables.Apply(x => x.Dispose());
                 this.Infrastructure.MessageBus.Unsubscribe(this);
             }
 

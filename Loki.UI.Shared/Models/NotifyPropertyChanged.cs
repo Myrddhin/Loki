@@ -8,12 +8,12 @@ namespace Loki.UI
 
         public bool Tracking { get; set; } = true;
 
-        public void NotifyChanged(PropertyChangedEventArgs propertyArgs)
+        public virtual void NotifyChanged(PropertyChangedEventArgs propertyArgs)
         {
             OnPropertyChanged(propertyArgs);
         }
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             var handler = PropertyChanged;
             if (Tracking)

@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 
 using Loki.Common.IoC;
-using Loki.IoC;
 
 namespace Loki.UI.Platform
 {
@@ -9,7 +8,6 @@ namespace Loki.UI.Platform
     {
         public WPFPlatform()
         {
-           
             if (View.DesignMode || Application.Current == null)
             {
                 return;
@@ -20,18 +18,16 @@ namespace Loki.UI.Platform
             CompositionRoot = new IoCContainer();
             Shell = new Shell(this);
 
-
-            Application.Current.Startup += Application_Startup; 
-            
+            Application.Current.Startup += Application_Startup;
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            Shell.Boot();
+            await Shell.Boot();
         }
 
-        public IoCContainer CompositionRoot { get; private set; }
+        public IoCContainer CompositionRoot { get; }
 
-        public Shell Shell { get; private set; }
+        public Shell Shell { get; }
     }
 }
