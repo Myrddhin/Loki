@@ -22,6 +22,21 @@ namespace Loki.Common.IoC.Tests
             Assert.Same(instance1, instance2);
         }
 
+        [Fact(DisplayName = "Multiple implementations of the same instance are resolvable")]
+        public void ResolveAll()
+        {
+            IDependencyResolver ctx = IoCContainer.DependencyResolverFactory();
+            ctx.OverrideInfrastructureService<IReplacement>(typeof(Replacement));
+            ctx.OverrideInfrastructureService<IReplacement>(typeof(SecondReplacement));
+
+            var test = ctx.ResolveAll<IReplacement>();
+
+            Assert.Equal(2, test.Length);
+            Assert.Equal(typeof(Replacement), test[1].GetType());
+            Assert.Equal(typeof(SecondReplacement), test[0].GetType());
+
+        }
+
         [Fact(DisplayName = "Register Infrastructure")]
         public void TestPostRegistration()
         {

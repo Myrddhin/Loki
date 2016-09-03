@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Wpf.Binds
 {
@@ -19,8 +20,8 @@ namespace Loki.UI.Wpf.Binds
 
         private bool actuallyClosing;
 
-        public WindowBind(ICoreServices services, IThreadingContext threading, Window view, object viewModel)
-            : base(services, threading, view, viewModel)
+        public WindowBind(IDiagnostics diagnostics, Window view, object viewModel)
+            : base(diagnostics, view, viewModel)
         {
             var withDisplayName = viewModel as IHaveDisplayName;
             if (withDisplayName != null)
@@ -169,9 +170,9 @@ namespace Loki.UI.Wpf.Binds
 
             guard.CanClose(canClose =>
             {
-                Threading.OnUIThread(
-                    () =>
-                    {
+               // Threading.OnUIThread(
+               //     () =>
+               //     {
                         if (runningAsync && canClose)
                         {
                             actuallyClosing = true;
@@ -183,7 +184,7 @@ namespace Loki.UI.Wpf.Binds
                         }
 
                         shouldEnd = true;
-                    });
+                 //   });
             });
 
             if (shouldEnd)

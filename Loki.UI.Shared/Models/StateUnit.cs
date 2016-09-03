@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 using Loki.Common;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     public class StateUnit : NotifyPropertyChanged, ICentralizedChangeTracking, INotifyPropertyChanging
     {

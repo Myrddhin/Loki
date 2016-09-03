@@ -13,4 +13,6 @@ build:
   project: Loki.sln
   verbosity: minimal
 test:
-  assemblies: Loki.Core.Tests.dll
+  assemblies:
+  - Loki.Core.Tests.dll
+  - Loki.UI.Test.dll

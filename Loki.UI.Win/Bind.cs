@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Win
 {
@@ -19,7 +20,7 @@ namespace Loki.UI.Win
         public static void InitializeEngine(ICoreServices services, IThreadingContext context, ITemplatingEngine templatingEngine)
         {
             engine = templatingEngine;
-            log = services.Logger.GetLog("Binder");
+            log = services.Diagnostics.GetLog("Binder");
             binder = new Binder(services, context);
         }
 

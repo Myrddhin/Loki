@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     public class NotifyPropertyChanged : INotifyPropertyChangedEx
     {

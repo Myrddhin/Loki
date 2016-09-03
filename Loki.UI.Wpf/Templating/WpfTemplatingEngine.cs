@@ -7,10 +7,10 @@ using System.Windows.Controls;
 using Loki.Common;
 using Loki.IoC;
 using Loki.IoC.Registration;
-using Loki.UI.Wpf.Binds;
 
 namespace Loki.UI.Wpf
 {
+    [Obsolete]
     public class WpfTemplatingEngine : ITemplatingEngine
     {
         private readonly Dictionary<string, Type> associations;
@@ -62,11 +62,11 @@ namespace Loki.UI.Wpf
 
         public void LoadByConvention(IConventionManager conventionManager, params Assembly[] assemblies)
         {
-            foreach (var match in conventionManager.ViewViewModel(assemblies))
-            {
-                associations.Add(match.Key, match.Value);
-                internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
-            }
+            //foreach (var match in conventionManager.ViewViewModel(assemblies))
+            //{
+            //    associations.Add(match.Key, match.Value);
+            //    internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
+            //}
         }
 
         public void RegisterAssociation(Type modelType, Type viewType)
@@ -96,17 +96,17 @@ namespace Loki.UI.Wpf
 
         protected virtual object InternalCreateBind(object view, object viewModel)
         {
-            var control = view as Window;
-            if (control != null)
-            {
-                return new WindowBind(Services, ThreadingContext, control, viewModel);
-            }
+            //var control = view as Window;
+            //if (control != null)
+            //{
+            //    return new WindowBind(Services, ThreadingContext, control, viewModel);
+            //}
 
-            var fe = view as FrameworkElement;
-            if (fe != null)
-            {
-                return new FrameworkElementBind<FrameworkElement>(Services, ThreadingContext, fe, viewModel);
-            }
+            //var fe = view as FrameworkElement;
+            //if (fe != null)
+            //{
+            //    return new FrameworkElementBind<FrameworkElement>(Services.Diagnostics,  fe, viewModel);
+            //}
 
             return null;
         }

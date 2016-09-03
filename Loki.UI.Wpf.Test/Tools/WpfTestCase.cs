@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,26 +12,30 @@ using Xunit.Sdk;
 namespace Loki.UI
 {
     /// <summary>
-    /// Wraps test cases for FactAttribute and TheoryAttribute so the test case runs on the WPF STA thread.
+    /// Wraps test cases for FactAttribute and TheoryAttribute so the test case runs on the WPF STA thread
     /// </summary>
     [DebuggerDisplay(@"\{ class = {TestMethod.TestClass.Class.Name}, method = {TestMethod.Method.Name}, display = {DisplayName}, skip = {SkipReason} \}")]
     public class WpfTestCase : LongLivedMarshalByRefObject, IXunitTestCase
     {
-        private IXunitTestCase testCase;
+        IXunitTestCase testCase;
 
         public WpfTestCase(IXunitTestCase testCase)
         {
             this.testCase = testCase;
         }
 
+        /// <summary/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Called by the de-serializer", error: true)]
+        public WpfTestCase() { }
+
         public IMethodInfo Method => this.testCase.Method;
 
-        public Task<RunSummary> RunAsync(
-            IMessageSink diagnosticMessageSink,
-            IMessageBus messageBus,
-            object[] constructorArguments,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
+        public Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink,
+                                         IMessageBus messageBus,
+                                         object[] constructorArguments,
+                                         ExceptionAggregator aggregator,
+                                         CancellationTokenSource cancellationTokenSource)
         {
             var tcs = new TaskCompletionSource<RunSummary>();
             var thread = new Thread(() =>
@@ -105,32 +110,18 @@ namespace Loki.UI
         private static void CopyTaskResultFrom<T>(TaskCompletionSource<T> tcs, Task<T> template)
         {
             if (tcs == null)
-            {
                 throw new ArgumentNullException(nameof(tcs));
-            }
-
             if (template == null)
-            {
                 throw new ArgumentNullException(nameof(template));
-            }
-
             if (!template.IsCompleted)
-            {
-                throw new ArgumentException(@"Task must be completed first.", nameof(template));
-            }
+                throw new ArgumentException("Task must be completed first.", nameof(template));
 
-            if (template.IsFaulted && template.Exception != null)
-            {
+            if (template.IsFaulted)
                 tcs.SetException(template.Exception);
-            }
             else if (template.IsCanceled)
-            {
                 tcs.SetCanceled();
-            }
             else
-            {
                 tcs.SetResult(template.Result);
-            }
         }
     }
 }

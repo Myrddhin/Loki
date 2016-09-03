@@ -9,12 +9,18 @@
     <Import_RootNamespace>Loki.UI.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\DefaultConventionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\DisplayInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\Shell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IPlatform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\TemplateManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDisplayInfrastructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITemplateManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DisplayUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\IStartModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Screen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StateUnit.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
   </ItemGroup>
 </Project>

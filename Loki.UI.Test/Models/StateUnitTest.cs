@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     [Trait("Category", "UI models")]
     public class StateUnitTest

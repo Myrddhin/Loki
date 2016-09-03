@@ -9,6 +9,10 @@
     <Import_RootNamespace>Loki.UI.Wpf.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Binds\DependencyObjectBind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binds\FrameworkElementBind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binds\WindowBind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Binds\WpfBinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\WPFPlatform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View.cs" />
   </ItemGroup>

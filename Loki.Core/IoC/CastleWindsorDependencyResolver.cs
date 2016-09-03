@@ -49,6 +49,11 @@ namespace Loki.Common.IoC
             return internalContainer.Resolve<T>();
         }
 
+        public T[] ResolveAll<T>()
+        {
+            return this.internalContainer.ResolveAll<T>();
+        }
+
         public T Resolve<T>(string name)
         {
             return internalContainer.Resolve<T>(name);

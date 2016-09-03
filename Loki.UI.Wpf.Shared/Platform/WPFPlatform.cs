@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 
 using Loki.Common.IoC;
+using Loki.UI.Wpf.Binds;
 
 namespace Loki.UI.Platform
 {
@@ -16,6 +18,15 @@ namespace Loki.UI.Platform
             Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 
             CompositionRoot = new IoCContainer();
+            Binder = new WpfBinder();
+            Conventions = new DefaultConventionManager();
+
+            UiAssemblies = new[] {Assembly.GetEntryAssembly()};
+
+            
+            // Register UI Engine
+            CompositionRoot.RegisterAssembly(this.GetType().GetTypeInfo().Assembly);
+
             Shell = new Shell(this);
 
             Application.Current.Startup += Application_Startup;
@@ -26,7 +37,20 @@ namespace Loki.UI.Platform
             await Shell.Boot();
         }
 
+        public void Run()
+        {
+            var app = Application.Current ?? new Application();
+
+            app.Run();
+        }
+
         public IoCContainer CompositionRoot { get; }
+
+        public virtual Assembly[] UiAssemblies { get; }
+
+        public virtual IConventionManager Conventions { get; }
+
+        public virtual IBinder Binder { get; }
 
         public Shell Shell { get; }
     }

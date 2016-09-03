@@ -24,7 +24,7 @@ namespace Loki.UI
         /// <summary>
         /// Raised after activation occurs.
         /// </summary>
-        public event EventHandler<ActivationEventArgs> Activated = delegate { };
+        public event EventHandler Activated = delegate { };
 
         /// <summary>
         /// Raised before deactivation.
@@ -245,7 +245,7 @@ namespace Loki.UI
                 });
         }
 
-        void IDesactivable.Desactivate(bool close)
+        void IActivable.Desactivate(bool close)
         {
             if (IsActive || (IsInitialized && close))
             {

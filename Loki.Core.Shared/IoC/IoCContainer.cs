@@ -60,6 +60,16 @@ namespace Loki.Common.IoC
         }
 
         /// <summary>
+        /// Resolves all registrations for the required type.
+        /// </summary>
+        /// <typeparam name="T">Required type.</typeparam>
+        /// <returns>An array of configured instances of the specified type.</returns>
+        public T[] ResolveAll<T>()
+        {
+            return this.resolver.ResolveAll<T>();
+        }
+
+        /// <summary>
         /// Resolves the required type.
         /// </summary>
         /// <typeparam name="T">

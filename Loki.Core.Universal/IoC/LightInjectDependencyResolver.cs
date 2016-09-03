@@ -25,6 +25,11 @@ namespace Loki.Common.IoC
             throw new NotImplementedException();
         }
 
+        public T[] ResolveAll<T>()
+        {
+            throw new NotImplementedException();
+        }
+
         public T Resolve<T>(string name)
         {
             throw new NotImplementedException();

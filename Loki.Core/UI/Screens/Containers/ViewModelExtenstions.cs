@@ -12,7 +12,7 @@ namespace Loki.UI
         public static void ActivateWith(this IActivable child, IActivable parent)
         {
             var childReference = new WeakReference(child);
-            EventHandler<ActivationEventArgs> handler = null;
+            EventHandler handler = null;
             handler = (s, e) =>
             {
                 var activatable = (IActivable)childReference.Target;

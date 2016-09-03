@@ -60,9 +60,6 @@
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Templating\Bind.cs" />
-    <Compile Include="Templating\FrameworkElementBind.cs" />
-    <Compile Include="Templating\DependencyObjectBind.cs" />
-    <Compile Include="Templating\WindowBind.cs" />
     <Compile Include="Templating\WpfTemplatingEngine.cs" />
     <Compile Include="Bootstrapper\WpfThreadingContext.cs" />
     <Compile Include="Bootstrapper\WpfWindowManager.cs" />

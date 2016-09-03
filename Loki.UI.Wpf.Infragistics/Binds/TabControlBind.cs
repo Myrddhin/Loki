@@ -110,7 +110,7 @@ namespace Loki.UI.Wpf.Binds.Infragistics
         }
 
         public TabControlBind(ICoreServices services, IThreadingContext threading, XamTabControl component, object viewModel)
-            : base(services, threading, component, viewModel)
+            : base(services.Diagnostics, component, viewModel)
         {
             component.AddHandler(TabItemEx.ClosingEvent, new RoutedEventHandler(TabItem_Closing));
             component.AddHandler(TabItemEx.ClosedEvent, new RoutedEventHandler(TabItem_Closed));

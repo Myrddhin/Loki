@@ -51,14 +51,13 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems*{037db863-dd52-4503-8cb0-cb20c0b2a6b4}*SharedItemsImports = 13
-		Loki.UI.Shared\Loki.UI.Shared.projitems*{24aefb23-da6c-4582-ab3d-39be820337a1}*SharedItemsImports = 4
-		Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems*{24aefb23-da6c-4582-ab3d-39be820337a1}*SharedItemsImports = 4
 		Loki.Core.Shared\Loki.Core.Shared.projitems*{2ceb50cb-9a18-4522-9ce0-81d9521ea4b6}*SharedItemsImports = 13
 		Loki.UI.Shared\Loki.UI.Shared.projitems*{4e83e040-7ded-4a45-b5d7-818e29657959}*SharedItemsImports = 13
 		Loki.Core.Shared\Loki.Core.Shared.projitems*{96b7d521-1224-4732-b419-a92922c895ad}*SharedItemsImports = 4
 		Loki.Core.Shared\Loki.Core.Shared.projitems*{cfdd9bd2-4b04-4269-a1d4-5cfb2769ad8b}*SharedItemsImports = 4
 		Loki.UI.Shared\Loki.UI.Shared.projitems*{d3734637-51a4-4449-a3cc-872aa145aff9}*SharedItemsImports = 4
 		Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems*{d3734637-51a4-4449-a3cc-872aa145aff9}*SharedItemsImports = 4
+		Loki.UI.Shared\Loki.UI.Shared.projitems*{d4d7b5e0-582b-44c9-88c6-78223da307e4}*SharedItemsImports = 4
 		Loki.UI.Shared\Loki.UI.Shared.projitems*{e781ec0b-9125-4bf9-ab4e-0dfb514c67cd}*SharedItemsImports = 4
 		Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems*{e781ec0b-9125-4bf9-ab4e-0dfb514c67cd}*SharedItemsImports = 4
 	EndGlobalSection
@@ -139,6 +138,7 @@ Global
 		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2C5C4D0-606D-44E2-ADB6-A08142177356}.Release|x86.Build.0 = Release|Any CPU
 		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{D4D7B5E0-582B-44C9-88C6-78223DA307E4}.Debug|x86.ActiveCfg = Debug|Any CPU

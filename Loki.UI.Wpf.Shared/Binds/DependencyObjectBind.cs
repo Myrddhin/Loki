@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Wpf.Binds
 {
@@ -10,14 +11,11 @@ namespace Loki.UI.Wpf.Binds
 
         protected object ViewModel { get; private set; }
 
-        protected ICoreServices Services { get; private set; }
+        protected IDiagnostics Diagnostics { get; private set; }
 
-        protected IThreadingContext Threading { get; private set; }
-
-        public DependencyObjectBind(ICoreServices services, IThreadingContext threading, TComponent component, object viewModel) : base(services.Diagnostics)
+        public DependencyObjectBind(IDiagnostics diagnostics, TComponent component, object viewModel) : base(diagnostics)
         {
-            Services = services;
-            Threading = threading;
+            Diagnostics = diagnostics;
             Component = component;
             ViewModel = viewModel;
         }

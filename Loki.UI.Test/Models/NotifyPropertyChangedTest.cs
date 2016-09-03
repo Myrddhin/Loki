@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 
+using Loki.UI.Models;
+
 using Xunit;
 
 namespace Loki.UI

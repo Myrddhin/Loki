@@ -19,7 +19,7 @@ namespace Loki.UI
 
         #region DesignMode
 
-        [Fact(DisplayName = "Desing mode disabled when testing")]
+        [Fact(DisplayName = "Design mode disabled when testing")]
         public void DesignModeDisabled()
         {
             Assert.False(View.DesignMode);

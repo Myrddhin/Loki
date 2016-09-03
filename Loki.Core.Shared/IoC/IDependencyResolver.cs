@@ -35,6 +35,13 @@ namespace Loki.Common.IoC
         T Resolve<T>();
 
         /// <summary>
+        /// Resolves all registrations for the required type.
+        /// </summary>
+        /// <typeparam name="T">Required type.</typeparam>
+        /// <returns>An array of configured instances of the specified type.</returns>
+        T[] ResolveAll<T>();
+
+        /// <summary>
         /// Resolves the required type.
         /// </summary>
         /// <typeparam name="T">
