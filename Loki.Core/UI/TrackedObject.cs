@@ -283,7 +283,7 @@ namespace Loki.UI
 
         protected void TrackChanges(ICentralizedChangeTracking observed)
         {
-            Services.Core.Events.StateChanged.Register(observed, this, (o, s, e) => o.Tracked_Changed(s));
+            //Services.Core.Events.StateChanged.Register(observed, this, (o, s, e) => o.Tracked_Changed(s));
         }
 
         private void Tracked_Changed(object sender)

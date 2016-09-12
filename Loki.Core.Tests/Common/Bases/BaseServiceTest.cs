@@ -22,14 +22,14 @@ namespace Loki.Common
 
         private readonly DummyService service;
 
-        private readonly IInfrastrucure infra;
+        private readonly IInfrastructure infra;
 
         public BaseServiceTest()
         {
             var container = new IoCContainer();
             container.RegisterInstaller(new Installer());
             this.service = container.Resolve<DummyService>();
-            this.infra = container.Resolve<IInfrastrucure>();
+            this.infra = container.Resolve<IInfrastructure>();
         }
 
         [Fact(DisplayName = "Connected to bus when created")]

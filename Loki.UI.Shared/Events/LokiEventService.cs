@@ -12,7 +12,7 @@ namespace Loki.Common
     /// </summary>
     public class LokiEventService : BaseObject, IEventComponent
     {
-        private readonly WeakEventManager<ICommand, EventArgs> canExecuteChangedManager;
+       // private readonly WeakEventManager<ICommand, EventArgs> canExecuteChangedManager;
 
         private readonly WeakEventManager<ICentralizedChangeTracking, EventArgs> centralizedChangeManager;
 
@@ -58,11 +58,11 @@ namespace Loki.Common
            
                     (s, b) => s.CollectionChanged += b.OnEvent,
                     (s, b) => s.CollectionChanged -= b.OnEvent);
-            canExecuteChangedManager = new WeakEventManager<ICommand, EventArgs>(
-                loggerComponent,
+            //canExecuteChangedManager = new WeakEventManager<ICommand, EventArgs>(
+            //    loggerComponent,
           
-                (s, b) => s.CanExecuteChanged += b.OnEvent,
-                (s, b) => s.CanExecuteChanged -= b.OnEvent);
+            //    (s, b) => s.CanExecuteChanged += b.OnEvent,
+            //    (s, b) => s.CanExecuteChanged -= b.OnEvent);
 
             notifyPropertyChangedManager =
                 new WeakNotifyPropertyManager<INotifyPropertyChanged, PropertyChangedEventArgs>(
@@ -80,13 +80,13 @@ namespace Loki.Common
                     (s, b) => s.PropertyChanging -= b.OnProperty);
         }
 
-        public IWeakEventManager<ICommand, EventArgs> CanExecuteChanged
-        {
-            get
-            {
-                return canExecuteChangedManager;
-            }
-        }
+        //public IWeakEventManager<ICommand, EventArgs> CanExecuteChanged
+        //{
+        //    get
+        //    {
+        //        return canExecuteChangedManager;
+        //    }
+        //}
 
         public IWeakEventManager<INotifyCollectionChanged, NotifyCollectionChangedEventArgs> CollectionChanged
         {
@@ -147,7 +147,7 @@ namespace Loki.Common
             changingManager.RemoveCollectedEntries();
             changedManager.RemoveCollectedEntries();
             collectionChangedManager.RemoveCollectedEntries();
-            canExecuteChangedManager.RemoveCollectedEntries();
+            //canExecuteChangedManager.RemoveCollectedEntries();
         }
     }
 }

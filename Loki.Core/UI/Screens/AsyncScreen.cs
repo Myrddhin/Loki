@@ -105,7 +105,7 @@ namespace Loki.UI
 
             base.OnInitialize();
 
-            this.Services.Core.Events.WatchPropertyChanged(this, this, screen => screen.IsLoaded, screen => screen.Loaded_Changed);
+            //this.Services.Core.Events.WatchPropertyChanged(this, this, screen => screen.IsLoaded, screen => screen.Loaded_Changed);
         }
 
         private void Loaded_Changed(object sender, EventArgs e)
@@ -195,7 +195,7 @@ namespace Loki.UI
                 Status = string.Empty;
             }
 
-            Commands.RefreshState();
+           // Commands.RefreshState();
         }
 
         protected virtual void EndBackgroudWork(string title)
@@ -212,7 +212,7 @@ namespace Loki.UI
                 Status = string.Empty;
             }
 
-            Commands.RefreshState();
+           // Commands.RefreshState();
         }
 
         #endregion Background workers

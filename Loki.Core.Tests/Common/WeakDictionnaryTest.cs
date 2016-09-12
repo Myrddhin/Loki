@@ -1,61 +1,90 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
-using Loki.Common;
-using Loki.Core.Tests.IoC;
+using Loki.Common.Diagnostics;
+using Loki.Common.IoC.Tests;
 
 using Moq;
 
 using Xunit;
 
-namespace Loki.Core.Tests.Common
+namespace Loki.Common
 {
+    [Trait("Category", "Tools")]
     public class WeakDictionnaryTest
     {
         public WeakDictionnaryTest()
         {
-            LogMock = new Mock<ILoggerComponent>();
+            DiagnosticMock = new Mock<IDiagnostics>();
             Log = new Mock<ILog>();
-            LogMock.Setup(x => x.GetLog(It.IsAny<string>())).Returns(Log.Object);
-
-            ErrorMock = new Mock<IErrorComponent>();
+            DiagnosticMock.Setup(x => x.GetLog(It.IsAny<string>())).Returns(Log.Object);
+            Component = new WeakDictionary<DummyClass, DummyClass>(DiagnosticMock.Object);
         }
 
-        public Mock<ILoggerComponent> LogMock { get; private set; }
+        public WeakDictionary<DummyClass, DummyClass> Component { get; }
 
-        public Mock<IErrorComponent> ErrorMock { get; private set; }
+        public Mock<IDiagnostics> DiagnosticMock { get; }
 
-        public Mock<ILog> Log { get; private set; }
+        public Mock<ILog> Log { get; }
 
-        [Fact]
+        [Fact(DisplayName = "KVP are weak references")]
         public void RemoveCollectedEntries()
         {
-            var dict = new WeakDictionary<DummyClass, DummyClass>(LogMock.Object, ErrorMock.Object);
-
             var runner = Task.Run(
                 () =>
                 {
-                    dict.Add(new DummyClass(), new DummyClass());
+                    Component.Add(new DummyClass(), new DummyClass());
                 });
 
             runner.Wait();
 
-            Assert.Equal(dict.Count, 1);
+            Assert.Equal(Component.Count, 1);
             GC.Collect();
-            dict.RemoveCollectedEntries();
-            Assert.Equal(dict.Count, 0);
+            Component.RemoveCollectedEntries();
+            Assert.Equal(Component.Count, 0);
         }
 
         [Fact]
         public void Enumerable()
         {
-            var dict = new WeakDictionary<DummyClass, DummyClass>(LogMock.Object, ErrorMock.Object);
+            Component.Add(new DummyClass(), new DummyClass());
 
-            dict.Add(new DummyClass(), new DummyClass());
+            Assert.Equal(Component.Keys.Count, 1);
+            Assert.Equal(Component.Values.Count, 1);
+            Assert.Equal(Component.Keys.Count(), 1);
+            Assert.Equal(Component.Values.Count(), 1);
+            Assert.Equal(Component.Count, 1);
+            Assert.Equal(Component.Count(), 1);
 
-            Assert.Equal(dict.Keys.Count, 1);
-            Assert.Equal(dict.Values.Count, 1);
-            Assert.Equal(dict.Count, 1);
+            int i=0;
+            foreach (var kvp in Component)
+            {
+                i++;
+            }
+
+            Assert.Equal(i,1);
+
+            Component.Clear();
+            Assert.Equal(Component.Count, 0);
+            Assert.Equal(Component.Keys.Count, 0);
+            Assert.Equal(Component.Values.Count, 0);
+        }
+
+        [Fact]
+        public void DictionnaryCheck()
+        {
+            var key = new DummyClass();
+            var value = new DummyClass();
+            Component[key] = value;
+
+            Assert.True(Component.ContainsKey(key));
+            DummyClass buffer;
+
+            Assert.True(Component.TryGetValue(key, out buffer));
+            Assert.Equal(buffer, value);
+            Component.Remove(key);
+            Assert.False(Component.ContainsKey(key));
         }
     }
 }

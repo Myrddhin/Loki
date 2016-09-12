@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Common\BaseService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ConcurrentList\ConcurrentCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ConcurrentList\ConcurrentListNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ConcurrentList\IListNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Configuration\IConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\Diagnostics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\IActivityLog.cs" />
@@ -18,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\ILogFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Diagnostics\LokiException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ExpressionHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\IInfrastrucure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\IInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Infrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\BaseObject.cs" />
@@ -26,6 +29,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IHandle.Generic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IMessageBus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\MessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\BaseDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakKeyReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />

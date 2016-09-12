@@ -4,7 +4,7 @@ using Loki.Common.Messages;
 
 namespace Loki.Common
 {
-    public class TestInfrastructure : IInfrastrucure
+    public class TestInfrastructure : IInfrastructure
     {
         public TestInfrastructure()
         {
@@ -15,7 +15,7 @@ namespace Loki.Common
 
         public TestMessageBus MessageBus { get; }
 
-       IMessageBus IInfrastrucure.MessageBus => this.MessageBus;
+       IMessageBus IInfrastructure.MessageBus => this.MessageBus;
 
         public IDiagnostics Diagnostics { get; }
 

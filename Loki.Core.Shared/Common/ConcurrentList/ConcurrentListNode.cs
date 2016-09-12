@@ -2,7 +2,7 @@
 
 namespace Loki.Common
 {
-    public class ConcurrentListNode<T> : IListNode<T>
+    internal class ConcurrentListNode<T> : IListNode<T>
     {
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "must be field to support interlock read/write")]
         internal bool Deleted;

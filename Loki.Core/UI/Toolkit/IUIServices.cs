@@ -10,7 +10,7 @@ namespace Loki.UI
 
         ISignalManager Signals { get; }
 
-        ICommandComponent Commands { get; }
+        //ICommandComponent Commands { get; }
 
         IThreadingContext Threading { get; }
 

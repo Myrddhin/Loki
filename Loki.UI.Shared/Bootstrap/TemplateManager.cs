@@ -12,7 +12,7 @@ namespace Loki.UI
 
         private IBinder binder;
 
-        public TemplateManager(IInfrastrucure infrastrucure) : base(infrastrucure)
+        public TemplateManager(IInfrastructure infrastructure) : base(infrastructure)
         {
         }
 

@@ -7,7 +7,7 @@ namespace Loki.Common
     {
         private readonly IEqualityComparer<T> internalComparer;
 
-        internal WeakKeyComparer(IEqualityComparer<T> comparer)
+        public WeakKeyComparer(IEqualityComparer<T> comparer = null)
         {
             if (comparer == null)
             {
@@ -21,13 +21,8 @@ namespace Loki.Common
 
         public int GetHashCode(object obj)
         {
-            WeakKeyReference<T> weakKey = obj as WeakKeyReference<T>;
-            if (weakKey != null)
-            {
-                return weakKey.KeyHashCode;
-            }
-
-            return this.internalComparer.GetHashCode((T)obj);
+            var weakKey = obj as WeakKeyReference<T>;
+            return weakKey?.KeyHashCode ?? this.internalComparer.GetHashCode((T)obj);
         }
 
         // Note: There are actually 9 cases to handle here.
@@ -51,25 +46,20 @@ namespace Loki.Common
         public new bool Equals(object x, object y)
         {
             bool firstIsDead, secondIsDead;
-            T first = GetTarget(x, out firstIsDead);
-            T second = GetTarget(y, out secondIsDead);
+            var first = GetTarget(x, out firstIsDead);
+            var second = GetTarget(y, out secondIsDead);
 
             if (firstIsDead)
             {
                 return secondIsDead && x == y;
             }
 
-            if (secondIsDead)
-            {
-                return false;
-            }
-
-            return this.internalComparer.Equals(first, second);
+            return !secondIsDead && this.internalComparer.Equals(first, second);
         }
 
         private static T GetTarget(object obj, out bool dead)
         {
-            WeakKeyReference<T> weakRef = obj as WeakKeyReference<T>;
+            var weakRef = obj as WeakKeyReference<T>;
             T target;
             if (weakRef != null)
             {

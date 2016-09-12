@@ -4,7 +4,7 @@ using Loki.UI.Commands;
 
 namespace Loki.Core.Tests.Common
 {
-    public class NotifyCanExecuteChangedRaiser : ICommand
+    public class NotifyCanExecuteChangedRaiser //: ICommand
     {
         public bool CanExecute(object parameter)
         {

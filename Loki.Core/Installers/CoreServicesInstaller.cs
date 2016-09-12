@@ -9,7 +9,7 @@ namespace Loki.Common
         public override void Install(IObjectContext context)
         {
            // context.Register(Element.Service<IErrorComponent, ErrorService>());
-            context.Register(Element.Service<IEventComponent, LokiEventService>());
+            //context.Register(Element.Service<IEventComponent, LokiEventService>());
             /* context.Register(Element.Service<ITaskComponent, LokiTaskService>());
              context.Register(Element.Service<ISettingsComponent, LokiSettingsService>());*/
             context.Register(Element.Service<IMessageBus, MessageBus>());

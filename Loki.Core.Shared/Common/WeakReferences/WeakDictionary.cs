@@ -35,7 +35,7 @@ namespace Loki.Common
         private readonly WeakKeyComparer<TKey> internalComparer;
 
         public WeakDictionary(IDiagnostics loggerComponent)
-            : this(loggerComponent, 0, null)
+            : this(loggerComponent, 0)
         {
         }
 
@@ -61,10 +61,7 @@ namespace Loki.Common
         /// either the key or value objects have already been garbage collected. Call
         /// RemoveCollectedEntries to weed out collected entries and update the count accordingly.
         /// </summary>
-        public override int Count
-        {
-            get { return this.internalDictionary.Count; }
-        }
+        public override int Count => this.internalDictionary.Count;
 
         public override void Add(TKey key, TValue value)
         {
@@ -73,31 +70,31 @@ namespace Loki.Common
                 throw BuildError<ArgumentException>(Errors.Utils_WeakDictionnay_KeyNullException);
             }
 
-            WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
-            WeakReference<TValue> weakValue = new WeakReference<TValue>(value);
+            var weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
+            var weakValue = new WeakReference<TValue>(value);
             this.internalDictionary.TryAdd(weakKey, weakValue);
         }
 
         public override bool ContainsKey(TKey key)
         {
-            WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
+            var weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
             return this.internalDictionary.ContainsKey(weakKey);
         }
 
         public override bool Remove(TKey key)
         {
             WeakReference<TValue> weakValue;
-            WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
+            var weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
             return this.internalDictionary.TryRemove(weakKey, out weakValue);
         }
 
         public override bool TryGetValue(TKey key, out TValue value)
         {
             WeakReference<TValue> weakValue;
-            WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
+            var weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
             if (this.internalDictionary.TryGetValue(weakKey, out weakValue))
             {
-                bool buffer = weakValue.TryGetTarget(out value);
+                var buffer = weakValue.TryGetTarget(out value);
                 return buffer;
             }
 
@@ -107,7 +104,7 @@ namespace Loki.Common
 
         protected override void SetValue(TKey key, TValue value)
         {
-            WeakKeyReference<TKey> weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
+            var weakKey = new WeakKeyReference<TKey>(key, this.internalComparer);
             this.internalDictionary[weakKey] = new WeakReference<TValue>(value);
         }
 
@@ -120,11 +117,11 @@ namespace Loki.Common
         {
             foreach (var kvp in this.internalDictionary)
             {
-                WeakKeyReference<TKey> weakKey = kvp.Key;
-                WeakReference<TValue> weakValue = kvp.Value;
-                TKey key = (TKey)weakKey.Target;
+                var weakKey = kvp.Key;
+                var weakValue = kvp.Value;
+                var key = (TKey)weakKey.Target;
                 TValue value;
-                bool valueAlive = weakValue.TryGetTarget(out value);
+                var valueAlive = weakValue.TryGetTarget(out value);
                 if (weakKey.IsAlive && valueAlive)
                 {
                     yield return new KeyValuePair<TKey, TValue>(key, value);
@@ -142,11 +139,11 @@ namespace Loki.Common
             List<WeakKeyReference<TKey>> entriesToRemove = null;
             foreach (var kvp in this.internalDictionary)
             {
-                WeakKeyReference<TKey> weakKey = kvp.Key;
-                WeakReference<TValue> weakValue = kvp.Value;
+                var weakKey = kvp.Key;
+                var weakValue = kvp.Value;
 
                 TValue value;
-                bool valueAlive = weakValue.TryGetTarget(out value);
+                var valueAlive = weakValue.TryGetTarget(out value);
 
                 if (weakKey.IsAlive && valueAlive)
                 {

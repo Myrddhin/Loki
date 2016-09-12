@@ -60,13 +60,7 @@ namespace Loki.Common
 
         protected abstract void SetValue(TKey key, TValue value);
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsReadOnly => false;
 
         public ICollection<TKey> Keys
         {
@@ -137,12 +131,7 @@ namespace Loki.Common
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (!Contains(item))
-            {
-                return false;
-            }
-
-            return Remove(item.Key);
+            return Contains(item) && this.Remove(item.Key);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -159,15 +148,9 @@ namespace Loki.Common
                 ReferenceDict = dictionary;
             }
 
-            public int Count
-            {
-                get { return ReferenceDict.Count; }
-            }
+            public int Count => this.ReferenceDict.Count;
 
-            public bool IsReadOnly
-            {
-                get { return true; }
-            }
+            public bool IsReadOnly => true;
 
             public void CopyTo(T[] array, int arrayIndex)
             {

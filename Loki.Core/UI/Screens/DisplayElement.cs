@@ -12,23 +12,23 @@ namespace Loki.UI
         public DisplayElement(IDisplayServices coreServices)
             : base(coreServices)
         {
-            applicationCommands = new Lazy<ApplicationCommands>(GetApplicationCommands);
+           // applicationCommands = new Lazy<ApplicationCommands>(GetApplicationCommands);
         }
 
-        protected virtual ApplicationCommands GetApplicationCommands()
-        {
-            return new ApplicationCommands(this.Services.UI.Commands);
-        }
+        //protected virtual ApplicationCommands GetApplicationCommands()
+        //{
+        //    return new ApplicationCommands(this.Services.UI.Commands);
+        //}
 
-        private readonly Lazy<ApplicationCommands> applicationCommands;
+        //private readonly Lazy<ApplicationCommands> applicationCommands;
 
-        public ApplicationCommands ApplicationCommands
-        {
-            get
-            {
-                return applicationCommands.Value;
-            }
-        }
+        //public ApplicationCommands ApplicationCommands
+        //{
+        //    get
+        //    {
+        //        return applicationCommands.Value;
+        //    }
+        //}
 
         public IMessageBus Bus
         {
@@ -38,13 +38,13 @@ namespace Loki.UI
             }
         }
 
-        public IEventComponent EventService
-        {
-            get
-            {
-                return Services.Core.Events;
-            }
-        }
+        //public IEventComponent EventService
+        //{
+        //    get
+        //    {
+        //        return Services.Core.Events;
+        //    }
+        //}
 
         public IWindowManager Windows
         {

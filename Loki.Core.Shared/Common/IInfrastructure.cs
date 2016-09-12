@@ -4,7 +4,7 @@ using Loki.Common.Messages;
 
 namespace Loki.Common
 {
-    public interface IInfrastrucure
+    public interface IInfrastructure
     {
         IMessageBus MessageBus { get; }
 

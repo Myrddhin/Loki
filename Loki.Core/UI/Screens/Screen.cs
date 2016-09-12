@@ -1,25 +1,25 @@
 ﻿using System;
 using System.ComponentModel;
 
-using Loki.Commands;
+//using Loki.Commands;
 using Loki.Common;
 using Loki.UI.Commands;
 
 namespace Loki.UI
 {
-    public class Screen : DisplayElement, IScreen, IChild, ICommandAware
+    public class Screen : DisplayElement, IScreen, IChild//, ICommandAware
     {
         public Screen(IDisplayServices coreServices)
             : base(coreServices)
         {
-            Commands = new CommandBind(this, coreServices.UI.Commands, coreServices.Core.Events, coreServices.UI.Windows);
+            //Commands = new CommandBind(this, coreServices.UI.Commands, coreServices.Core.Events, coreServices.UI.Windows);
         }
 
-        public CommandBind Commands
-        {
-            get;
-            protected set;
-        }
+        //public CommandBind Commands
+        //{
+        //    get;
+        //    protected set;
+        //}
 
         /// <summary>
         /// Raised after activation occurs.
@@ -326,7 +326,7 @@ namespace Loki.UI
 
                 OnClose();
 
-                Commands.SafeDispose();
+               // Commands.SafeDispose();
 
                 Log.DebugFormat("Closed {0}.", this);
 
@@ -351,7 +351,7 @@ namespace Loki.UI
         /// </summary>
         protected virtual void OnClose()
         {
-            Commands.Unbind();
+           // Commands.Unbind();
         }
 
         /// <summary>

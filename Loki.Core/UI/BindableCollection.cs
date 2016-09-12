@@ -383,7 +383,7 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                services.Events.Changed.Register(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
+                //services.Events.Changed.Register(inpc, this, (x, i, args) => x.Child_PropertyChanged(i, args));
             }
         }
 
@@ -459,7 +459,7 @@ namespace Loki.UI
             // Note: inpc may be null if item is null, so always check.
             if (null != inpc)
             {
-                services.Events.Changed.Unregister(inpc, this);
+               // services.Events.Changed.Unregister(inpc, this);
             }
         }
 

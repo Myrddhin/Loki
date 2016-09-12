@@ -11,7 +11,7 @@ namespace Loki.Common
 {
     public class DummyService : BaseService, IHandle<SimpleMessage>
     {
-        public DummyService(IInfrastrucure infrastructure)
+        public DummyService(IInfrastructure infrastructure)
             : base(infrastructure)
         {
             SubDisposable = new DummyDisposable();

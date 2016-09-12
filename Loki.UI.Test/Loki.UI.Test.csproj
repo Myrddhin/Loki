@@ -43,24 +43,27 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="IDocumentContainer.cs" />
-    <Compile Include="IScreenFactory.cs" />
-    <Compile Include="Main\DocumentsViewModel.cs" />
-    <Compile Include="Main\MainViewModel.cs" />
-    <Compile Include="Main\MenuViewModel.cs" />
-    <Compile Include="Main\NavigationViewModel.cs" />
-    <Compile Include="Main\SplashViewModel.cs" />
+    <None Include="IDocumentContainer.cs" />
+    <None Include="IScreenFactory.cs" />
+    <None Include="Main\DocumentsViewModel.cs" />
+    <None Include="Main\MainViewModel.cs" />
+    <None Include="Main\MenuViewModel.cs" />
+    <None Include="Main\NavigationViewModel.cs" />
+    <None Include="Main\SplashViewModel.cs" />
+    <Compile Include="Infrastructure\CommandManagerTest.cs" />
     <Compile Include="Models\DisplayUnitTest.cs" />
     <Compile Include="Models\NotifyPropertyChangedTest.cs" />
     <Compile Include="Models\ScreenTest.cs" />
     <Compile Include="Models\StateUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\CommonTest.cs" />
+    <Compile Include="Tools\TestCommandManager.cs" />
     <Compile Include="Tools\TestConfiguration.cs" />
     <Compile Include="Tools\TestDiagnostics.cs" />
     <Compile Include="Tools\TestDisplayInfrastructure.cs" />
     <Compile Include="Tools\TestInfrastructure.cs" />
     <Compile Include="Tools\TestMessageBus.cs" />
-    <Compile Include="UIInstaller.cs" />
+    <None Include="UIInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
@@ -69,7 +72,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Core.3.0.0\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Interfaces.3.0.0\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Linq.3.0.0\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.PlatformServices.3.0.0\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Windows.Threading.3.0.0\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
@@ -93,6 +126,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Loki.UI.Shared\Loki.UI.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Common.targets" />

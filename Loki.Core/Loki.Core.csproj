@@ -41,23 +41,10 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Common\ConcurrentList\IListNode.cs" />
-    <Compile Include="Common\ConcurrentList\ConcurrentList.cs" />
-    <Compile Include="Common\ConcurrentList\ConcurrentListNode.cs" />
     <Compile Include="Common\Configuration\AppSettingsConfiguration.cs" />
     <Compile Include="Common\Diagnostics\Log4NetActivityLog.cs" />
     <Compile Include="Common\Diagnostics\Diagnostics.cs" />
     <Compile Include="Common\Diagnostics\Log4NetLogFactory.cs" />
-    <Compile Include="Common\Events\Generic\IWeakEventCallback.cs" />
-    <Compile Include="Common\Events\Generic\IWeakEventManager.cs" />
-    <Compile Include="Common\Events\Generic\WeakEventBridge.cs" />
-    <Compile Include="Common\Events\Generic\WeakEventManager.cs" />
-    <Compile Include="Common\Events\IEventService.cs" />
-    <Compile Include="Common\Events\LokiEventService.cs" />
-    <Compile Include="Common\Events\NotifyProperty\IWeakEventPropertyManager.cs" />
-    <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
-    <Compile Include="Common\Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
-    <Compile Include="Common\Extensions\EventExtensions.cs" />
     <Compile Include="Common\ICoreServices.cs" />
     <Compile Include="Common\Toolkit\CoreServices.cs" />
     <Compile Include="Installers\InfrastructureInstaller.cs" />
@@ -70,7 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Errors.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\Commands\CommandBind.cs" />
+    <None Include="UI\Commands\CommandBind.cs" />
     <Compile Include="UI\EditableElement.cs" />
     <Compile Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\ObjectExtensions.cs" />
@@ -82,7 +69,7 @@
     <None Include="packages.config" />
     <None Include="UI\Extensions\DelegateExtensions.cs" />
     <Compile Include="UI\IObservableEnumerable.cs" />
-    <Compile Include="UI\Navigation\NavigationService.cs" />
+    <None Include="UI\Navigation\NavigationService.cs" />
     <Compile Include="UI\Screens\AsyncScreen.cs" />
     <Compile Include="UI\Screens\ClosingProcessedEventArgs.cs" />
     <Compile Include="UI\Screens\FileDialogInformations.cs" />
@@ -93,11 +80,6 @@
     <Compile Include="Common\Toolkit\IExtensionType.cs" />
     <Compile Include="Common\Toolkit\ExtensionManager.cs" />
     <None Include="Common\Toolkit\Toolkit.cs" />
-    <Compile Include="Common\WeakReferences\BaseDictionary.cs" />
-    <Compile Include="Common\WeakReferences\WeakDictionary.cs" />
-    <Compile Include="Common\WeakReferences\WeakEventCallback.cs" />
-    <Compile Include="Common\WeakReferences\WeakKeyComparer.cs" />
-    <Compile Include="Common\WeakReferences\WeakKeyReference.cs" />
     <Compile Include="Installers\CoreServicesInstaller.cs" />
     <Compile Include="Installers\Installers.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
@@ -124,7 +106,7 @@
     <Compile Include="UI\Bootstrapper\BindingEventArgs.cs" />
     <None Include="UI\Bootstrapper\CommonBootstrapper.cs" />
     <Compile Include="UI\Bootstrapper\IConventionManager.cs" />
-    <Compile Include="UI\Commands\ApplicationCommands.cs" />
+    <None Include="UI\Commands\ApplicationCommands.cs" />
     <Compile Include="UI\Screens\ActivationProcessedEventArgs.cs" />
     <Compile Include="UI\Screens\Containers\ContainerAllActive.cs" />
     <Compile Include="UI\Screens\Containers\ContainerBase.cs" />
@@ -148,8 +130,8 @@
     <Compile Include="UI\Screens\IParent.Generic.cs" />
     <Compile Include="UI\Screens\IScreen.cs" />
     <Compile Include="UI\Screens\ISplashViewModel.cs" />
-    <Compile Include="UI\Navigation\CommandElement.cs" />
-    <Compile Include="UI\Navigation\ICommandElement.cs" />
+    <None Include="UI\Navigation\CommandElement.cs" />
+    <None Include="UI\Navigation\ICommandElement.cs" />
     <Compile Include="UI\Navigation\IMessageElement.cs" />
     <Compile Include="UI\Navigation\INavigationElement.cs" />
     <Compile Include="UI\Navigation\INavigationMessage.cs" />
@@ -170,17 +152,17 @@
     <Compile Include="UI\Toolkit\UIServices.cs" />
     <Compile Include="UI\TrackedObject.cs" />
     <None Include="UI\Commands\CommandManager.cs" />
-    <Compile Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />
-    <Compile Include="UI\Commands\Event args\CommandEventArgs.cs" />
-    <Compile Include="UI\Commands\Interfaces\ICommand.cs" />
-    <Compile Include="UI\Commands\Interfaces\ICommandAware.cs" />
-    <Compile Include="UI\Commands\Interfaces\ICommandHandler.cs" />
-    <Compile Include="UI\Commands\Interfaces\ICommandComponent.cs" />
+    <None Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />
+    <None Include="UI\Commands\Event args\CommandEventArgs.cs" />
+    <None Include="UI\Commands\Interfaces\ICommand.cs" />
+    <None Include="UI\Commands\Interfaces\ICommandAware.cs" />
+    <None Include="UI\Commands\Interfaces\ICommandHandler.cs" />
+    <None Include="UI\Commands\Interfaces\ICommandComponent.cs" />
     <Compile Include="UI\Commands\Interfaces\INotifyCanExecuteChanged.cs" />
-    <Compile Include="UI\Commands\LokiCommandHandler.cs" />
-    <Compile Include="UI\Commands\LokiCommandService.cs" />
-    <Compile Include="UI\Commands\LokiRelayCommand.cs" />
-    <Compile Include="UI\Commands\LokiRoutedCommand.cs" />
+    <None Include="UI\Commands\LokiCommandHandler.cs" />
+    <None Include="UI\Commands\LokiCommandService.cs" />
+    <None Include="UI\Commands\LokiRelayCommand.cs" />
+    <None Include="UI\Commands\LokiRoutedCommand.cs" />
     <Compile Include="UI\IObservableCollection.cs" />
     <Compile Include="UI\ItemChangedEventArgs.cs" />
     <Compile Include="UI\Messages\ErrorMessage.cs" />

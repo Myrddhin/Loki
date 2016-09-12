@@ -1,6 +1,7 @@
 ﻿using Loki.Common.Configuration;
 using Loki.Common.Diagnostics;
 using Loki.Common.Messages;
+using Loki.UI.Commands;
 
 namespace Loki.UI
 {
@@ -9,7 +10,8 @@ namespace Loki.UI
         public DisplayInfrastructure(
             IMessageBus bus,
             IDiagnostics diagnostics,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ICommandManager commands)
         {
             MessageBus = bus;
             Diagnostics = diagnostics;
@@ -21,5 +23,7 @@ namespace Loki.UI
         public IDiagnostics Diagnostics { get; }
 
         public IConfiguration Configuration { get; }
+
+        public ICommandManager CommandsManager { get; }
     }
 }

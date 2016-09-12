@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Loki.Common
 {
-    internal class ConcurrentCollection<T> : IEnumerable<IListNode<T>>
+    public class ConcurrentCollection<T> : IEnumerable<IListNode<T>>
     {
         private class NodeIterator : IEnumerator<IListNode<T>>
         {
@@ -15,10 +15,7 @@ namespace Loki.Common
 
             private ConcurrentListNode<T> currentNode;
 
-            public IListNode<T> Current
-            {
-                get { return currentNode; }
-            }
+            public IListNode<T> Current => this.currentNode;
 
             public void Dispose()
             {
@@ -33,10 +30,7 @@ namespace Loki.Common
                 parentList.StopIterating();
             }
 
-            object IEnumerator.Current
-            {
-                get { return this.Current; }
-            }
+            object IEnumerator.Current => this.Current;
 
             public bool MoveNext()
             {
@@ -89,10 +83,7 @@ namespace Loki.Common
 
         private int iteratorCount;
 
-        public bool IsEmpty
-        {
-            get { return this.firstNode == null; }
-        }
+        public bool IsEmpty => this.firstNode == null;
 
         public ConcurrentCollection()
         {
@@ -115,7 +106,7 @@ namespace Loki.Common
                 }
                 else
                 {
-                    ConcurrentListNode<T> previousLast = this.lastNode;
+                    var previousLast = this.lastNode;
                     nodeToAdd.Previous = previousLast;
                     this.lastNode = nodeToAdd;
 
@@ -175,6 +166,7 @@ namespace Loki.Common
             buffer.Deleted = true;
             if (iteratorCount == 0)
             {
+                this.InternalRemove(buffer);
                 PurgeItems();
             }
             else

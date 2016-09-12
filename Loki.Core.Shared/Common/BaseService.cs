@@ -5,13 +5,13 @@ namespace Loki.Common
 {
     public abstract class BaseService : BaseObject, IDisposable
     {
-        protected IInfrastrucure Infrastructure { get; }
+        protected IInfrastructure Infrastructure { get; }
 
         private readonly HashSet<IDisposable> disposables = new HashSet<IDisposable>();
 
         private bool disposed;
 
-        protected BaseService(IInfrastrucure infrastructure)
+        protected BaseService(IInfrastructure infrastructure)
             : base(infrastructure.Diagnostics)
         {
             Infrastructure = infrastructure;

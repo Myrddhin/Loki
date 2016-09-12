@@ -5,17 +5,16 @@ namespace Loki.Common
 {
     internal class CoreServices : ICoreServices
     {
-        public CoreServices(IDiagnostics logger,  IMessageBus message, IEventComponent events)
+        public CoreServices(IDiagnostics logger,  IMessageBus message)
         {
             Diagnostics = logger;
             Messages = message;
-            Events = events;
         }
 
         public IDiagnostics Diagnostics { get; }
 
         public IMessageBus Messages { get; }
 
-        public IEventComponent Events { get; }
+        //public IEventComponent Events { get; }
     }
 }

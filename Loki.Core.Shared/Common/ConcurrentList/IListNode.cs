@@ -1,6 +1,6 @@
 ﻿namespace Loki.Common
 {
-    public interface IListNode<T>
+    public interface IListNode<out T>
     {
         T Value { get; }
     }

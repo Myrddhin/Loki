@@ -51,8 +51,8 @@ namespace Loki.UI.Wpf.Binds.Infragistics
 
             public TabWrapper(ICoreServices services, IThreadingContext threading, IConductActiveItem source)
             {
-                services.Events.WatchCollectionChange(this, source.Children, v => v.SourceChanged);
-                services.Events.WatchPropertyChanged(this, source, x => x.ActiveItem, v => v.ActiveItem_Changed);
+                //services.Events.WatchCollectionChange(this, source.Children, v => v.SourceChanged);
+                //services.Events.WatchPropertyChanged(this, source, x => x.ActiveItem, v => v.ActiveItem_Changed);
                 Tabs = new BindableCollection<TabItemEx>(services, threading);
                 this.source = source;
             }
