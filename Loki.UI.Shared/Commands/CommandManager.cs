@@ -115,12 +115,19 @@ namespace Loki.UI.Commands
             Func<T, Action<object, CommandEventArgs>> executeFunction,
             Func<T, Func<CommandEventArgs, bool>> confirmDelegate) where T : class
         {
-            return new CommandBind<T>(
+            var bind = new CommandBind<T>(
                 command,
                 handler,
                 canExecuteFunction,
                 executeFunction,
                 confirmDelegate);
+
+            var virtualKey = new WeakKeyReference<ICommand>(command, keyComparer);
+            var buffer = new ConcurrentCollection<ICommandBind> { bind };
+
+            this.commandBinds.AddOrUpdate(virtualKey, k => buffer, (k, o) => { o.Add(bind); return o; });
+
+            return bind;
         }
 
         #endregion Handler registering

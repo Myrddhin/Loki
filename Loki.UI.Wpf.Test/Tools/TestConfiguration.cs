@@ -12,7 +12,7 @@ namespace Loki.Common
     {
         public string GetValue(string key)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public T GetValue<T>(string key)

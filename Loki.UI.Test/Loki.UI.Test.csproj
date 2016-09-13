@@ -51,6 +51,7 @@
     <None Include="Main\NavigationViewModel.cs" />
     <None Include="Main\SplashViewModel.cs" />
     <Compile Include="Infrastructure\CommandManagerTest.cs" />
+    <Compile Include="Infrastructure\TestCommandHandler.cs" />
     <Compile Include="Models\DisplayUnitTest.cs" />
     <Compile Include="Models\NotifyPropertyChangedTest.cs" />
     <Compile Include="Models\ScreenTest.cs" />

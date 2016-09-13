@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Linq;
 #if WPF
@@ -39,14 +40,14 @@ namespace Loki.UI.Commands
             confirmGetter = confirmFunc;
             this.command = command;
 
-            var notifier = actor as INotifyCanExecuteChanged;
+            var notifier = actor as INotifyPropertyChanged;
             if (notifier == null || LokiCommand == null)
             {
                 return;
             }
 
-            var source = Observable.FromEventPattern(h => notifier.CanExecuteChanged += h, h => notifier.CanExecuteChanged -= h);
-            subscribtion = source.WeakSubscribe(Observer.Create<EventPattern<object>>(RefreshCommand));
+            var source = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(h => notifier.PropertyChanged += h, h => notifier.PropertyChanged -= h);
+            subscribtion = source.WeakSubscribe(Observer.Create<EventPattern<PropertyChangedEventArgs>>(RefreshCommand));
         }
 
         public void Dispose()
@@ -68,7 +69,7 @@ namespace Loki.UI.Commands
             disposed = true;
         }
 
-        private void RefreshCommand(EventPattern<object> context)
+        private void RefreshCommand(EventPattern<PropertyChangedEventArgs> context)
         {
             LokiCommand?.RefreshState();
         }
@@ -97,7 +98,7 @@ namespace Loki.UI.Commands
                 if (actor.TryGetTarget(out reference))
                 {
                     var activable = reference as IActivable;
-                    return activable != null && activable.IsActive;
+                    return activable == null || activable.IsActive;
                 }
 
                 deadReference = true;
@@ -105,7 +106,7 @@ namespace Loki.UI.Commands
             }
         }
 
-        private F GetFunctor<F>(Func<T, F> functor)
+        private F GetFunctor<F>(Func<T, F> functor) where F : class
         {
             if (deadReference)
             {
@@ -115,7 +116,7 @@ namespace Loki.UI.Commands
             T reference;
             if (actor.TryGetTarget(out reference))
             {
-                return functor(reference);
+                return functor?.Invoke(reference);
             }
 
             deadReference = true;
