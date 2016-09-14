@@ -6,21 +6,22 @@ using System.Threading;
 using System.Windows.Forms;
 
 using Loki.Common;
+using Loki.Common.Diagnostics;
 using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
-    public class Binder : LoggableObject
+    public class Binder : BaseObject
     {
         public IValueConverter GlyphConverter { get; set; }
 
         public IValueConverter NameConverter { get; set; }
 
-        private readonly ICoreServices services;
+        private readonly IInfrastructure services;
 
         private readonly IThreadingContext context;
 
-        public Binder(ICoreServices services, IThreadingContext context) : base(services.Logger)
+        public Binder(IInfrastructure services, IThreadingContext context) : base(services.Diagnostics)
         {
             this.services = services;
             this.context = context;
@@ -50,12 +51,12 @@ namespace Loki.UI.Win
                 Action<object, object, EventArgs> handler = (c, sender, e) => context.OnUIThread(functor(c));
 
                 // register in change manager service
-                services.Events.CanExecuteChanged.Register(command, component, handler);
+                //services.Events.CanExecuteChanged.Register(command, component, handler);
 
                 ICloseable closable = bindingContext as ICloseable;
                 if (closable != null)
                 {
-                    closable.Closing += (s, e) => services.Events.CanExecuteChanged.Unregister(command, component);
+                    //closable.Closing += (s, e) => services.Events.CanExecuteChanged.Unregister(command, component);
                 }
 
                 context.OnUIThread(functor(component));
@@ -133,7 +134,7 @@ namespace Loki.UI.Win
                 Func<object, Action> eventFunctor = CreateGetValueAndSetFunctor(source, sourceProperty, converter, converterParameter, destinationProperty);
 
                 // register in change manager service
-                services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
+                //services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
 
                 var valueGetter = PropertyGetter(sourceProperty);
                 var valueSetter = PropertySetter(destinationProperty);
@@ -228,7 +229,7 @@ namespace Loki.UI.Win
                 Func<object, Action> eventFunctor = CreateGetValueAndSetFunctor(source, sourceProperty, converter, converterParameter, destinationProperty);
 
                 // register in change manager service
-                services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
+                //services.Events.PropertyChanged.Register(source, sourceProperty.Name, destination, (c, sender, e) => context.OnUIThread(eventFunctor(c)));
             }
 
             if (sourceProperty.CanWrite && mode != DataSourceUpdateMode.Never)
@@ -267,21 +268,21 @@ namespace Loki.UI.Win
                 // Create getter
                 Func<object, object> valueGetter = PropertyGetter(destinationProperty);
 
-                services.Events.PropertyChanged.Register(
-                    wrapper, 
-                    destinationProperty.Name, 
-                    source, 
-                    delegate (object c, object s, PropertyChangedEventArgs e)
-                    {
-                        if (converter == null)
-                        {
-                            sourceProperty.SetValue(c, valueGetter(destination), null);
-                        }
-                        else
-                        {
-                            sourceProperty.SetValue(c, converter.ConvertBack(valueGetter(destination), sourceProperty.PropertyType, converterParameter, Application.CurrentCulture), null);
-                        }
-                    });
+                //services.Events.PropertyChanged.Register(
+                //    wrapper, 
+                //    destinationProperty.Name, 
+                //    source, 
+                //    delegate (object c, object s, PropertyChangedEventArgs e)
+                //    {
+                //        if (converter == null)
+                //        {
+                //            sourceProperty.SetValue(c, valueGetter(destination), null);
+                //        }
+                //        else
+                //        {
+                //            sourceProperty.SetValue(c, converter.ConvertBack(valueGetter(destination), sourceProperty.PropertyType, converterParameter, Application.CurrentCulture), null);
+                //        }
+                //    });
             }
 
             var valueInitGetter = PropertyGetter(sourceProperty);

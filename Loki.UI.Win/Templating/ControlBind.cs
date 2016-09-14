@@ -45,7 +45,7 @@ namespace Loki.UI.Win
             }
         }
 
-        public ControlBind(ICoreServices services, IThreadingContext ctx, T view, object viewModel)
+        public ControlBind(IInfrastructure services, IThreadingContext ctx, T view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             view.Tag = viewModel;

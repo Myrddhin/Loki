@@ -54,17 +54,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Loki.Castle\Loki.Castle.csproj">
-      <Project>{e19e825c-45b0-4f86-8827-8b3f2b3c6d28}</Project>
-      <Name>Loki.Castle</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
       <Project>{96b7d521-1224-4732-b419-a92922c895ad}</Project>
       <Name>Loki.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Loki.UI.Test\Loki.UI.Test.csproj">
-      <Project>{d4d7b5e0-582b-44c9-88c6-78223da307e4}</Project>
-      <Name>Loki.UI.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Loki.UI.Win\Loki.UI.Win.csproj">
       <Project>{72ccbf24-2dd8-40f0-97ef-c48248a58e23}</Project>
@@ -113,6 +105,22 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

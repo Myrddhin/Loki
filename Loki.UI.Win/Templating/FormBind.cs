@@ -19,7 +19,7 @@ namespace Loki.UI.Win
 
         private bool actuallyClosing;
 
-        public FormBind(ICoreServices services, IThreadingContext ctx, Form view, object viewModel)
+        public FormBind(IInfrastructure services, IThreadingContext ctx, Form view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             var activatable = viewModel as IActivable;

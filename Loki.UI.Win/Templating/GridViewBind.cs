@@ -10,7 +10,7 @@ namespace Loki.UI.Win
 {
     public class GridViewBind : ComponentBind<GridView>
     {
-        public GridViewBind(ICoreServices services, IThreadingContext ctx, GridView view, object viewModel)
+        public GridViewBind(IInfrastructure services, IThreadingContext ctx, GridView view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             // apparence

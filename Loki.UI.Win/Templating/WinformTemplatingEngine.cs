@@ -20,11 +20,11 @@ namespace Loki.UI.Win
         private IObjectContext internalContext;
         private Dictionary<Type, Type> typeAssociations;
 
-        private ICoreServices services;
+        private IInfrastructure services;
 
         private IThreadingContext ctx;
 
-        public WinformTemplatingEngine(ICoreServices services, IThreadingContext ctx)
+        public WinformTemplatingEngine(IInfrastructure services, IThreadingContext ctx)
         {
             internalContext = new IoCContext(ContextName);
             associations = new Dictionary<string, Type>();
@@ -132,11 +132,11 @@ namespace Loki.UI.Win
 
         public void LoadByConvention(IConventionManager conventionManager, params System.Reflection.Assembly[] assemblies)
         {
-            foreach (var match in conventionManager.ViewViewModel(assemblies))
-            {
-                associations.Add(match.Key, match.Value);
-                internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
-            }
+            //foreach (var match in conventionManager.ViewViewModel(assemblies))
+            //{
+            //    associations.Add(match.Key, match.Value);
+            //    internalContext.Register(Element.For(match.Value).Lifestyle.Transient);
+            //}
         }
 
         public void RegisterAssociation(Type modelType, Type viewType)

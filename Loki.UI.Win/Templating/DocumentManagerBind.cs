@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Loki.UI.Win
 {
     public class DocumentManagerBind : ComponentBind<DocumentManager>
     {
-        public DocumentManagerBind(ICoreServices services, IThreadingContext ctx, DocumentManager view, object viewModel)
+        public DocumentManagerBind(IInfrastructure services, IThreadingContext ctx, DocumentManager view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             var containerModel = ViewModel as IParent;
@@ -145,7 +146,7 @@ namespace Loki.UI.Win
             activateFromView = false;
         }
 
-        private void ViewModel_Activated(object sender, ActivationEventArgs e)
+        private void ViewModel_Activated(object sender, EventArgs e)
         {
             var document = Component.View.Documents.FindFirst(x => x.Tag == sender);
             if (document == null || activateFromView)

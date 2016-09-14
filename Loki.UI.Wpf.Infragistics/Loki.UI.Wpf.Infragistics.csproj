@@ -130,10 +130,6 @@
       <Project>{96b7d521-1224-4732-b419-a92922c895ad}</Project>
       <Name>Loki.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Loki.UI.Wpf\Loki.UI.Wpf.csproj">
-      <Project>{d2c5c4d0-606d-44e2-adb6-a08142177356}</Project>
-      <Name>Loki.UI.Wpf</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Loki.UI.Shared\Loki.UI.Shared.projitems" Label="Shared" />
   <Import Project="..\Loki.UI.Wpf.Shared\Loki.UI.Wpf.Shared.projitems" Label="Shared" />

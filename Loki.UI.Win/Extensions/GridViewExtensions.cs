@@ -27,7 +27,7 @@ namespace Loki.UI.Win
                 return;
             }
 
-            ConfigureGridCommands<TModel, TItem>(view, null, containerModel);
+           // ConfigureGridCommands<TModel, TItem>(view, null, containerModel);
 
             Win.Bind.CreateBind(view, containerModel);
         }
@@ -62,90 +62,90 @@ namespace Loki.UI.Win
             return item;
         }
 
-        public static void ConfigureGridCommands<TVM, TItem>(
-            this GridView grid,
-            Expression<Func<TVM, IEnumerable<ICommandElement>>> rowCommands,
-            IObservableCollection<TItem> dataSource)
-            where TItem : class
-            where TVM : class
-        {
-            // menu
-            if (grid.GridControl != null)
-            {
-                grid.PopupMenuShowing += (s, e) =>
-                    {
-                        if (e.Menu == null)
-                        {
-                            return;
-                        }
+        //public static void ConfigureGridCommands<TVM, TItem>(
+        //    this GridView grid,
+        //    Expression<Func<TVM, IEnumerable<ICommandElement>>> rowCommands,
+        //    IObservableCollection<TItem> dataSource)
+        //    where TItem : class
+        //    where TVM : class
+        //{
+        //    // menu
+        //    if (grid.GridControl != null)
+        //    {
+        //        grid.PopupMenuShowing += (s, e) =>
+        //            {
+        //                if (e.Menu == null)
+        //                {
+        //                    return;
+        //                }
 
-                        if (e.Menu.MenuType == GridMenuType.Row || e.Menu.MenuType == GridMenuType.User
-                            || e.HitInfo.HitTest == GridHitTest.EmptyRow)
-                        {
-                            // e.Menu.Items.Add(CreateItem("Export to excel", () => ExportToExcel(grid)));
-                            if (grid.GroupedColumns != null && grid.GroupedColumns.Count > 0)
-                            {
-                                e.Menu.Items.Add(CreateItem("Expand all", grid.ExpandAllGroups, true));
-                                e.Menu.Items.Add(CreateItem("Collapse all", grid.CollapseAllGroups));
-                            }
+        //                if (e.Menu.MenuType == GridMenuType.Row || e.Menu.MenuType == GridMenuType.User
+        //                    || e.HitInfo.HitTest == GridHitTest.EmptyRow)
+        //                {
+        //                    // e.Menu.Items.Add(CreateItem("Export to excel", () => ExportToExcel(grid)));
+        //                    if (grid.GroupedColumns != null && grid.GroupedColumns.Count > 0)
+        //                    {
+        //                        e.Menu.Items.Add(CreateItem("Expand all", grid.ExpandAllGroups, true));
+        //                        e.Menu.Items.Add(CreateItem("Collapse all", grid.CollapseAllGroups));
+        //                    }
 
-                            if (grid.OptionsBehavior.Editable && !grid.OptionsBehavior.ReadOnly)
-                            {
-                                /*L_Commands["Paste"] = delegate()
-                            {
-                                P_Grid.PasteValues();
-                            };*/
-                                // if (grid.OptionsBehavior.AllowDeleteRows != DefaultBoolean.False)
-                                // {
-                                // var item = CreateItem(
-                                // "Clear",
-                                // () =>
-                                // {
-                                // if (Toolkit.UI.Windows.Confirm("Delete all lines ?"))
-                                // {
-                                // dataSource.Clear();
-                                // }
-                                // });
-                                // e.Menu.Items.Add(item);
-                                // }
-                            }
+        //                    if (grid.OptionsBehavior.Editable && !grid.OptionsBehavior.ReadOnly)
+        //                    {
+        //                        /*L_Commands["Paste"] = delegate()
+        //                    {
+        //                        P_Grid.PasteValues();
+        //                    };*/
+        //                        // if (grid.OptionsBehavior.AllowDeleteRows != DefaultBoolean.False)
+        //                        // {
+        //                        // var item = CreateItem(
+        //                        // "Clear",
+        //                        // () =>
+        //                        // {
+        //                        // if (Toolkit.UI.Windows.Confirm("Delete all lines ?"))
+        //                        // {
+        //                        // dataSource.Clear();
+        //                        // }
+        //                        // });
+        //                        // e.Menu.Items.Add(item);
+        //                        // }
+        //                    }
 
-                            if (rowCommands != null)
-                            {
-                                var viewModel = grid.GridControl.GetViewModel<TVM>();
-                                if (viewModel == null)
-                                {
-                                    return;
-                                }
+        //                    if (rowCommands != null)
+        //                    {
+        //                        var viewModel = grid.GridControl.GetViewModel<TVM>();
+        //                        if (viewModel == null)
+        //                        {
+        //                            return;
+        //                        }
 
-                                var commands = new List<ICommandElement>();
+        //                        var commands = new List<ICommandElement>();
 
-                                commands.AddRange(rowCommands.Compile()(viewModel));
+        //                        commands.AddRange(rowCommands.Compile()(viewModel));
 
-                                if (commands.Any() && e.HitInfo.InDataRow)
-                                {
-                                    bool first = true;
-                                    foreach (var item in commands)
-                                    {
-                                        string name = item.Command.Name;
-                                        var displayName = item as IHaveDisplayName;
-                                        if (displayName != null)
-                                        {
-                                            name = displayName.DisplayName;
-                                        }
+        //                        if (commands.Any() && e.HitInfo.InDataRow)
+        //                        {
+        //                            bool first = true;
+        //                            foreach (var item in commands)
+        //                            {
+        //                                string name = item.Command.Name;
+        //                                var displayName = item as IHaveDisplayName;
+        //                                if (displayName != null)
+        //                                {
+        //                                    name = displayName.DisplayName;
+        //                                }
 
-                                        var row = grid.GetRow(e.HitInfo.RowHandle) as TItem;
-                                        var menuItem = CreateItem(name, () => item.Command.Execute(row), first);
-                                        menuItem.Enabled = item.Command.CanExecute(row);
-                                        first = false;
-                                        e.Menu.Items.Add(menuItem);
-                                    }
-                                }
-                            }
-                        }
-                    };
-            }
-        }
+        //                                var row = grid.GetRow(e.HitInfo.RowHandle) as TItem;
+        //                                var menuItem = CreateItem(name, () => item.Command.Execute(row), first);
+        //                                menuItem.Enabled = item.Command.CanExecute(row);
+        //                                first = false;
+        //                                e.Menu.Items.Add(menuItem);
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            };
+        //    }
+        //}
 
         // public static void ExportToExcel(this GridView grid)
         // {

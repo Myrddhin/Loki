@@ -6,7 +6,7 @@ namespace Loki.UI.Win
 {
     public class DocumentBind : ComponentBind<BaseDocument>
     {
-        public DocumentBind(ICoreServices services, IThreadingContext ctx, BaseDocument view, object viewModel)
+        public DocumentBind(IInfrastructure services, IThreadingContext ctx, BaseDocument view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             view.Tag = viewModel;

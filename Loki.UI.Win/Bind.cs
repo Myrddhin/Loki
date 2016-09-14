@@ -17,7 +17,7 @@ namespace Loki.UI.Win
 
         private static Binder binder;
 
-        public static void InitializeEngine(ICoreServices services, IThreadingContext context, ITemplatingEngine templatingEngine)
+        public static void InitializeEngine(IInfrastructure services, IThreadingContext context, ITemplatingEngine templatingEngine)
         {
             engine = templatingEngine;
             log = services.Diagnostics.GetLog("Binder");

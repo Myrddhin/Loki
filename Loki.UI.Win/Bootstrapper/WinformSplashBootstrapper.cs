@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Loki.Common;
+using Loki.Common.IoC;
 using Loki.IoC;
 
 namespace Loki.UI.Win
@@ -10,7 +12,7 @@ namespace Loki.UI.Win
         where TMainModel : class, IScreen
         where TSplashModel : class, ISplashViewModel
     {
-        private readonly CommonBootstrapper<TMainModel, TSplashModel> bootStrapper;
+       // private readonly CommonBootstrapper<TMainModel, TSplashModel> bootStrapper;
 
         public WinformSplashBootstrapper(Form splashView)
             : base(splashView)
@@ -18,7 +20,7 @@ namespace Loki.UI.Win
             splashScreen = MainForm;
             compositionRoot = new IoCContext();
 
-            bootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
+           // bootStrapper = new CommonBootstrapper<TMainModel, TSplashModel>(this);
         }
 
         private readonly Form splashScreen;
@@ -36,7 +38,7 @@ namespace Loki.UI.Win
             // Initialize helper classes.
             Bind.InitializeEngine(Core, UI.Threading, UI.Templates);
 
-            await bootStrapper.Run(args);
+           // await bootStrapper.Run(args);
 
             Application.Run(this);
         }
@@ -75,13 +77,13 @@ namespace Loki.UI.Win
             }
         }
 
-        private ICoreServices core;
+        private IInfrastructure core;
 
-        public ICoreServices Core
+        public IInfrastructure Core
         {
             get
             {
-                return this.core ?? (this.core = this.Context.Get<ICoreServices>());
+                return this.core ?? (this.core = this.Context.Get<IInfrastructure>());
             }
         }
 
@@ -100,6 +102,38 @@ namespace Loki.UI.Win
             get
             {
                 return this.ui ?? (this.ui = this.Context.Get<IUIServices>());
+            }
+        }
+
+        public IoCContainer CompositionRoot
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Assembly[] UiAssemblies
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IConventionManager Conventions
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IBinder Binder
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
     }

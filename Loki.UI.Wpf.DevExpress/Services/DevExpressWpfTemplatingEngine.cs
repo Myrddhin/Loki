@@ -1,4 +1,6 @@
-﻿using DevExpress.Xpf.Core;
+﻿using System;
+
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Docking;
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.NavBar;
@@ -10,15 +12,16 @@ using Loki.IoC;
 
 namespace Loki.UI.Wpf.DevExpress
 {
-    internal class DevExpressWpfTemplatingEngine : WpfTemplatingEngine
+    internal class DevExpressWpfTemplatingEngine// : WpfTemplatingEngine
     {
-        public DevExpressWpfTemplatingEngine(IObjectContext context, ICoreServices coreServices, IThreadingContext threading)
-            : base(context, coreServices, threading)
-        {
-        }
+        //public DevExpressWpfTemplatingEngine(IObjectContext context, ICoreServices coreServices, IThreadingContext threading)
+        //    : base(context, coreServices, threading)
+        //{
+        //}
 
-        protected override object InternalCreateBind(object view, object viewModel)
+        protected  object InternalCreateBind(object view, object viewModel)
         {
+            throw new NotImplementedException();
             //var documentManager = view as DocumentGroup;
             //if (documentManager != null)
             //{
@@ -55,7 +58,7 @@ namespace Loki.UI.Wpf.DevExpress
             //    return new GridControlBind(Services, ThreadingContext, gridControl, viewModel);
             //}
 
-            return base.InternalCreateBind(view, viewModel);
+            //return base.InternalCreateBind(view, viewModel);
         }
     }
 }

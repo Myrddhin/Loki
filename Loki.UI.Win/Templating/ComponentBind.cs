@@ -6,20 +6,20 @@ using Loki.UI.Commands;
 
 namespace Loki.UI.Win
 {
-    public class ComponentBind<TComponent> : LoggableObject
+    public class ComponentBind<TComponent> : BaseObject
            where TComponent : Component
     {
         private readonly Binder binder;
 
         protected TComponent Component { get; }
 
-        protected ICoreServices Services { get; private set; }
+        protected IInfrastructure Services { get; private set; }
 
         protected IThreadingContext Context { get; private set; }
 
         protected object ViewModel { get; }
 
-        public ComponentBind(ICoreServices services, IThreadingContext context, TComponent component, object viewModel) : base(services.Logger)
+        public ComponentBind(IInfrastructure services, IThreadingContext context, TComponent component, object viewModel) : base(services.Diagnostics)
         {
             binder = new Binder(services, context);
             Services = services;

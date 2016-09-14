@@ -9,7 +9,7 @@ namespace Loki.UI.Win
 {
     public class NavBarControlBind : ControlBind<NavBarControl>
     {
-        public NavBarControlBind(ICoreServices services, IThreadingContext ctx, NavBarControl view, object viewModel)
+        public NavBarControlBind(IInfrastructure services, IThreadingContext ctx, NavBarControl view, object viewModel)
             : base(services, ctx, view, viewModel)
         {
             var containerModel = ViewModel as IParent;
@@ -43,20 +43,20 @@ namespace Loki.UI.Win
                         var navMessage = navigationLink as IMessageElement;
                         if (navMessage != null)
                         {
-                            item.Item.LinkClicked += (s, o) => services.Messages.PublishOnUIThread(ctx, navMessage.Message);
+                            item.Item.LinkClicked += (s, o) => services.MessageBus.PublishOnUIThread(ctx, navMessage.Message);
                         }
 
-                        var navCommand = navigationLink as ICommandElement;
-                        if (navCommand != null)
-                        {
-                            item.Item.LinkClicked += (s, e) => navCommand.Command.Execute(navCommand.Parameter);
+                        //var navCommand = navigationLink as ICommandElement;
+                        //if (navCommand != null)
+                        //{
+                        //    item.Item.LinkClicked += (s, e) => navCommand.Command.Execute(navCommand.Parameter);
 
-                            if (GlyphConverter != null)
-                            {
-                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), true, CultureInfo.CurrentUICulture) as Image;
-                                item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), false, CultureInfo.CurrentUICulture) as Image;
-                            }
-                        }
+                        //    if (GlyphConverter != null)
+                        //    {
+                        //        item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), true, CultureInfo.CurrentUICulture) as Image;
+                        //        item.Item.SmallImage = GlyphConverter.Convert(navCommand.Command, typeof(Image), false, CultureInfo.CurrentUICulture) as Image;
+                        //    }
+                        //}
                     }
                 }
             }

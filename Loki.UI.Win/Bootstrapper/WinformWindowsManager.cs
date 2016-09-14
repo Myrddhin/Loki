@@ -4,12 +4,13 @@ using System.Globalization;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using Loki.Common;
+using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Win
 {
-    public class WinformWindowManager : LoggableObject, IWindowManager
+    public class WinformWindowManager : BaseObject, IWindowManager
     {
-        public WinformWindowManager(ILoggerComponent logger) : base(logger)
+        public WinformWindowManager(IDiagnostics logger) : base(logger)
         {
         }
 
