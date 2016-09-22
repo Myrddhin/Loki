@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using Loki.Common;
 using Loki.Common.Diagnostics;
 
@@ -92,7 +92,8 @@ namespace Loki.UI.Win
 
         public bool Confirm(string message)
         {
-            return XtraMessageBox.Show(message, "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes;
+            throw new NotImplementedException();
+           // return XtraMessageBox.Show(message, "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes;
         }
 
         public void Message(string message)

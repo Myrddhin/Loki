@@ -11,17 +11,17 @@
     <AssemblyName>Loki.UI.Win</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <OutputPath>..\..\thirdparties\Loki\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>..\Build\$(Configuration)\net45\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;WPF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Quality|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,39 +43,39 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Bind.cs" />
+    <None Include="Bind.cs" />
     <Compile Include="Bootstrapper\WindowsFormsThreadingContext.cs" />
-    <Compile Include="Bootstrapper\WinformBootstrapper.cs" />
+    <None Include="Bootstrapper\WinformBootstrapper.cs" />
     <Compile Include="Bootstrapper\WinformSplashBootstrapper.cs" />
     <Compile Include="Bootstrapper\WinformWindowsManager.cs" />
     <Compile Include="Converters\IValueConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
-    <Compile Include="Extensions\BarExtensions.cs" />
-    <Compile Include="Extensions\DocumentManagerExtensions.cs" />
-    <Compile Include="Extensions\EditorExtensions.cs" />
-    <Compile Include="Extensions\GridColumnExtensions.cs" />
-    <Compile Include="Extensions\GridViewExtensions.cs" />
-    <Compile Include="Extensions\NavigationExtensions.cs" />
+    <None Include="Extensions\BarExtensions.cs" />
+    <None Include="Extensions\DocumentManagerExtensions.cs" />
+    <None Include="Extensions\EditorExtensions.cs" />
+    <None Include="Extensions\GridColumnExtensions.cs" />
+    <None Include="Extensions\GridViewExtensions.cs" />
+    <None Include="Extensions\NavigationExtensions.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templating\BarBind.cs" />
-    <Compile Include="Templating\Binder.cs" />
-    <Compile Include="Templating\ComponentBind.cs" />
-    <Compile Include="Templating\ControlBind.cs" />
-    <Compile Include="Templating\DocumentBind.cs" />
-    <Compile Include="Templating\DocumentManagerBind.cs" />
-    <Compile Include="Templating\FormBind.cs" />
-    <Compile Include="Templating\GridViewBind.cs" />
-    <Compile Include="Templating\NavBarControlBind.cs" />
+    <None Include="Templating\BarBind.cs" />
+    <None Include="Templating\Binder.cs" />
+    <None Include="Templating\ComponentBind.cs" />
+    <None Include="Templating\ControlBind.cs" />
+    <None Include="Templating\DocumentBind.cs" />
+    <None Include="Templating\DocumentManagerBind.cs" />
+    <None Include="Templating\FormBind.cs" />
+    <None Include="Templating\GridViewBind.cs" />
+    <None Include="Templating\NavBarControlBind.cs" />
     <Compile Include="Templating\NotifyPropertyChangedWrapper.cs" />
-    <Compile Include="Templating\WinformTemplatingEngine.cs" />
+    <None Include="Templating\WinformTemplatingEngine.cs" />
     <Compile Include="View.cs" />
-    <Compile Include="Views\SplashView.cs">
+    <None Include="Views\SplashView.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SplashView.Designer.cs">
+    </None>
+    <None Include="Views\SplashView.Designer.cs">
       <DependentUpon>SplashView.cs</DependentUpon>
-    </Compile>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
@@ -92,16 +92,6 @@
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraNavBar.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -127,7 +117,6 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\SplashView.resx">

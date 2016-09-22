@@ -8,7 +8,7 @@ namespace Loki.UI.Win
         public override void Install(IObjectContext context)
         {
             context.Register(Element.For<IThreadingContext>().ImplementedBy<WindowsFormsThreadingContext>());
-            context.Register(Element.For<ITemplatingEngine>().ImplementedBy<WinformTemplatingEngine>());
+            //context.Register(Element.For<ITemplatingEngine>().ImplementedBy<WinformTemplatingEngine>());
             context.Register(Element.For<IWindowManager>().ImplementedBy<WinformWindowManager>());
             context.Register(Element.For<DefaultSplashModel>());
         }

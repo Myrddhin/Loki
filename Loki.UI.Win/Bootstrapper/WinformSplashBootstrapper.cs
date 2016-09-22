@@ -36,7 +36,7 @@ namespace Loki.UI.Win
             UI.Threading.OnUIThread(() => { });
 
             // Initialize helper classes.
-            Bind.InitializeEngine(Core, UI.Threading, UI.Templates);
+            //Bind.InitializeEngine(Core, UI.Threading, UI.Templates);
 
            // await bootStrapper.Run(args);
 
