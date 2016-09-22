@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 
 using Loki.UI.Tests;
+#if WPF
+using System.Windows.Input;
+#endif
 
 using Xunit;
 

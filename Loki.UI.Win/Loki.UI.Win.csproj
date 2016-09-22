@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;WPF</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -127,6 +127,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\Loki.UI.Shared\Loki.UI.Shared.projitems" Label="Shared" />
+  <Import Project="..\Loki.UI.Win.Shared\Loki.UI.Win.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Common.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

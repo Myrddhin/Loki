@@ -50,12 +50,12 @@
     <None Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="TestBootStrapper.cs" />
-    <Compile Include="View\MainView.cs">
+    <None Include="View\MainView.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\MainView.Designer.cs">
+    </None>
+    <None Include="View\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
-    </Compile>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loki.Core\Loki.Core.csproj">
@@ -73,10 +73,6 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\thirdparties\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>

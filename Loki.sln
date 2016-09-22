@@ -79,6 +79,7 @@ Global
 		Loki.UI.Wpf.Tests.Shared\Loki.UI.Wpf.Tests.Shared.projitems*{3a948213-1fe5-4e44-bfe3-84e676edfd70}*SharedItemsImports = 13
 		Loki.UI.Shared\Loki.UI.Shared.projitems*{4e83e040-7ded-4a45-b5d7-818e29657959}*SharedItemsImports = 13
 		Loki.UI.Shared\Loki.UI.Shared.projitems*{72ccbf24-2dd8-40f0-97ef-c48248a58e23}*SharedItemsImports = 4
+		Loki.UI.Win.Shared\Loki.UI.Win.Shared.projitems*{72ccbf24-2dd8-40f0-97ef-c48248a58e23}*SharedItemsImports = 4
 		Loki.UI.Tests.Shared\Loki.UI.Tests.Shared.projitems*{838db9c0-51ca-4b3a-b533-f18cd8047991}*SharedItemsImports = 4
 		Loki.Core.Shared\Loki.Core.Shared.projitems*{96b7d521-1224-4732-b419-a92922c895ad}*SharedItemsImports = 4
 		Loki.UI.Win.Shared\Loki.UI.Win.Shared.projitems*{98bba603-dbce-4911-9d6b-f8660043d40a}*SharedItemsImports = 13

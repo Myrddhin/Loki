@@ -51,14 +51,7 @@
     <None Include="Main\MenuViewModel.cs" />
     <None Include="Main\NavigationViewModel.cs" />
     <None Include="Main\SplashViewModel.cs" />
-    <Compile Include="Infrastructure\CommandManagerTest.cs" />
-    <Compile Include="Infrastructure\TestCommandHandler.cs" />
-    <Compile Include="Models\DisplayUnitTest.cs" />
-    <Compile Include="Models\NotifyPropertyChangedTest.cs" />
-    <Compile Include="Models\ScreenTest.cs" />
-    <Compile Include="Models\StateUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\CommonTest.cs" />
     <Compile Include="Tools\TestCommandManager.cs" />
     <Compile Include="Tools\TestConfiguration.cs" />
     <Compile Include="Tools\TestDiagnostics.cs" />
