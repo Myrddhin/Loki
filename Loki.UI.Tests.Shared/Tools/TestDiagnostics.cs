@@ -45,7 +45,7 @@ namespace Loki.Common
 
         public ILog GetLog(string logName)
         {
-            throw new NotImplementedException();
+            return new Log4NetLogFactory().CreateLog(logName);
         }
 
         public Task<string> GetLogDataAsync()

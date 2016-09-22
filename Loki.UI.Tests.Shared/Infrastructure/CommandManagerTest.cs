@@ -101,11 +101,15 @@ namespace Loki.UI.Commands
             {
                 this.command.CanExecute(null);
 
+                // the link is a weak reference.
+                GC.Collect();
+                Assert.True(raised);
                 handler.SetReturnValues(true, true);
                 handler.Refresh();
 
                 this.command.CanExecute(null);
             }
+
             Assert.True(raised);
         }
 

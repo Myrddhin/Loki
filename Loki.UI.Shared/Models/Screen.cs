@@ -1,12 +1,19 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Loki.Common.Diagnostics;
+using Loki.UI.Commands;
+
+#if WPF
+using System.Windows.Input;
+#endif
 
 namespace Loki.UI.Models
 {
-    public class Screen : DisplayUnit, IActivable, ILoadable, IGuardClose
+    public class Screen : DisplayUnit, IActivable, ILoadable, IGuardClose, IDisposable
     {
         protected IDisplayInfrastructure Infrastructure { get; }
 
@@ -82,7 +89,7 @@ namespace Loki.UI.Models
             ((IActivable)this).Desactivate(false);
         }
 
-       void IActivable.Desactivate(bool close)
+        void IActivable.Desactivate(bool close)
         {
             if (!this.IsActive && !close)
             {
@@ -115,9 +122,9 @@ namespace Loki.UI.Models
 
         public event EventHandler<DesactivationEventArgs> Desactivated;
 
-        protected virtual void LoadData()
+        protected virtual Task LoadData()
         {
-            Log.DebugFormat("Loading {0}.", this);
+            return Task.Delay(0);
         }
 
         private object loaded;
@@ -130,10 +137,19 @@ namespace Loki.UI.Models
                 ref loaded,
                 () =>
                     {
-                        this.LoadData();
-                        Tracking = true;
+                        this.InternalLoad();
                         return this;
                     });
+        }
+
+        private async void InternalLoad()
+        {
+            Log.DebugFormat("Loading {0}.", this);
+            await this.LoadData();
+            Log.DebugFormat(" End loading {0}.", this);
+            this.AcceptChanges();
+            Tracking = true;
+            this.Refresh();
         }
 
         private int closingSemaphore;
@@ -195,5 +211,53 @@ namespace Loki.UI.Models
         {
             callback(true);
         }
+
+        protected void BindCommand<T>(
+            ICommand command,
+            Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteHandler,
+            Func<T, Action<object, CommandEventArgs>> executeHandler)
+            where T : Screen
+        {
+            var subscription = Infrastructure.CommandsManager.CreateBind(command, (T)this, canExecuteHandler, executeHandler);
+            this.disposables.Add(subscription);
+        }
+
+        protected ICommand GetOrCreateCommand()
+        {
+            return this.GetOrCreateCommand(Guid.NewGuid().ToString());
+        }
+
+        protected ICommand GetOrCreateCommand(string commandName)
+        {
+            string name = $"{this.GetType().FullName}.{commandName}";
+            return Infrastructure.CommandsManager.GetCommand(name);
+        }
+
+        #region IDisposable Support
+
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private bool disposedValue;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposedValue)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.disposables.Dispose();
+            }
+
+            this.disposedValue = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

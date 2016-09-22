@@ -26,6 +26,8 @@ namespace Loki.UI.Commands
 
         private ILokiCommand LokiCommand => command as ILokiCommand;
 
+        private IObserver<EventPattern<PropertyChangedEventArgs>> target;
+
         public CommandBind(
             ICommand command,
             T actor,
@@ -47,7 +49,8 @@ namespace Loki.UI.Commands
             }
 
             var source = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(h => notifier.PropertyChanged += h, h => notifier.PropertyChanged -= h);
-            subscribtion = source.WeakSubscribe(Observer.Create<EventPattern<PropertyChangedEventArgs>>(RefreshCommand));
+            target = Observer.Create<EventPattern<PropertyChangedEventArgs>>(RefreshCommand);
+            subscribtion = source.WeakSubscribe(target);
         }
 
         public void Dispose()
@@ -64,6 +67,7 @@ namespace Loki.UI.Commands
             }
 
             subscribtion?.Dispose();
+            this.target = null;
             LokiCommand?.RefreshState();
 
             disposed = true;

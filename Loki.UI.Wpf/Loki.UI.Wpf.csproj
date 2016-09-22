@@ -55,6 +55,7 @@
     <Compile Include="Converters\NullToValueConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="DefaultSplashModel.cs" />
+    <Compile Include="Installers\UIInfrastructureInstaller.cs" />
     <Compile Include="Installers\UIServicesInstaller.cs" />
     <Compile Include="Controls\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>

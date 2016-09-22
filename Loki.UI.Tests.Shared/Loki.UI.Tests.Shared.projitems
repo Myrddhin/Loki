@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ScreenTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StateUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CommonTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\TestCommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TestConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TestDiagnostics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TestDisplayInfrastructure.cs" />

@@ -16,6 +16,7 @@ namespace Loki.UI
             MessageBus = bus;
             Diagnostics = diagnostics;
             Configuration = configuration;
+            CommandsManager = commands;
         }
 
         public IMessageBus MessageBus { get; }
