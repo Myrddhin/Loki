@@ -11,8 +11,8 @@ namespace Loki.UI
             ISignalManager signals,
            // ICommandComponent commands,
             //IEventComponent events,
-            IThreadingContext threading,
-            INavigationService navigation)
+            IThreadingContext threading)
+            //INavigationService navigation)
         {
             Windows = windows;
             Templates = templates;
@@ -20,7 +20,7 @@ namespace Loki.UI
            // Commands = commands;
             //Events = events;
             Threading = threading;
-            Navigation = navigation;
+            //Navigation = navigation;
         }
 
         public IWindowManager Windows { get; private set; }
@@ -35,6 +35,6 @@ namespace Loki.UI
 
         public IThreadingContext Threading { get; private set; }
 
-        public INavigationService Navigation { get; private set; }
+        //public INavigationService Navigation { get; private set; }
     }
 }

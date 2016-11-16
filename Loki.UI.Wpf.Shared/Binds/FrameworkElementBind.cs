@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 using Loki.Common;
+using Loki.UI.Models;
 using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Wpf.Binds

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loki.UI.Models;
+using System;
 using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Linq;

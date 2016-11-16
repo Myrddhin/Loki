@@ -57,8 +57,8 @@
     <Compile Include="Installers\UIServicesInstaller.cs" />
     <None Include="packages.config" />
     <None Include="Services\DevExpressWpfSplashBootstrapper.cs" />
-    <Compile Include="Services\DevExpressWpfTemplatingEngine.cs" />
-    <Compile Include="Services\DevExpressWpfWindowManager.cs" />
+    <None Include="Services\DevExpressWpfTemplatingEngine.cs" />
+    <None Include="Services\DevExpressWpfWindowManager.cs" />
     <Compile Include="Controls\LoadingDecorator.cs" />
   </ItemGroup>
   <ItemGroup>

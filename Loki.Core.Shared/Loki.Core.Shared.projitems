@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakKeyReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MessageBusExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IoCContainer.cs" />

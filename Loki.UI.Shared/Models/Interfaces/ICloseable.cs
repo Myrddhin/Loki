@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     /// <summary>
     /// Denotes an object that can be closed.

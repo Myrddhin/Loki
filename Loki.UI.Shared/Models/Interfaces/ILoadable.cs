@@ -1,4 +1,4 @@
-﻿namespace Loki.UI
+﻿namespace Loki.UI.Models
 {
     public interface ILoadable
     {

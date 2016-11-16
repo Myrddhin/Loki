@@ -11,6 +11,7 @@ using Infragistics.Windows.Controls.Events;
 
 using Loki.Common;
 using Loki.UI.Wpf.Infragistics.Controls;
+using Loki.UI.Models;
 
 namespace Loki.UI.Wpf.Binds.Infragistics
 {

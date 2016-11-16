@@ -4,6 +4,7 @@ using System.Windows;
 
 using Loki.Common;
 using Loki.Common.Diagnostics;
+using Loki.UI.Models;
 
 namespace Loki.UI.Wpf.Binds
 {
@@ -36,7 +37,7 @@ namespace Loki.UI.Wpf.Binds
                 view.Activated += View_Activate;
             }
 
-            var deactivatable = viewModel as IDesactivable;
+            var deactivatable = viewModel as IActivable;
             var closable = viewModel as ICloseable;
             if (deactivatable != null)
             {
@@ -97,7 +98,7 @@ namespace Loki.UI.Wpf.Binds
                 return;
             }
 
-            var desactivatable = (IDesactivable)ViewModel;
+            var desactivatable = (IActivable)ViewModel;
             desativatingFromView = true;
             desactivatable.Desactivate(false);
             desativatingFromView = false;

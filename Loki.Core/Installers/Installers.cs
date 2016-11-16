@@ -9,18 +9,18 @@ namespace Loki.Common
     {
         private static readonly CoreServicesInstaller CoreServices = new CoreServicesInstaller();
 
-        private static readonly UIServicesInstaller UIServices = new UIServicesInstaller();
+        //private static readonly UIServicesInstaller UIServices = new UIServicesInstaller();
 
         /// <summary>
         /// Gets the UI services installer.
         /// </summary>
-        public static IContextInstaller UI
-        {
-            get
-            {
-                return UIServices;
-            }
-        }
+        //public static IContextInstaller UI
+        //{
+        //    get
+        //    {
+        //        return UIServices;
+        //    }
+        //}
 
         /// <summary>
         /// Gets the core services installer.

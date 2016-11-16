@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EventExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ViewModelExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDisplayInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITemplateManager.cs" />
@@ -38,6 +39,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Screen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StateUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reactive\ObservableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reactive\WeakSubscribtion.cs" />
   </ItemGroup>
@@ -51,5 +55,20 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\LokiRelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\LokiRoutedCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IActivable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IGuardClose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\ILoadable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\DesactivationEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\ICloseable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IConventionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IHaveDisplayName.cs" />
   </ItemGroup>
 </Project>

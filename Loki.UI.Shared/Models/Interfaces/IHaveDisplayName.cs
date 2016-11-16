@@ -1,4 +1,4 @@
-﻿namespace Loki.UI
+﻿namespace Loki.UI.Models
 {
     /// <summary>
     /// Denotes an instance which has a display name.

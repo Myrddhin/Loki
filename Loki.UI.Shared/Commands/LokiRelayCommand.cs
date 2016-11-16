@@ -54,12 +54,7 @@ namespace Loki.UI.Commands
 
         protected virtual void OnCanExecuteChanged(EventArgs e)
         {
-            EventHandler handler = CanExecuteChanged;
-
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            CanExecuteChanged?.Invoke(this, e);
         }
 
         #endregion CanExecuteChanged
@@ -82,10 +77,7 @@ namespace Loki.UI.Commands
         /// <summary>
         /// Gets the command name.
         /// </summary>
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name => this.name;
 
         private readonly string name = Guid.NewGuid().ToString();
 
