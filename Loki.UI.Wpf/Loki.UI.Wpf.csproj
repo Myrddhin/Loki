@@ -49,10 +49,8 @@
     <None Include="Bootstrapper\WpfBootStrapper.cs" />
     <None Include="Bootstrapper\WpfSignalManager.cs" />
     <Compile Include="Controls\SimpleButton.cs" />
-    <Compile Include="Converters\BoolToValueConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DisplayNameWithStateConverter.cs" />
-    <Compile Include="Converters\NullToValueConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <None Include="DefaultSplashModel.cs" />
     <Compile Include="Installers\UIInfrastructureInstaller.cs" />

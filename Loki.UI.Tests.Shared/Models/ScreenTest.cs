@@ -17,6 +17,13 @@ namespace Loki.UI.Models
             Screen = new Screen(Infrastructure);
         }
 
+        [Fact(DisplayName = "Can dispose multiple times")]
+        public void DisposeAnyTimes()
+        {
+            Screen.Dispose();
+            Screen.Dispose();
+        }
+
         [Fact(DisplayName = "Tracking is inactive by default")]
         public void TrackingInactiveByDefault()
         {

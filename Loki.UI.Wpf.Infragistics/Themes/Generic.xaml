@@ -1,8 +1,7 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ig="http://schemas.infragistics.com/xaml"
-    xmlns:local="clr-namespace:Loki.UI.Wpf.Infragistics">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ig="http://schemas.infragistics.com/xaml"
+                    xmlns:local="clr-namespace:Loki.UI.Wpf.Infragistics">
     <Style TargetType="{x:Type local:CustomControl1}">
         <Setter Property="Template">
             <Setter.Value>

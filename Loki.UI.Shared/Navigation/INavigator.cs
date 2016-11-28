@@ -14,6 +14,8 @@ namespace Loki.UI.Navigation
         void AddRoute<T>(Uri route) where T : Screen;
 
         void AddRoute<T>(Uri route, Func<T, NavigationMessage, bool> selector);
+
+        void AddRoute<T>(Uri route, Func<T, NavigationMessage, bool> selector, Action<T, NavigationMessage> activator );
     }
 
    

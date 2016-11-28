@@ -45,6 +45,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Behaviors\GridExportBehavior.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Binds\DocumentGroupBind.cs" />
     <None Include="Binds\DocumentItemLayoutAdapter.cs" />
     <None Include="Binds\DocumentPanelBind.cs" />

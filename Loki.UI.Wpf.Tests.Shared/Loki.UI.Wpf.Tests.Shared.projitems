@@ -9,5 +9,6 @@
     <Import_RootNamespace>Loki.UI.Wpf.Tests.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ToUpperConverterTest.cs" />
   </ItemGroup>
 </Project>
