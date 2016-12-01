@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public class DefaultConventionManager : IConventionManager
     {

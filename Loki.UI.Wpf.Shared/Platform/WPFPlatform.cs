@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Windows;
 
 using Loki.Common.IoC;
+using Loki.UI.Bootstrap;
 using Loki.UI.Wpf.Binds;
 
 namespace Loki.UI.Platform
@@ -42,6 +44,14 @@ namespace Loki.UI.Platform
             var app = Application.Current ?? new Application();
 
             app.Run();
+        }
+
+        public void SetEntryPoint(object mainTemplate)
+        {
+            if (Application.Current != null && Application.Current.MainWindow == null)
+            {
+                Application.Current.MainWindow = mainTemplate as Window;
+            }
         }
 
         public IoCContainer CompositionRoot { get; }

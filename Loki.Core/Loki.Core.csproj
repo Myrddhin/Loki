@@ -158,11 +158,6 @@
     <None Include="UI\Commands\LokiRoutedCommand.cs" />
     <Compile Include="UI\IObservableCollection.cs" />
     <Compile Include="UI\ItemChangedEventArgs.cs" />
-    <Compile Include="UI\Messages\ErrorMessage.cs" />
-    <Compile Include="UI\Messages\ExitMessage.cs" />
-    <Compile Include="UI\Messages\InformationMessage.cs" />
-    <Compile Include="UI\Messages\StartMessage.cs" />
-    <Compile Include="UI\Messages\WarningMessage.cs" />
     <None Include="UI\Screens\ActivationEventArgs.cs" />
     <None Include="UI\Screens\IInitializable.cs" />
     <None Include="UI\Bootstrapper\ConsoleSignalManager.cs" />
@@ -193,7 +188,9 @@
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\Messages\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Errors.resx">
       <Generator>ResXFileCodeGenerator</Generator>

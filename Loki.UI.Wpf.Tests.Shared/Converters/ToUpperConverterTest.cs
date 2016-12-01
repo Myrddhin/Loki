@@ -27,5 +27,12 @@ namespace Loki.UI.Wpf.Tests.Converters
             var value = this.converter.ConvertBack("Pouet", typeof(string), null, CultureInfo.CurrentCulture);
             Assert.Equal(DependencyProperty.UnsetValue, value);
         }
+
+        [Fact(DisplayName = "ToUpperConverter - Convert")]
+        public void Convert()
+        {
+            var value = this.converter.Convert("Pouet", typeof(string), null, CultureInfo.CurrentCulture);
+            Assert.Equal("POUET", value);
+        }
     }
 }

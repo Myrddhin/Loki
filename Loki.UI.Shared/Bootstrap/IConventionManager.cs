@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Loki.Common.Diagnostics;
-
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public interface IConventionManager
     {

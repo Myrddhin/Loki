@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public interface ITemplateManager
     {

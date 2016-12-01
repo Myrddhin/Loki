@@ -4,7 +4,7 @@ using System.Reflection;
 
 using Loki.Common;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     internal class TemplateManager : BaseService, ITemplateManager
     {

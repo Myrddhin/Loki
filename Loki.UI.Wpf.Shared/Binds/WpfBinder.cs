@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 
+using Loki.UI.Bootstrap;
+
 namespace Loki.UI.Wpf.Binds
 {
    public class WpfBinder : IBinder

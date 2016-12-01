@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public interface IBinder
     {

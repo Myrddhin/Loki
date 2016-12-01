@@ -1,12 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Loki.UI.Models
 {
     /// <summary>
     /// Denotes an instance which requires activation.
     /// </summary>
-    public interface IActivable
+    public interface IActivable : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Raised before activation occurs.
+        /// </summary>
+        event EventHandler Activating;
+
         /// <summary>
         /// Raised after activation occurs.
         /// </summary>
@@ -25,17 +31,16 @@ namespace Loki.UI.Models
         /// <summary>
         /// Raised before deactivation.
         /// </summary>
-        event EventHandler<DesactivationEventArgs> AttemptingDesactivation;
+        event EventHandler Desactivating;
 
         /// <summary>
         /// Deactivates this instance.
         /// </summary>
-        /// <param name="close">Indicates whether or not this instance is being closed.</param>
-        void Desactivate(bool close);
+        void Desactivate();
 
         /// <summary>
         /// Raised after deactivation.
         /// </summary>
-        event EventHandler<DesactivationEventArgs> Desactivated;
+        event EventHandler Desactivated;
     }
 }

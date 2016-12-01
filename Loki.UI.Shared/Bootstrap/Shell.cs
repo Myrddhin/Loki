@@ -1,12 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 using Loki.UI.Models;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public class Shell
     {
-        public IPlatform Platform { get; private set; }
+        public IPlatform Platform { get; }
 
         private ITemplateManager templateManager;
 
@@ -21,14 +22,27 @@ namespace Loki.UI
             templateManager.AddBindings(Platform.Binder);
             templateManager.AddConventions(Platform.Conventions, Platform.UiAssemblies);
 
-            await Task.Delay(1);
-
+            var splash = Platform.CompositionRoot.ResolveAll<ISplashModel>().FirstOrDefault();
             var mainModels = Platform.CompositionRoot.ResolveAll<IStartModel>();
+
+            if (splash != null)
+            {
+                this.templateManager.BindWithTemplate(splash);
+                ViewModelExtensions.TryActivate(splash);
+                await splash.InitializeApplication();
+            }
 
             foreach (var startModel in mainModels)
             {
                 var template = this.templateManager.GetBindedTemplate(startModel);
                 ViewModelExtensions.TryActivate(startModel);
+                Platform.SetEntryPoint(template);
+            }
+
+            if (splash != null)
+            {
+                ViewModelExtensions.TryClose(splash);
+                Platform.CompositionRoot.Release(splash);
             }
         }
     }

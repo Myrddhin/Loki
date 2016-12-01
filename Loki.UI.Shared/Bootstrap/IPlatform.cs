@@ -2,7 +2,7 @@
 
 using Loki.Common.IoC;
 
-namespace Loki.UI
+namespace Loki.UI.Bootstrap
 {
     public interface IPlatform
     {
@@ -13,5 +13,7 @@ namespace Loki.UI
         IConventionManager Conventions { get; }
 
         IBinder Binder { get; }
+
+        void SetEntryPoint(object mainTemplate);
     }
 }

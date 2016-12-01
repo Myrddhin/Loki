@@ -25,10 +25,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Infrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\BaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\ErrorMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\ExitMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IHandle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IHandle.Generic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\IMessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\InformationMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\MessageBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\NavigationMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\StartMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\WarningMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\BaseDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakComparer.cs" />
@@ -38,6 +44,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ReflectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IDependencyResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IoC\IoCContainer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\INotifyPropertyChangedEx.cs" />
   </ItemGroup>
 </Project>

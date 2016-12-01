@@ -1,4 +1,4 @@
-﻿namespace Loki.UI
+﻿namespace Loki.Common.Messages
 {
     public class InformationMessage
     {

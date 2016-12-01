@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
+using Loki.UI.Bootstrap;
 using Loki.UI.Commands;
 
 namespace Loki.UI.Wpf.Infragistics.Installers

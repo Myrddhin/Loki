@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
+using Loki.UI.Bootstrap;
 using Loki.UI.Wpf;
 
 using Xunit;

@@ -24,6 +24,9 @@ namespace Loki.UI.Models
         /// </summary>
         event EventHandler Closed;
 
+        /// <summary>
+        /// Sets the dialog result.
+        /// </summary>
         Action<bool?> DialogResultSetter { get; set; }
     }
 }

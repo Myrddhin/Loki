@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.UI
+namespace Loki.Common.Messages
 {
     public class ErrorMessage
     {

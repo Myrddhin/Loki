@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     /// <summary>
     /// Extends <see cref = "INotifyPropertyChanged" /> such that the change event can be raised by external parties.

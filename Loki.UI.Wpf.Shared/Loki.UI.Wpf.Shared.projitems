@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Binds\FrameworkElementBind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binds\WindowBind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Binds\WpfBinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LokiWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullToValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\PredicateToValueConverter.cs" />

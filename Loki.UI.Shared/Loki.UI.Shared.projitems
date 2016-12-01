@@ -10,7 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\DefaultConventionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\DisplayInfrastructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IBinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\ISplashScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IStartModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\ITemplateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\Shell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IPlatform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\TemplateManager.cs" />
@@ -31,17 +34,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EventExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ViewModelExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\DisplayInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDisplayInfrastructure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITemplateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DisplayUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\IStartModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\INotifyPropertyChangedEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Screen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StateUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigationHost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reactive\ObservableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reactive\WeakSubscribtion.cs" />
   </ItemGroup>

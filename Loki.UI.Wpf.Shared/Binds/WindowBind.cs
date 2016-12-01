@@ -100,17 +100,12 @@ namespace Loki.UI.Wpf.Binds
 
             var desactivatable = (IActivable)ViewModel;
             desativatingFromView = true;
-            desactivatable.Desactivate(false);
+            desactivatable.Desactivate();
             desativatingFromView = false;
         }
 
-        private void ViewModel_Deactivated(object sender, DesactivationEventArgs e)
+        private void ViewModel_Deactivated(object sender, EventArgs e)
         {
-            if (e.WasClosed)
-            {
-                return;
-            }
-
             if (desativatingFromView)
             {
                 return;
@@ -171,21 +166,21 @@ namespace Loki.UI.Wpf.Binds
 
             guard.CanClose(canClose =>
             {
-               // Threading.OnUIThread(
-               //     () =>
-               //     {
-                        if (runningAsync && canClose)
-                        {
-                            actuallyClosing = true;
-                            Component.Close();
-                        }
-                        else
-                        {
-                            e.Cancel = !canClose;
-                        }
+                // Threading.OnUIThread(
+                //     () =>
+                //     {
+                if (runningAsync && canClose)
+                {
+                    actuallyClosing = true;
+                    Component.Close();
+                }
+                else
+                {
+                    e.Cancel = !canClose;
+                }
 
-                        shouldEnd = true;
-                 //   });
+                shouldEnd = true;
+                //   });
             });
 
             if (shouldEnd)
