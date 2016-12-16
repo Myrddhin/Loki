@@ -11,6 +11,7 @@ namespace Loki.UI.Navigation
 
         IObservableCollection<Screen> Items { get; }
 
-        void HandleRoute<T>(Uri route, Func<T, object, bool> matcher, Action<T, object> initializer) where T : Screen;
+        void HandleRoute<T>(Uri route, Func<T, object, bool> matcher, Action<T, object> initializer)
+            where T : Screen;
     }
 }

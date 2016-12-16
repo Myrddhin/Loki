@@ -37,7 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Messages\WarningMessage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\BaseDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakKeyComparer{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WeakReferences\WeakKeyReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MessageBusExtensions.cs" />

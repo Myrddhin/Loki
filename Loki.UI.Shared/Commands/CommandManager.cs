@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Loki.Common;
+
 #if WPF
+
 using System.Windows.Input;
+
 #endif
 
 namespace Loki.UI.Commands
@@ -113,7 +116,8 @@ namespace Loki.UI.Commands
             T handler,
             Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction,
             Func<T, Action<object, CommandEventArgs>> executeFunction,
-            Func<T, Func<CommandEventArgs, bool>> confirmDelegate) where T : class
+            Func<T, Func<CommandEventArgs, bool>> confirmDelegate)
+            where T : class
         {
             var bind = new CommandBind<T>(
                 command,
@@ -125,7 +129,11 @@ namespace Loki.UI.Commands
             var virtualKey = new WeakKeyReference<ICommand>(command, keyComparer);
             var buffer = new ConcurrentCollection<ICommandBind> { bind };
 
-            this.commandBinds.AddOrUpdate(virtualKey, k => buffer, (k, o) => { o.Add(bind); return o; });
+            this.commandBinds.AddOrUpdate(virtualKey, k => buffer, (k, o) =>
+            {
+                o.Add(bind);
+                return o;
+            });
 
             return bind;
         }

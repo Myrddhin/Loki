@@ -8,7 +8,7 @@ namespace Loki.UI.Bootstrap
     {
         IoCContainer CompositionRoot { get; }
 
-        Assembly[] UiAssemblies { get; }
+        Assembly[] UIAssemblies { get; }
 
         IConventionManager Conventions { get; }
 

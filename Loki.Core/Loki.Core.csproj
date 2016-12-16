@@ -21,14 +21,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Quality|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE;TEST;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -46,7 +38,9 @@
     <Compile Include="Common\Diagnostics\Diagnostics.cs" />
     <Compile Include="Common\Diagnostics\Log4NetLogFactory.cs" />
     <Compile Include="Common\ICoreServices.cs" />
+    <Compile Include="Common\RandomGenerator.cs" />
     <Compile Include="Common\Toolkit\CoreServices.cs" />
+    <Compile Include="Common\Toolkit\IExtensionMetadata.cs" />
     <Compile Include="Installers\InfrastructureInstaller.cs" />
     <Compile Include="IoC\CastleWindsorDependencyResolver.cs" />
     <Compile Include="IoC\CoreInstaller.cs" />
@@ -57,37 +51,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Errors.resx</DependentUpon>
     </Compile>
-    <None Include="UI\Commands\CommandBind.cs" />
-    <None Include="UI\Extensions\AggregatorExtensions.cs" />
     <Compile Include="Common\Extensions\ObjectExtensions.cs" />
     <Compile Include="Common\Extensions\ThreadingExtensions.cs" />
     <Compile Include="Common\ICentralizedChangeTracking.cs" />
     <Compile Include="Common\Diagnostics\Log4NetLog.cs" />
     <Compile Include="Common\ObservableHelper.cs" />
-    <Compile Include="Common\Randomizer.cs" />
     <None Include="packages.config" />
-    <None Include="UI\Extensions\DelegateExtensions.cs" />
-    <Compile Include="UI\IObservableEnumerable.cs" />
-    <None Include="UI\Navigation\NavigationService.cs" />
-    <None Include="UI\Navigation\MessageElement.cs" />
-    <None Include="UI\Navigation\NavigationGroupElement.cs" />
-    <None Include="UI\Navigation\NavigationViewModel.cs" />
-    <None Include="UI\Screens\ClosingProcessedEventArgs.cs" />
-    <None Include="UI\Screens\Containers\ContainerAllActive.cs" />
-    <None Include="UI\Screens\Containers\ContainerBase.cs" />
-    <None Include="UI\Screens\Containers\ContainerBaseWithActiveItem.cs" />
-    <None Include="UI\Screens\Containers\ContainerOneActive.cs" />
-    <None Include="UI\Screens\Containers\ViewModelExtenstions.cs" />
-    <None Include="UI\Screens\DisplayElement.cs" />
-    <None Include="UI\Screens\FileDialogInformations.cs" />
-    <None Include="UI\Screens\IChild.Generic.cs" />
-    <None Include="UI\Screens\IScreenFactory.cs" />
-    <None Include="UI\Screens\Screen.cs" />
-    <None Include="UI\Screens\AsyncScreen.cs" />
-    <None Include="UI\Tasks\ITaskComponent.cs" />
-    <None Include="UI\Tasks\ITaskConfiguration.cs" />
-    <None Include="UI\Tasks\ITaskConfiguration.Generic.cs" />
-    <Compile Include="Common\Toolkit\IExtensionType.cs" />
     <Compile Include="Common\Toolkit\ExtensionManager.cs" />
     <None Include="Common\Toolkit\Toolkit.cs" />
     <None Include="Installers\CoreServicesInstaller.cs" />
@@ -112,62 +81,6 @@
     <Compile Include="IoC\Registration\Property.cs" />
     <Compile Include="IoC\Registration\PropertyKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="UI\BindableCollection.cs" />
-    <None Include="UI\Bootstrapper\BindingEventArgs.cs" />
-    <None Include="UI\Bootstrapper\CommonBootstrapper.cs" />
-    <None Include="UI\Commands\ApplicationCommands.cs" />
-    <None Include="UI\Screens\ActivationProcessedEventArgs.cs" />
-    <None Include="UI\Screens\Containers\DefaultCloseStrategy.cs" />
-    <None Include="UI\Screens\IChild.cs" />
-    <None Include="UI\Screens\ICloseStrategy.cs" />
-    <None Include="UI\Screens\IConductActiveItem.cs" />
-    <None Include="UI\Screens\IConductor.cs" />
-    <None Include="UI\Screens\IDesactivable.cs" />
-    <None Include="UI\Screens\IHaveActiveItem.cs" />
-    <None Include="UI\Screens\IParent.cs" />
-    <None Include="UI\Screens\IParent.Generic.cs" />
-    <None Include="UI\Screens\IScreen.cs" />
-    <None Include="UI\Screens\ISplashViewModel.cs" />
-    <None Include="UI\Navigation\CommandElement.cs" />
-    <None Include="UI\Navigation\ICommandElement.cs" />
-    <None Include="UI\Navigation\IMessageElement.cs" />
-    <None Include="UI\Navigation\INavigationElement.cs" />
-    <None Include="UI\Navigation\INavigationMessage.cs" />
-    <None Include="UI\Navigation\NavigationMessage.cs" />
-    <None Include="UI\Tasks\TaskBuilder.cs" />
-    <None Include="UI\Tasks\TaskCompletedEventArgs.cs" />
-    <None Include="UI\Tasks\TaskComponent.cs" />
-    <None Include="UI\Tasks\TaskConfiguration.cs" />
-    <None Include="UI\Tasks\TaskRun.cs" />
-    <None Include="UI\Toolkit\DisplayServices.cs" />
-    <None Include="UI\Toolkit\IDisplayServices.cs" />
-    <None Include="UI\Navigation\INavigationService.cs" />
-    <None Include="UI\Toolkit\IUIServices.cs" />
-    <None Include="UI\Toolkit\UIServices.cs" />
-    <None Include="UI\Commands\CommandManager.cs" />
-    <None Include="UI\Commands\Event args\CanExecuteCommandEventArgs.cs" />
-    <None Include="UI\Commands\Event args\CommandEventArgs.cs" />
-    <None Include="UI\Commands\Interfaces\ICommand.cs" />
-    <None Include="UI\Commands\Interfaces\ICommandAware.cs" />
-    <None Include="UI\Commands\Interfaces\ICommandHandler.cs" />
-    <None Include="UI\Commands\Interfaces\ICommandComponent.cs" />
-    <Compile Include="UI\Commands\Interfaces\INotifyCanExecuteChanged.cs" />
-    <None Include="UI\Commands\LokiCommandHandler.cs" />
-    <None Include="UI\Commands\LokiCommandService.cs" />
-    <None Include="UI\Commands\LokiRelayCommand.cs" />
-    <None Include="UI\Commands\LokiRoutedCommand.cs" />
-    <Compile Include="UI\IObservableCollection.cs" />
-    <Compile Include="UI\ItemChangedEventArgs.cs" />
-    <None Include="UI\Screens\ActivationEventArgs.cs" />
-    <None Include="UI\Screens\IInitializable.cs" />
-    <None Include="UI\Bootstrapper\ConsoleSignalManager.cs" />
-    <None Include="UI\Bootstrapper\DefaultThreadingContext.cs" />
-    <None Include="UI\Toolkit\IPlatform.cs" />
-    <None Include="UI\Toolkit\ISignalManager.cs" />
-    <None Include="UI\Toolkit\ITemplatingEngine.cs" />
-    <None Include="UI\Toolkit\IThreadingContext.cs" />
-    <None Include="UI\Toolkit\IWindowManager.cs" />
-    <None Include="UI\Toolkit\UIServiceContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -188,9 +101,7 @@
     <Reference Include="System.XML" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\Errors.resx">
       <Generator>ResXFileCodeGenerator</Generator>

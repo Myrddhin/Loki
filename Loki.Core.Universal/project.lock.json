@@ -320,6 +320,9 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -2723,6 +2726,9 @@
           "runtimes/win8-arm/native/clrcompression.dll": {}
         }
       },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -5019,6 +5025,9 @@
           "runtimes/win8-arm-aot/native/_._": {}
         }
       },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -7284,6 +7293,9 @@
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
         }
+      },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
       },
       "System.AppContext/4.1.0": {
         "type": "package",
@@ -9590,6 +9602,9 @@
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
         }
       },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
+      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -11855,6 +11870,9 @@
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
         }
+      },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
       },
       "System.AppContext/4.1.0": {
         "type": "package",
@@ -14160,6 +14178,9 @@
         "runtime": {
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
         }
+      },
+      "StyleCop.Analyzers/1.0.0": {
+        "type": "package"
       },
       "System.AppContext/4.1.0": {
         "type": "package",
@@ -17137,6 +17158,20 @@
         "runtime.win8-arm.runtime.native.System.IO.Compression.4.0.1.nupkg.sha512",
         "runtime.win8-arm.runtime.native.System.IO.Compression.nuspec",
         "runtimes/win8-arm/native/clrcompression.dll"
+      ]
+    },
+    "StyleCop.Analyzers/1.0.0": {
+      "sha512": "NT0qdVF8gfXn6YcajL/s9orWNbO9NAr9AM8MDHIxXHstMvxi7+viLxAlZIoWRAA25Cs4O91qFcMt06cL/61TjQ==",
+      "type": "package",
+      "path": "StyleCop.Analyzers/1.0.0",
+      "files": [
+        "StyleCop.Analyzers.1.0.0.nupkg.sha512",
+        "StyleCop.Analyzers.nuspec",
+        "analyzers/dotnet/cs/Newtonsoft.Json.dll",
+        "analyzers/dotnet/cs/StyleCop.Analyzers.CodeFixes.dll",
+        "analyzers/dotnet/cs/StyleCop.Analyzers.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -22045,7 +22080,8 @@
   "projectFileDependencyGroups": {
     "": [
       "LightInject >= 4.0.0",
-      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2"
+      "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2",
+      "StyleCop.Analyzers >= 1.0.0"
     ],
     "UAP,Version=v10.0": []
   },

@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 
 using Loki.Common.Diagnostics;
-using Loki.UI.Commands;
 
 namespace Loki.Common
 {
@@ -12,7 +11,7 @@ namespace Loki.Common
     /// </summary>
     public class LokiEventService : BaseObject, IEventComponent
     {
-       // private readonly WeakEventManager<ICommand, EventArgs> canExecuteChangedManager;
+        //// private readonly WeakEventManager<ICommand, EventArgs> canExecuteChangedManager;
 
         private readonly WeakEventManager<ICentralizedChangeTracking, EventArgs> centralizedChangeManager;
 
@@ -32,9 +31,6 @@ namespace Loki.Common
         /// <param name="loggerComponent">
         /// The logger Component.
         /// </param>
-        /// <param name="errorComponent">
-        /// The error Component.
-        /// </param>
         public LokiEventService(IDiagnostics loggerComponent)
             : base(loggerComponent)
         {
@@ -44,37 +40,37 @@ namespace Loki.Common
                 (s, b) => s.PropertyChanging -= b.OnEvent);
             changedManager = new WeakEventManager<INotifyPropertyChanged, PropertyChangedEventArgs>(
                 loggerComponent,
-  
+
                 (s, b) => s.PropertyChanged += b.OnEvent,
                 (s, b) => s.PropertyChanged -= b.OnEvent);
             centralizedChangeManager = new WeakEventManager<ICentralizedChangeTracking, EventArgs>(
                 loggerComponent,
-       
+
                 (s, b) => s.StateChanged += b.OnEvent,
                 (s, b) => s.StateChanged -= b.OnEvent);
             collectionChangedManager =
                 new WeakEventManager<INotifyCollectionChanged, NotifyCollectionChangedEventArgs>(
                     loggerComponent,
-           
+
                     (s, b) => s.CollectionChanged += b.OnEvent,
                     (s, b) => s.CollectionChanged -= b.OnEvent);
             //canExecuteChangedManager = new WeakEventManager<ICommand, EventArgs>(
             //    loggerComponent,
-          
+
             //    (s, b) => s.CanExecuteChanged += b.OnEvent,
             //    (s, b) => s.CanExecuteChanged -= b.OnEvent);
 
             notifyPropertyChangedManager =
                 new WeakNotifyPropertyManager<INotifyPropertyChanged, PropertyChangedEventArgs>(
                     loggerComponent,
-             
+
                     e => e.PropertyName,
                     (s, b) => s.PropertyChanged += b.OnProperty,
                     (s, b) => s.PropertyChanged -= b.OnProperty);
             notifyPropertyChangingManager =
                 new WeakNotifyPropertyManager<INotifyPropertyChanging, PropertyChangingEventArgs>(
                     loggerComponent,
-             
+
                     e => e.PropertyName,
                     (s, b) => s.PropertyChanging += b.OnProperty,
                     (s, b) => s.PropertyChanging -= b.OnProperty);

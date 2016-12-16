@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Loki.Common.Installers;
+
 namespace Loki.Common.IoC
 {
     /// <summary>
@@ -10,10 +12,9 @@ namespace Loki.Common.IoC
         public static Func<IDependencyResolver> DependencyResolverFactory { get; set; } =
             () => new CastleWindsorDependencyResolver();
 
-
         protected void RegisterInfrastructure()
         {
-            this.RegisterInstaller(new Loki.Common.Installers.InfrastructureInstaller());
+            this.RegisterInstaller(new InfrastructureInstaller());
         }
     }
 }

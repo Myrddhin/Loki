@@ -10,12 +10,14 @@ namespace Loki.Common.IoC
             throw new NotImplementedException();
         }
 
-        public void OverrideInfrastructureService<T>(Type type) where T : class
+        public void OverrideInfrastructureService<T>(Type type)
+            where T : class
         {
             throw new NotImplementedException();
         }
 
-        public void OverrideInfrastructureInstance<T>(T instance) where T : class
+        public void OverrideInfrastructureInstance<T>(T instance)
+            where T : class
         {
             throw new NotImplementedException();
         }

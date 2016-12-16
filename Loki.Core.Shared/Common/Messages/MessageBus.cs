@@ -128,10 +128,7 @@ namespace Loki.Common.Messages
             private readonly WeakReference reference;
             private readonly Dictionary<Type, MethodInfo> supportedHandlers = new Dictionary<Type, MethodInfo>();
 
-            public bool IsDead
-            {
-                get { return reference.Target == null; }
-            }
+            public bool IsDead => this.reference.Target == null;
 
             public Handler(object handler)
             {
@@ -166,7 +163,6 @@ namespace Loki.Common.Messages
                     if (pair.Key.IsAssignableFrom(messageType))
                     {
                         pair.Value.Invoke(target, new[] { message });
-                       
                     }
                 }
 

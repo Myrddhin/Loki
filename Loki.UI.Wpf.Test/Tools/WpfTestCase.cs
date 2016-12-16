@@ -17,7 +17,7 @@ namespace Loki.UI
     [DebuggerDisplay(@"\{ class = {TestMethod.TestClass.Class.Name}, method = {TestMethod.Method.Name}, display = {DisplayName}, skip = {SkipReason} \}")]
     public class WpfTestCase : LongLivedMarshalByRefObject, IXunitTestCase
     {
-        IXunitTestCase testCase;
+        private IXunitTestCase testCase;
 
         public WpfTestCase(IXunitTestCase testCase)
         {
@@ -27,15 +27,18 @@ namespace Loki.UI
         /// <summary/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", error: true)]
-        public WpfTestCase() { }
+        public WpfTestCase()
+        {
+        }
 
         public IMethodInfo Method => this.testCase.Method;
 
-        public Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink,
-                                         IMessageBus messageBus,
-                                         object[] constructorArguments,
-                                         ExceptionAggregator aggregator,
-                                         CancellationTokenSource cancellationTokenSource)
+        public Task<RunSummary> RunAsync(
+            IMessageSink diagnosticMessageSink,
+            IMessageBus messageBus,
+            object[] constructorArguments,
+            ExceptionAggregator aggregator,
+            CancellationTokenSource cancellationTokenSource)
         {
             var tcs = new TaskCompletionSource<RunSummary>();
             var thread = new Thread(() =>
@@ -51,18 +54,19 @@ namespace Loki.UI
 
                     // Arrange to pump messages to execute any async work associated with the test.
                     var frame = new DispatcherFrame();
-                    Task.Run(async delegate
-                    {
-                        try
-                        {
-                            await testCaseTask;
-                        }
-                        finally
-                        {
-                            // The test case's execution is done. Terminate the message pump.
-                            frame.Continue = false;
-                        }
-                    });
+                    Task.Run(
+                        async () =>
+                            {
+                                try
+                                {
+                                    await testCaseTask;
+                                }
+                                finally
+                                {
+                                    // The test case's execution is done. Terminate the message pump.
+                                    frame.Continue = false;
+                                }
+                            });
                     Dispatcher.PushFrame(frame);
 
                     // Report the result back to the Task we returned earlier.
@@ -110,18 +114,32 @@ namespace Loki.UI
         private static void CopyTaskResultFrom<T>(TaskCompletionSource<T> tcs, Task<T> template)
         {
             if (tcs == null)
+            {
                 throw new ArgumentNullException(nameof(tcs));
-            if (template == null)
-                throw new ArgumentNullException(nameof(template));
-            if (!template.IsCompleted)
-                throw new ArgumentException("Task must be completed first.", nameof(template));
+            }
 
-            if (template.IsFaulted)
+            if (template == null)
+            {
+                throw new ArgumentNullException(nameof(template));
+            }
+
+            if (!template.IsCompleted)
+            {
+                throw new ArgumentException("Task must be completed first.", nameof(template));
+            }
+
+            if (template.IsFaulted && template.Exception != null)
+            {
                 tcs.SetException(template.Exception);
+            }
             else if (template.IsCanceled)
+            {
                 tcs.SetCanceled();
+            }
             else
+            {
                 tcs.SetResult(template.Result);
+            }
         }
     }
 }

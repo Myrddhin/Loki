@@ -7,7 +7,8 @@ namespace Loki.Common
     /// Provides a weak reference to an object of the given type to be used in a WeakDictionary along with the given comparer.
     /// </summary>
     /// <typeparam name="T">The weak reference type.</typeparam>
-    public class WeakKeyReference<T> : WeakReference where T : class
+    public class WeakKeyReference<T> : WeakReference
+        where T : class
     {
         public int KeyHashCode { get; }
 

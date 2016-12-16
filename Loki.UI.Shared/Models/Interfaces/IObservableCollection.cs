@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     /// <summary>
     /// Represents a collection that is observable.

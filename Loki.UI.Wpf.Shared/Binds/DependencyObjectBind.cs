@@ -5,7 +5,8 @@ using Loki.Common.Diagnostics;
 
 namespace Loki.UI.Wpf.Binds
 {
-    public class DependencyObjectBind<TComponent> : BaseObject where TComponent : DependencyObject
+    public class DependencyObjectBind<TComponent> : BaseObject
+        where TComponent : DependencyObject
     {
         protected TComponent Component { get; private set; }
 
@@ -13,7 +14,8 @@ namespace Loki.UI.Wpf.Binds
 
         protected IDiagnostics Diagnostics { get; private set; }
 
-        public DependencyObjectBind(IDiagnostics diagnostics, TComponent component, object viewModel) : base(diagnostics)
+        public DependencyObjectBind(IDiagnostics diagnostics, TComponent component, object viewModel)
+            : base(diagnostics)
         {
             Diagnostics = diagnostics;
             Component = component;

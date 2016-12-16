@@ -19,6 +19,7 @@ namespace Loki.IoC
         /// </summary>
         /// <typeparam name="T">Concrete type.</typeparam>
         /// <param name="definition">The type definition.</param>
-        void Register<T>(ElementRegistration<T> definition) where T : class;
+        void Register<T>(ElementRegistration<T> definition)
+            where T : class;
     }
 }

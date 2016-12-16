@@ -8,6 +8,5 @@ namespace Loki.Common
         IDiagnostics Diagnostics { get; }
 
         IMessageBus Messages { get; }
-       
     }
 }

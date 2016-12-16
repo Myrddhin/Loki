@@ -25,12 +25,13 @@ namespace Loki.UI.Commands
         /// Command service component.
         /// </param>
         /// <param name="messageBus">
+        /// Message bus.
         /// </param>
         public LokiRoutedCommand(
-            string name, 
-            IDiagnostics diagnostics, 
-            ICommandManager commands, 
-            IMessageBus messageBus) 
+            string name,
+            IDiagnostics diagnostics,
+            ICommandManager commands,
+            IMessageBus messageBus)
             : base(diagnostics)
         {
             commandService = commands;
@@ -99,7 +100,7 @@ namespace Loki.UI.Commands
 
             UpdateCanExecute(args.CanExecute);
 
-            Log.DebugFormat("Command {0} : can execute {1}", this.Name, args.CanExecute);
+            Log.Debug($"Command {Name} : can execute {args.CanExecute}");
             return args.CanExecute;
         }
 

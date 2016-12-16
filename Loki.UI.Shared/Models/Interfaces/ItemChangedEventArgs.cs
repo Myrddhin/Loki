@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loki.UI
+namespace Loki.UI.Models
 {
     public class ItemChangedEventArgs<T> : EventArgs
     {

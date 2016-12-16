@@ -19,9 +19,11 @@ namespace Loki.UI.Wpf.Controls
             set { SetValue(ImageProperty, value); }
         }
 
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image",
-            typeof(ImageSource), typeof(SimpleButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(
+            "Image",
+            typeof(ImageSource),
+            typeof(SimpleButton),
+            new PropertyMetadata(null));
 
         public double ImageHeight
         {
@@ -29,9 +31,11 @@ namespace Loki.UI.Wpf.Controls
             set { SetValue(ImageHeightProperty, value); }
         }
 
-        public static readonly DependencyProperty ImageHeightProperty =
-            DependencyProperty.Register("ImageHeight",
-            typeof(double), typeof(SimpleButton), new PropertyMetadata(double.NaN));
+        public static readonly DependencyProperty ImageHeightProperty = DependencyProperty.Register(
+            "ImageHeight",
+            typeof(double),
+            typeof(SimpleButton),
+            new PropertyMetadata(double.NaN));
 
         public double ImageWidth
         {
@@ -39,8 +43,10 @@ namespace Loki.UI.Wpf.Controls
             set { SetValue(ImageWidthProperty, value); }
         }
 
-        public static readonly DependencyProperty ImageWidthProperty =
-            DependencyProperty.Register("ImageWidth",
-            typeof(double), typeof(SimpleButton), new PropertyMetadata(double.NaN));
+        public static readonly DependencyProperty ImageWidthProperty = DependencyProperty.Register(
+            "ImageWidth",
+            typeof(double),
+            typeof(SimpleButton),
+            new PropertyMetadata(double.NaN));
     }
 }

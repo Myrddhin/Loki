@@ -1,14 +1,13 @@
 ﻿using System;
 
-using Xunit;
 using Xunit.Sdk;
 
 namespace Loki.UI
 {
     [AttributeUsage(AttributeTargets.Method)]
-    // [XunitTestCaseDiscoverer("Loki.UI.WpfFactDiscoverer", "Loki.UI.Wpf.Test")]
-    public class WpfFactAttribute : Attribute
+    [XunitTestCaseDiscoverer("Loki.UI.WpfFactDiscoverer", "Loki.UI.Wpf.Test")]
+    public sealed class WpfFactAttribute : Attribute
     {
-        public string DisplayName { get; set; }   
+        public string DisplayName { get; set; }
     }
 }

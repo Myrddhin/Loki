@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
+
 using Loki.Common.Resources;
 
 namespace Loki.Common
@@ -61,7 +62,7 @@ namespace Loki.Common
         }
 
         public static bool HasDefaultConstructor(Type type)
-        {  
+        {
             return type.GetConstructor(Type.EmptyTypes) != null;
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Loki.UI;
-
-namespace System.Threading
+﻿namespace System.Threading
 {
     public static class ThreadingExtensions
     {
@@ -131,19 +126,17 @@ namespace System.Threading
                     rwlsLock.ExitUpgradeableReadLock();
                 }
             }
-            else
+
+            // read
+            rwlsLock.EnterReadLock();
+            rwlsLock.ExitUpgradeableReadLock();
+            try
             {
-                // read
-                rwlsLock.EnterReadLock();
-                rwlsLock.ExitUpgradeableReadLock();
-                try
-                {
-                    return read();
-                }
-                finally
-                {
-                    rwlsLock.ExitReadLock();
-                }
+                return read();
+            }
+            finally
+            {
+                rwlsLock.ExitReadLock();
             }
         }
     }

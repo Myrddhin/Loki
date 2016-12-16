@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Loki.UI.Models;
+﻿using Loki.UI.Models;
 
 namespace Loki.UI.Commands
 {
-   public  class TestCommandHandler : NotifyPropertyChanged
+    public class TestCommandHandler : NotifyPropertyChanged
     {
         public int ConfirmCalled { get; private set; }
 
@@ -20,16 +14,16 @@ namespace Loki.UI.Commands
 
         private bool confirmResult;
 
-        public TestCommandHandler(bool canExecuteResult, bool confirmResult)
+        public TestCommandHandler(bool canExecute, bool confirm)
         {
-            this.canExecuteResult = canExecuteResult;
-            this.confirmResult = confirmResult;
+            this.canExecuteResult = canExecute;
+            this.confirmResult = confirm;
         }
 
-        public void SetReturnValues(bool canExecuteResult, bool confirmResult)
+        public void SetReturnValues(bool canExecute, bool confirm)
         {
-            this.canExecuteResult = canExecuteResult;
-            this.confirmResult = confirmResult;
+            this.canExecuteResult = canExecute;
+            this.confirmResult = confirm;
         }
 
         public void CanExecute(object sender, CanExecuteCommandEventArgs e)

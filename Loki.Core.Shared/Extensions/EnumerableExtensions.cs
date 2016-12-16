@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Loki.Common
 {
     /// <summary>
-    /// Extension methods for <see cref="IEnumerable&lt;T&gt;"/>.
+    /// Extension methods for <see cref="IEnumerable{T}"/>.
     /// </summary>
-    public static class CollectionExtensions
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Applies the action to each element in the list.

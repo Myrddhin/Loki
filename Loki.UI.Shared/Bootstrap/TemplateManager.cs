@@ -8,11 +8,12 @@ namespace Loki.UI.Bootstrap
 {
     internal class TemplateManager : BaseService, ITemplateManager
     {
-      private Dictionary<string, Func<object>> templateMapping = new Dictionary<string, Func<object>>();
+        private Dictionary<string, Func<object>> templateMapping = new Dictionary<string, Func<object>>();
 
         private IBinder binder;
 
-        public TemplateManager(IInfrastructure infrastructure) : base(infrastructure)
+        public TemplateManager(IInfrastructure infrastructure)
+            : base(infrastructure)
         {
         }
 

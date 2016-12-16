@@ -8,6 +8,7 @@ namespace Loki.UI.Models
     public class DisplayUnitTest
     {
         public DisplayUnit Unit { get; set; }
+
         public TestDisplayInfrastructure Infrastructure { get; set; }
 
         public DisplayUnitTest()
@@ -44,7 +45,7 @@ namespace Loki.UI.Models
         public void ActivatingRaiseRefresh()
         {
             bool raised = false;
-            Unit.PropertyChanged += (s, e) => raised |= e.PropertyName == string.Empty;
+            Unit.PropertyChanged += (s, e) => raised |= string.IsNullOrEmpty(e.PropertyName);
             Unit.Activate();
 
             Assert.True(raised);
@@ -109,7 +110,7 @@ namespace Loki.UI.Models
         }
 
         [Fact(DisplayName = "Message bus unsubscribe when close")]
-        public void MessageBusUnSubscribeWhenClose()
+        public void MessageBusUnsubscribeWhenClose()
         {
             Unit.TryClose(true);
             Assert.Equal(0, Infrastructure.MessageBus.Subscriptions);

@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+
 using Loki.Common.Resources;
 
 namespace Loki.Common
@@ -17,7 +18,7 @@ namespace Loki.Common
 
         private readonly string searchDirectory;
 
-        private AggregateCatalog catalog;
+        private readonly AggregateCatalog catalog;
 
         private CompositionContainer container;
 
@@ -25,14 +26,7 @@ namespace Loki.Common
         {
             this.defaultComponentName = defaultComponentName;
 
-            if (null == AppDomain.CurrentDomain.RelativeSearchPath)
-            {
-                this.searchDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            }
-            else
-            {
-                this.searchDirectory = AppDomain.CurrentDomain.RelativeSearchPath;
-            }
+            this.searchDirectory = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
 
             // An aggregate catalog that combines multiple catalogs
             catalog = new AggregateCatalog();
@@ -103,7 +97,7 @@ namespace Loki.Common
 
         #region IDisposable
 
-        private bool disposed = false;
+        private bool disposed;
 
         ~ExtensionManager()
         {
@@ -123,16 +117,15 @@ namespace Loki.Common
                 return;
             }
 
-            if (disposing)
+            if (!disposing)
             {
-                catalog.Dispose();
-                if (container != null)
-                {
-                    container.Dispose();
-                }
-
-                disposed = true;
+                return;
             }
+
+            this.catalog.Dispose();
+            this.container?.Dispose();
+
+            this.disposed = true;
         }
 
         #endregion IDisposable

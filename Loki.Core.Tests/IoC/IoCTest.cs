@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Loki.Common.IoC;
-
 using Xunit;
 
 namespace Loki.Common.IoC.Tests
@@ -34,7 +32,6 @@ namespace Loki.Common.IoC.Tests
             Assert.Equal(2, test.Length);
             Assert.Equal(typeof(Replacement), test[1].GetType());
             Assert.Equal(typeof(SecondReplacement), test[0].GetType());
-
         }
 
         [Fact(DisplayName = "Register Infrastructure")]

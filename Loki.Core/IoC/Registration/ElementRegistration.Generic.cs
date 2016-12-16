@@ -7,7 +7,8 @@ namespace Loki.IoC.Registration
     /// IoC registration class.
     /// </summary>
     /// <typeparam name="TService">Component to configure.</typeparam>
-    public class ElementRegistration<TService> where TService : class
+    public class ElementRegistration<TService>
+        where TService : class
     {
         public ElementRegistration()
         {
@@ -113,7 +114,8 @@ namespace Loki.IoC.Registration
         /// </summary>
         /// <typeparam name="TConcrete">The concrete type.</typeparam>
         /// <returns>Modified definition.</returns>
-        public ElementRegistration<TService> ImplementedBy<TConcrete>() where TConcrete : TService
+        public ElementRegistration<TService> ImplementedBy<TConcrete>()
+            where TConcrete : TService
         {
             Implementation = typeof(TConcrete);
             return this;

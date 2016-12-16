@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Loki.Common.Diagnostics;
@@ -18,22 +15,26 @@ namespace Loki.Common
             }
         }
 
-        public T BuildError<T>(string message) where T : Exception
+        public T BuildError<T>(string message)
+            where T : Exception
         {
             throw new NotImplementedException();
         }
 
-        public T BuildError<T>(string message, Exception innerException) where T : Exception
+        public T BuildError<T>(string message, Exception innerException)
+            where T : Exception
         {
             throw new NotImplementedException();
         }
 
-        public T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(string message, params object[] parameters)
+            where T : Exception
         {
             throw new NotImplementedException();
         }
 
-        public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters)
+            where T : Exception
         {
             throw new NotImplementedException();
         }

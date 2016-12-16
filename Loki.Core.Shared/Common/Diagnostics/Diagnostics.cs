@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Globalization;
 using System.Collections.Concurrent;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using Loki.Common.Resources;
 
@@ -49,7 +49,8 @@ namespace Loki.Common.Diagnostics
 
         private readonly ConcurrentDictionary<Type, Func<string, Exception>> stringTypeBuilders = new ConcurrentDictionary<Type, Func<string, Exception>>();
 
-        public T BuildError<T>(string message, Exception innerException) where T : Exception
+        public T BuildError<T>(string message, Exception innerException)
+            where T : Exception
         {
             // log exception
             internalLog.Error(message, innerException);
@@ -71,12 +72,14 @@ namespace Loki.Common.Diagnostics
             return fullTypeBuilders[exceptionType](message, innerException) as T;
         }
 
-        public T BuildError<T>(string message) where T : Exception
+        public T BuildError<T>(string message)
+            where T : Exception
         {
             return BuildError<T>(message, null);
         }
 
-        public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters)
+            where T : Exception
         {
             // log exception
             internalLog.Error(string.Format(CultureInfo.InvariantCulture, message, parameters), innerException);
@@ -98,7 +101,8 @@ namespace Loki.Common.Diagnostics
             return fullTypeBuilders[exceptionType](string.Format(CultureInfo.InvariantCulture, message, parameters), innerException) as T;
         }
 
-        public T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
+        public T BuildErrorFormat<T>(string message, params object[] parameters)
+            where T : Exception
         {
             return BuildErrorFormat<T>(null, message, parameters);
         }

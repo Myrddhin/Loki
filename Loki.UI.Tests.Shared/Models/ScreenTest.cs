@@ -59,7 +59,5 @@ namespace Loki.UI.Models
             Screen.Load();
             Assert.False(raised);
         }
-
-       
     }
 }

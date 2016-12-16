@@ -23,7 +23,7 @@ namespace Loki.Common
             this.disposables.Add(disposable);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
             {

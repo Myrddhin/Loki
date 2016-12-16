@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Loki.UI
 {
-    public class View
+    public static class View
     {
         private static bool? inDesignMode;
 
@@ -23,7 +23,6 @@ namespace Loki.UI
                 return inDesignMode.GetValueOrDefault(false);
             }
         }
-
 
         /// <summary>
         /// Executes the handler immediately if the element is loaded, otherwise wires it to the Loaded event.

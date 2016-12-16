@@ -57,13 +57,13 @@ namespace Loki.Common
             Assert.Equal(Component.Count, 1);
             Assert.Equal(Component.Count(), 1);
 
-            int i=0;
+            int i = 0;
             foreach (var kvp in Component)
             {
                 i++;
             }
 
-            Assert.Equal(i,1);
+            Assert.Equal(i, 1);
 
             Component.Clear();
             Assert.Equal(Component.Count, 0);

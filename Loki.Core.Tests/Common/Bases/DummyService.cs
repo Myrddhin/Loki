@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Loki.Common.IoC.Tests;
 using Loki.Common.Messages;
@@ -19,8 +15,8 @@ namespace Loki.Common
         }
 
         public DummyDisposable SubDisposable { get; private set; }
-       
-        public event EventHandler Received;       
+
+        public event EventHandler Received;
 
         public void Handle(SimpleMessage message)
         {

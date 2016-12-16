@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 
 using Loki.Common.IoC;
@@ -8,9 +7,9 @@ using Loki.UI.Wpf.Binds;
 
 namespace Loki.UI.Platform
 {
-    public class WPFPlatform : IPlatform
+    public class WpfPlatform : IPlatform
     {
-        public WPFPlatform()
+        public WpfPlatform()
         {
             if (View.DesignMode || Application.Current == null)
             {
@@ -23,9 +22,8 @@ namespace Loki.UI.Platform
             Binder = new WpfBinder();
             Conventions = new DefaultConventionManager();
 
-            UiAssemblies = new[] {Assembly.GetEntryAssembly()};
+            UIAssemblies = new[] { Assembly.GetEntryAssembly() };
 
-            
             // Register UI Engine
             CompositionRoot.RegisterAssembly(this.GetType().GetTypeInfo().Assembly);
 
@@ -39,7 +37,7 @@ namespace Loki.UI.Platform
             await Shell.Boot();
         }
 
-        public void Run()
+        public static void Run()
         {
             var app = Application.Current ?? new Application();
 
@@ -56,7 +54,7 @@ namespace Loki.UI.Platform
 
         public IoCContainer CompositionRoot { get; }
 
-        public virtual Assembly[] UiAssemblies { get; }
+        public virtual Assembly[] UIAssemblies { get; }
 
         public virtual IConventionManager Conventions { get; }
 

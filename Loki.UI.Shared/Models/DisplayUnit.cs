@@ -9,7 +9,7 @@ namespace Loki.UI.Models
 {
     public class DisplayUnit : StateUnit, IHaveDisplayName, IActivable, ICloseable
     {
-        private static readonly PropertyChangedEventArgs argsDisplayNameChanged = new PropertyChangedEventArgs(nameof(DisplayName));
+        private static readonly PropertyChangedEventArgs ArgsDisplayNameChanged = new PropertyChangedEventArgs(nameof(DisplayName));
 
         private readonly Lazy<ILog> log;
         private int closingSemaphore;
@@ -50,6 +50,7 @@ namespace Loki.UI.Models
             {
                 return this.displayName;
             }
+
             set
             {
                 if (value == this.displayName)
@@ -58,9 +59,10 @@ namespace Loki.UI.Models
                 }
 
                 this.displayName = value;
-                this.NotifyChanged(argsDisplayNameChanged);
+                this.NotifyChanged(ArgsDisplayNameChanged);
             }
         }
+
         protected IDisplayInfrastructure Infrastructure { get; }
 
         protected ILog Log => this.log.Value;
@@ -98,13 +100,13 @@ namespace Loki.UI.Models
 
         public void TryClose(bool? dialogResult = null)
         {
-            //var conductor = Parent as IConductor;
-            //if (conductor != null)
-            //{
-            //    conductor.CloseItem(this);
-            //}
-            //else
-            //{
+            //// var conductor = Parent as IConductor;
+            //// if (conductor != null)
+            //// {
+            ////    conductor.CloseItem(this);
+            //// }
+            //// else
+            //// {
             var closing = Interlocked.CompareExchange(ref this.closingSemaphore, 1, 0) == 1;
 
             if (closing)
@@ -121,14 +123,14 @@ namespace Loki.UI.Models
             // Unsubscribe to message bus
             Infrastructure.MessageBus.Unsubscribe(this);
 
-            //Commands.SafeDispose();
+            //// Commands.SafeDispose();
 
             Log.DebugFormat("Closed {0}.", this);
 
             this.DialogResultSetter?.Invoke(dialogResult);
 
             OnClosed(EventArgs.Empty);
-            // }
+            ////}
         }
 
         protected virtual void OnActivating(EventArgs e)
@@ -160,10 +162,13 @@ namespace Loki.UI.Models
             var handler = Closing;
             handler?.Invoke(this, e);
         }
+
         #region IDisposable Support
 
         private bool disposedValue;
+
         protected CompositeDisposable SubscribtionStore { get; }
+
         public void Dispose()
         {
             Dispose(true);
@@ -183,11 +188,12 @@ namespace Loki.UI.Models
 
             this.disposedValue = true;
         }
+
         #endregion IDisposable Support
 
         #region IsActive
 
-        private static readonly PropertyChangedEventArgs argsIsActiveChanged = new PropertyChangedEventArgs(nameof(IsActive));
+        private static readonly PropertyChangedEventArgs ArgsIsActiveChanged = new PropertyChangedEventArgs(nameof(IsActive));
 
         private bool isActive;
 
@@ -206,7 +212,7 @@ namespace Loki.UI.Models
                 }
 
                 this.isActive = value;
-                this.NotifyChanged(argsIsActiveChanged);
+                this.NotifyChanged(ArgsIsActiveChanged);
             }
         }
 

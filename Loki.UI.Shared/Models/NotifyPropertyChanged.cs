@@ -22,11 +22,11 @@ namespace Loki.UI.Models
             }
         }
 
-        private static readonly PropertyChangedEventArgs refreshArgs = new PropertyChangedEventArgs(string.Empty);
+        private static readonly PropertyChangedEventArgs RefreshArgs = new PropertyChangedEventArgs(string.Empty);
 
         public void Refresh()
         {
-            OnPropertyChanged(refreshArgs);
+            OnPropertyChanged(RefreshArgs);
         }
     }
 }

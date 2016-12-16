@@ -14,7 +14,8 @@ namespace Loki.Common.IoC
         /// <param name="type">
         /// Concrete implementation of infrastucture type.
         /// </param>
-        void OverrideInfrastructureService<T>(Type type) where T : class;
+        void OverrideInfrastructureService<T>(Type type)
+            where T : class;
 
         /// <summary>
         /// Registers an infrastructure singleton.
@@ -25,7 +26,8 @@ namespace Loki.Common.IoC
         /// <param name="instance">
         /// Service instance.
         /// </param>
-        void OverrideInfrastructureInstance<T>(T instance) where T : class;
+        void OverrideInfrastructureInstance<T>(T instance)
+            where T : class;
 
         /// <summary>
         /// Resolves the required type.

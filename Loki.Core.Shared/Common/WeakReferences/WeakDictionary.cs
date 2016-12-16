@@ -40,17 +40,17 @@ namespace Loki.Common
         }
 
         public WeakDictionary(IDiagnostics loggerComponent, int capacity)
-            : this(loggerComponent,  capacity, null)
+            : this(loggerComponent, capacity, null)
         {
         }
 
         public WeakDictionary(IDiagnostics loggerComponent, IEqualityComparer<TKey> comparer)
-            : this(loggerComponent,  0, comparer)
+            : this(loggerComponent, 0, comparer)
         {
         }
 
-        public WeakDictionary(IDiagnostics loggerComponent, int capacity, IEqualityComparer<TKey> comparer) :
-            base(loggerComponent)
+        public WeakDictionary(IDiagnostics loggerComponent, int capacity, IEqualityComparer<TKey> comparer)
+            : base(loggerComponent)
         {
             this.internalComparer = new WeakKeyComparer<TKey>(comparer);
             this.internalDictionary = new ConcurrentDictionary<WeakKeyReference<TKey>, WeakReference<TValue>>(Environment.ProcessorCount * 2, capacity, this.internalComparer);

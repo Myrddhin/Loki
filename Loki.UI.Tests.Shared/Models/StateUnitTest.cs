@@ -66,7 +66,7 @@ namespace Loki.UI.Models
         public void NotifyChangedWithNoChanges()
         {
             Unit.Tracking = true;
-            Unit.NotifyChanged(new PropertyChangedEventArgs("Property"),false);
+            Unit.NotifyChanged(new PropertyChangedEventArgs("Property"), false);
             Assert.False(Unit.IsChanged);
         }
 

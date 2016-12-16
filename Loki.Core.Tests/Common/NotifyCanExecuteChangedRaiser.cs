@@ -1,10 +1,8 @@
 ﻿using System;
 
-using Loki.UI.Commands;
-
 namespace Loki.Core.Tests.Common
 {
-    public class NotifyCanExecuteChangedRaiser //: ICommand
+    public class NotifyCanExecuteChangedRaiser
     {
         public bool CanExecute(object parameter)
         {
@@ -20,10 +18,7 @@ namespace Loki.Core.Tests.Common
 
         public void Raise()
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public string Name { get; private set; }

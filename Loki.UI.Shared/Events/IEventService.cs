@@ -19,7 +19,7 @@ namespace Loki.Common
         /// </value>
         IWeakEventManager<INotifyPropertyChanging, PropertyChangingEventArgs> Changing { get; }
 
-        //IWeakEventManager<ICommand, EventArgs> CanExecuteChanged { get; }
+        // IWeakEventManager<ICommand, EventArgs> CanExecuteChanged { get; }
 
         IWeakEventManager<INotifyCollectionChanged, NotifyCollectionChangedEventArgs> CollectionChanged { get; }
 

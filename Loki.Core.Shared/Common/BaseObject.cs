@@ -72,7 +72,8 @@ namespace Loki.Common
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
         /// <returns>The build error.</returns>
-        protected T BuildError<T>(string message, Exception innerException) where T : Exception
+        protected T BuildError<T>(string message, Exception innerException)
+            where T : Exception
         {
             return diagnostics.BuildError<T>(message, innerException);
         }
@@ -82,7 +83,9 @@ namespace Loki.Common
         /// </summary>
         /// <typeparam name="T">The exception type to build.</typeparam>
         /// <param name="message">The message.</param>
-        protected T BuildError<T>(string message) where T : Exception
+        /// <returns>Formatted exception.</returns>
+        protected T BuildError<T>(string message)
+            where T : Exception
         {
             return diagnostics.BuildError<T>(message);
         }
@@ -94,7 +97,9 @@ namespace Loki.Common
         /// <param name="innerException">The inner exception.</param>
         /// <param name="message">The message.</param>
         /// <param name="parameters">The parameters.</param>
-       protected T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters) where T : Exception
+        /// <returns>Formatted exception.</returns>
+        protected T BuildErrorFormat<T>(Exception innerException, string message, params object[] parameters)
+             where T : Exception
         {
             return diagnostics.BuildErrorFormat<T>(innerException, message, parameters);
         }
@@ -105,10 +110,13 @@ namespace Loki.Common
         /// <typeparam name="T">The exception type to build.</typeparam>
         /// <param name="message">The message.</param>
         /// <param name="parameters">The parameters.</param>
-        protected T BuildErrorFormat<T>(string message, params object[] parameters) where T : Exception
+        /// <returns>Formatted exception.</returns>
+        protected T BuildErrorFormat<T>(string message, params object[] parameters)
+            where T : Exception
         {
             return diagnostics.BuildErrorFormat<T>(message, parameters);
         }
-        #endregion  
+
+        #endregion Error Handling
     }
 }

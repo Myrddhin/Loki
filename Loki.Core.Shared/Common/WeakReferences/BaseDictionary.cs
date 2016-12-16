@@ -134,14 +134,11 @@ namespace Loki.Common
             return Contains(item) && this.Remove(item.Key);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         private abstract class Collection<T> : ICollection<T>
         {
-            protected readonly BaseDictionary<TKey, TValue> ReferenceDict;
+            protected BaseDictionary<TKey, TValue> ReferenceDict { get; private set; }
 
             protected Collection(BaseDictionary<TKey, TValue> dictionary)
             {

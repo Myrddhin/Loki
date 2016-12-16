@@ -20,7 +20,7 @@ namespace Loki.UI.Bootstrap
         {
             templateManager = Platform.CompositionRoot.Resolve<ITemplateManager>();
             templateManager.AddBindings(Platform.Binder);
-            templateManager.AddConventions(Platform.Conventions, Platform.UiAssemblies);
+            templateManager.AddConventions(Platform.Conventions, Platform.UIAssemblies);
 
             var splash = Platform.CompositionRoot.ResolveAll<ISplashModel>().FirstOrDefault();
             var mainModels = Platform.CompositionRoot.ResolveAll<IStartModel>();

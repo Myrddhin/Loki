@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 using Xunit;
 
@@ -73,7 +72,7 @@ namespace Loki.UI
         public void ContentRenderedForElement()
         {
             bool raised = false;
-            var element = new MockWindow ();
+            var element = new MockWindow();
 
             EventHandler handler = (sender, args) => raised = true;
 

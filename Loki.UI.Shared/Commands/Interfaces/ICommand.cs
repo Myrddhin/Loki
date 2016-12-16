@@ -1,6 +1,6 @@
 ﻿using System;
 
-#if WPF==false
+#if WPF == false
 
 namespace Loki.UI.Commands
 {
@@ -17,7 +17,7 @@ namespace Loki.UI.Commands
         /// </summary>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed,
         ///     this object can be set to null.
-        ///</param>
+        /// </param>
         /// <returns> true if this command can be executed; otherwise, false.</returns>
         bool CanExecute(object parameter);
 

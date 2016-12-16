@@ -10,7 +10,7 @@ namespace Loki.Common.IoC
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            //container.Register(Component.For<IDiagnostics>().ImplementedBy<Diagnostics.Diagnostics>());
+            // container.Register(Component.For<IDiagnostics>().ImplementedBy<Diagnostics.Diagnostics>());
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Loki.Common.Diagnostics.Tests
 
         [Fact(DisplayName = "Activity log")]
         public void ActivityLog()
-
         {
             ConsoleLogListener.StartCapture();
             using (var x = Component.GetActivityLog("Activity"))

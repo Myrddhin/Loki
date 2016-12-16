@@ -11,7 +11,7 @@ namespace Loki.UI
     /// even if all tests seem to have finished.</summary>
     /// <remarks>Only to be used with xUnit STA worker threads.</remarks>
     [AttributeUsage(AttributeTargets.Method)]
-    public class DomainNeedsDispatcherCleanupAttribute : BeforeAfterTestAttribute
+    public sealed class DomainNeedsDispatcherCleanupAttribute : BeforeAfterTestAttribute
     {
         public override void After(MethodInfo methodUnderTest)
         {

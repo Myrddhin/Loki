@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Loki.Common.Diagnostics
 {
-    public class UWPLogFactory : ILogFactory
+    public class UwpLogFactory : ILogFactory
     {
         public void Initialize()
         {

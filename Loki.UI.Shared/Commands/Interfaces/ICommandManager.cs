@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+
 #if WPF
+
 using System.Windows.Input;
+
 #endif
 
 namespace Loki.UI.Commands
@@ -26,14 +29,17 @@ namespace Loki.UI.Commands
         /// <param name="executeFunction">
         /// The Execute function getter (from the handler).
         /// </param>
+        /// <typeparamref name="T">Handler type</typeparamref>
         /// <returns>
         /// A disposable link between the command and the handler.
         /// </returns>
+        /// <typeparam name="T">Handler type.</typeparam>
         ICommandBind CreateBind<T>(
-            ICommand command, 
-            T handler, 
-            Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction, 
-            Func<T, Action<object, CommandEventArgs>> executeFunction) where T : class;
+            ICommand command,
+            T handler,
+            Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction,
+            Func<T, Action<object, CommandEventArgs>> executeFunction)
+            where T : class;
 
         /// <summary>
         /// Creates and register a command bind for the specified command.
@@ -56,12 +62,14 @@ namespace Loki.UI.Commands
         /// <returns>
         /// A disposable link between the command and the handler.
         /// </returns>
+        /// <typeparam name="T">Handler type.</typeparam>
         ICommandBind CreateBind<T>(
             ICommand command,
             T handler,
             Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction,
             Func<T, Action<object, CommandEventArgs>> executeFunction,
-            Func<T, Func<CommandEventArgs, bool>> confirmDelegate) where T : class;
+            Func<T, Func<CommandEventArgs, bool>> confirmDelegate)
+            where T : class;
 
         /// <summary>
         /// Get the command with the specified command name.

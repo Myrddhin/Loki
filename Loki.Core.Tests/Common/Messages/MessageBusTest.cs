@@ -20,7 +20,6 @@ namespace Loki.Common.Messages
         [Fact(DisplayName = "Multi registration : only one effective")]
         public void SubscribeWithNoHandlers()
         {
-
             var multi = new SimpleMessageListener();
             Component.Subscribe(multi);
             Component.Subscribe(multi);

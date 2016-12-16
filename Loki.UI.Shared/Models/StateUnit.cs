@@ -13,7 +13,8 @@ namespace Loki.UI.Models
         }
 
         #region IsChanged
-        private static readonly PropertyChangedEventArgs argsChanedChanged = new PropertyChangedEventArgs(nameof(IsChanged));
+
+        private static readonly PropertyChangedEventArgs ArgsChanedChanged = new PropertyChangedEventArgs(nameof(IsChanged));
 
         private bool dirty;
 
@@ -23,6 +24,7 @@ namespace Loki.UI.Models
             {
                 return dirty;
             }
+
             private set
             {
                 if (value == dirty)
@@ -31,11 +33,12 @@ namespace Loki.UI.Models
                 }
 
                 dirty = value;
-                NotifyChanged(argsChanedChanged);
+                NotifyChanged(ArgsChanedChanged);
                 OnStateChanged(EventArgs.Empty);
             }
-        } 
-        #endregion
+        }
+
+        #endregion IsChanged
 
         public event EventHandler StateChanged;
 

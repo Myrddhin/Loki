@@ -11,7 +11,8 @@ namespace Loki.Common.Diagnostics
 
         private readonly string name;
 
-        public Log4NetActivityLog(string activityName) : base(activityName)
+        public Log4NetActivityLog(string activityName)
+            : base(activityName)
         {
             name = activityName;
             token = Guid.NewGuid();
@@ -24,7 +25,6 @@ namespace Loki.Common.Diagnostics
         {
             chrono.Stop();
             this.InfoFormat("End activity {0} ; token {1} : elapsed {2}", name, token, chrono.Elapsed);
-            
         }
     }
 }

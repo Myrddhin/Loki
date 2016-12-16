@@ -14,7 +14,5 @@ namespace Loki.Common
         public IDiagnostics Diagnostics { get; }
 
         public IMessageBus Messages { get; }
-
-        //public IEventComponent Events { get; }
     }
 }

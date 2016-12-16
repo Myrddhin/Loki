@@ -5,7 +5,8 @@ namespace Loki.UI.Win
 {
     public static class View
     {
-        public static T GetViewModel<T>(this Control control) where T : class
+        public static T GetViewModel<T>(this Control control)
+            where T : class
         {
             var buffer = control;
             while (buffer != null)
@@ -14,10 +15,8 @@ namespace Loki.UI.Win
                 {
                     return buffer.Tag as T;
                 }
-                else
-                {
-                    buffer = buffer.Parent;
-                }
+
+                buffer = buffer.Parent;
             }
 
             return null;
@@ -29,10 +28,7 @@ namespace Loki.UI.Win
             layoutUpdated = (s, e) =>
             {
                 control.Layout -= layoutUpdated;
-                if (action != null)
-                {
-                    action();
-                }
+                action?.Invoke();
             };
 
             control.Layout += layoutUpdated;

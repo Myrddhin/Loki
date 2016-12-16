@@ -34,12 +34,14 @@ namespace Loki.Common.IoC
             internalContainer.Release(reference);
         }
 
-        public void OverrideInfrastructureService<T>(Type type) where T : class
+        public void OverrideInfrastructureService<T>(Type type)
+            where T : class
         {
             internalContainer.Register(Component.For<T>().ImplementedBy(type).LifestyleSingleton().IsDefault());
         }
 
-        public void OverrideInfrastructureInstance<T>(T instance) where T : class
+        public void OverrideInfrastructureInstance<T>(T instance)
+            where T : class
         {
             internalContainer.Register(Component.For<T>().Instance(instance).LifestyleSingleton().IsDefault());
         }

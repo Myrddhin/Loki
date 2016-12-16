@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\DefaultConventionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IBinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\ISplashScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\ISplashModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\IStartModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\ITemplateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrap\Shell.cs" />
@@ -22,29 +22,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\Interfaces\ICommandBind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\Interfaces\ICommandManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\Interfaces\ILokiCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Generic\IWeakEventCallback.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Generic\IWeakEventManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Generic\WeakEventBridge.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Generic\WeakEventCallback.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Generic\WeakEventManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\IEventService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\LokiEventService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\IWeakEventPropertyManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\WeakNotifyPropertyBridge.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\NotifyProperty\WeakNotifyPropertyManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EventExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ViewModelExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\DisplayInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDisplayInfrastructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DisplayUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\INotifyPropertyChangedEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IObservableCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IObservableEnumerable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\ItemChangedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Screen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\StateUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\INavigationHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reactive\ObservableExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reactive\WeakSubscribtion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reactive\WeakSubscription{T}.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Commands\Eventargs\CanExecuteCommandEventArgs.cs" />

@@ -37,12 +37,11 @@ namespace Loki.UI.Wpf.Binds
                 view.Activated += View_Activate;
             }
 
-            var deactivatable = viewModel as IActivable;
             var closable = viewModel as ICloseable;
-            if (deactivatable != null)
+            if (activatable != null)
             {
                 view.Deactivated += View_Deactivate;
-                deactivatable.Desactivated += ViewModel_Deactivated;
+                activatable.Desactivated += ViewModel_Deactivated;
             }
 
             if (closable != null)
@@ -166,9 +165,9 @@ namespace Loki.UI.Wpf.Binds
 
             guard.CanClose(canClose =>
             {
-                // Threading.OnUIThread(
-                //     () =>
-                //     {
+                //// Threading.OnUIThread(
+                ////     () =>
+                ////     {
                 if (runningAsync && canClose)
                 {
                     actuallyClosing = true;
@@ -180,7 +179,7 @@ namespace Loki.UI.Wpf.Binds
                 }
 
                 shouldEnd = true;
-                //   });
+                ////   });
             });
 
             if (shouldEnd)

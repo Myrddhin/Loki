@@ -1,15 +1,20 @@
-﻿using Loki.UI.Models;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Reactive;
 using System.Reactive.Linq;
+
+using Loki.UI.Models;
+
 #if WPF
+
 using System.Windows.Input;
+
 #endif
 
 namespace Loki.UI.Commands
 {
-    internal class CommandBind<T> : ICommandBind where T : class
+    internal class CommandBind<T> : ICommandBind
+        where T : class
     {
         private readonly WeakReference<T> actor;
 
@@ -35,7 +40,6 @@ namespace Loki.UI.Commands
             Func<T, Action<object, CanExecuteCommandEventArgs>> canFunc,
             Func<T, Action<object, CommandEventArgs>> execFunc,
             Func<T, Func<CommandEventArgs, bool>> confirmFunc)
-
         {
             this.actor = new WeakReference<T>(actor);
             canExecuteGetter = canFunc;
@@ -67,9 +71,12 @@ namespace Loki.UI.Commands
                 return;
             }
 
-            subscribtion?.Dispose();
-            this.target = null;
-            LokiCommand?.RefreshState();
+            if (disposing)
+            {
+                subscribtion?.Dispose();
+                this.target = null;
+                LokiCommand?.RefreshState();
+            }
 
             disposed = true;
         }
@@ -91,7 +98,6 @@ namespace Loki.UI.Commands
 
         public bool Active
         {
-
             get
             {
                 if (this.deadReference)
@@ -111,7 +117,8 @@ namespace Loki.UI.Commands
             }
         }
 
-        private F GetFunctor<F>(Func<T, F> functor) where F : class
+        private F GetFunctor<F>(Func<T, F> functor)
+            where F : class
         {
             if (deadReference)
             {

@@ -4,9 +4,10 @@
     /// Class for lifestype configuration.
     /// </summary>
     /// <typeparam name="TService">Service type.</typeparam>
-    public class Livestyle<TService> where TService : class
+    public class Livestyle<TService>
+        where TService : class
     {
-        private ElementRegistration<TService> parent;
+        private readonly ElementRegistration<TService> parent;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Livestyle{TService}"/> class.

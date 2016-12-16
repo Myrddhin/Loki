@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 #if WPF
 using System.Windows.Input;
@@ -11,13 +7,14 @@ using System.Windows.Input;
 
 namespace Loki.UI.Commands
 {
-    class TestCommandManager :  ICommandManager
+    internal class TestCommandManager : ICommandManager
     {
         public ICommandBind CreateBind<T>(
-            ICommand command, 
-            T handler, 
-            Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction, 
-            Func<T, Action<object, CommandEventArgs>> executeFunction) where T : class
+            ICommand command,
+            T handler,
+            Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction,
+            Func<T, Action<object, CommandEventArgs>> executeFunction)
+            where T : class
         {
             throw new NotImplementedException();
         }
@@ -27,7 +24,8 @@ namespace Loki.UI.Commands
             T handler,
             Func<T, Action<object, CanExecuteCommandEventArgs>> canExecuteFunction,
             Func<T, Action<object, CommandEventArgs>> executeFunction,
-            Func<T, Func<CommandEventArgs, bool>> confirmDelegate) where T : class
+            Func<T, Func<CommandEventArgs, bool>> confirmDelegate)
+            where T : class
         {
             throw new NotImplementedException();
         }

@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 
 using Loki.UI.Tests;
+
+using Xunit;
+
 #if WPF
 using System.Windows.Input;
 #endif
-
-using Xunit;
 
 namespace Loki.UI.Commands
 {
@@ -15,7 +16,7 @@ namespace Loki.UI.Commands
     {
         private readonly ICommand command;
 
-        private readonly ICommandManager Component;
+        private readonly ICommandManager component;
 
         private int confirmCalled;
 
@@ -25,14 +26,14 @@ namespace Loki.UI.Commands
 
         public CommandManagerTest()
         {
-            this.Component = Context.Resolve<ICommandManager>();
-            this.command = this.Component.GetCommand("TestCommand");
+            this.component = Context.Resolve<ICommandManager>();
+            this.command = this.component.GetCommand("TestCommand");
         }
 
         [Fact(DisplayName = "Commands are singletons")]
         public void CommandsAreSingletons()
         {
-            var secondCommand = this.Component.GetCommand("TestCommand");
+            var secondCommand = this.component.GetCommand("TestCommand");
 
             Assert.Same(command, secondCommand);
         }
@@ -40,7 +41,7 @@ namespace Loki.UI.Commands
         [Fact(DisplayName = "Standard command work")]
         public void Standard()
         {
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                 this.command,
                 this,
                 c => c.CanExecuteTrue,
@@ -59,13 +60,13 @@ namespace Loki.UI.Commands
         public void MultiHanlder()
         {
             var handler = new TestCommandHandler(true, true);
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                     this.command,
                     handler,
                     c => c.CanExecute,
                     c => c.Execute,
                     c => c.Confirm))
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                    this.command,
                    handler,
                    c => c.CanExecute,
@@ -86,13 +87,13 @@ namespace Loki.UI.Commands
             var handler = new TestCommandHandler(false, true);
             bool raised = false;
             this.command.CanExecuteChanged += (sender, args) => raised = true;
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                     this.command,
                     handler,
                     c => c.CanExecute,
                     c => c.Execute,
                     c => c.Confirm))
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                    this.command,
                    handler,
                    c => c.CanExecute,
@@ -124,7 +125,7 @@ namespace Loki.UI.Commands
                 {
                     var handler = new TestCommandHandler(true, true);
 
-                    using (this.Component.CreateBind(
+                    using (this.component.CreateBind(
                         this.command,
                         handler,
                         c => c.CanExecute,
@@ -145,7 +146,7 @@ namespace Loki.UI.Commands
         public void FalseConfirm()
         {
             var handler = new TestCommandHandler(true, false);
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                 this.command,
                 handler,
                 c => c.CanExecute,
@@ -164,7 +165,7 @@ namespace Loki.UI.Commands
         public void FalseCanExecute()
         {
             var handler = new TestCommandHandler(false, true);
-            using (this.Component.CreateBind(
+            using (this.component.CreateBind(
                 this.command,
                 handler,
                 c => c.CanExecute,
@@ -187,7 +188,7 @@ namespace Loki.UI.Commands
                     {
                         var handler = new TestCommandHandler(true, true);
                         reference = new WeakReference<TestCommandHandler>(handler);
-                        using (this.Component.CreateBind(
+                        using (this.component.CreateBind(
                             this.command,
                             handler,
                             c => c.CanExecute,

@@ -1,9 +1,10 @@
 ﻿using System;
 
 #if WPF
-using System.Windows.Input;
-#endif
 
+using System.Windows.Input;
+
+#endif
 
 namespace Loki.UI.Commands
 {

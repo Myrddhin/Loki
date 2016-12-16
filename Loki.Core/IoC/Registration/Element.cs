@@ -12,7 +12,8 @@ namespace Loki.IoC.Registration
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
         /// <returns>Returns the registration object.</returns>
-        public static ElementRegistration<TService> For<TService>() where TService : class
+        public static ElementRegistration<TService> For<TService>()
+            where TService : class
         {
             return new ElementRegistration<TService>();
         }
@@ -29,7 +30,8 @@ namespace Loki.IoC.Registration
         /// <returns>
         /// Returns the registration object.
         /// </returns>
-        public static ElementRegistration<TService> For<TService, TService2>() where TService : class
+        public static ElementRegistration<TService> For<TService, TService2>()
+            where TService : class
         {
             var registration = new ElementRegistration<TService>();
             registration.Types.Add(typeof(TService2));
